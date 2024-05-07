@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * makes it easy to create stand-alone, production-grade applications.
  */
 @SpringBootApplication
-public final class QuizMentor {
+public class QuizMentor {
 
   /**
    * The entry point of the QuizMentor application.
