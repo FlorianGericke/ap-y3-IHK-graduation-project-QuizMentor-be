@@ -1,4 +1,0 @@
-# .super-linter.yml
-LINTER_RULES_PATH:
-  JAVA: .github/linters
-VALIDATE_JAVA: true

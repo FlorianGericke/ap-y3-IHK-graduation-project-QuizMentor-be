@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * The QuizMentor application. This is a Spring Boot application. Spring Boot
- * makes it easy to create stand-alone, production-grade applications.
+ * The QuizMentor application. This is a Spring Boot application. Spring Boot makes it easy to
+ * create stand-alone, production-grade applications.
  */
 @SpringBootApplication
 public class QuizMentor {

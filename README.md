@@ -13,3 +13,11 @@
 ```bash
     make test 
 ```
+
+```bash
+    make lint-all 
+```
+
+```bash
+    make lint
+```

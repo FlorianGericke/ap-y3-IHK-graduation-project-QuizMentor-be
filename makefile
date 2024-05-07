@@ -17,22 +17,20 @@ test:
 	@gradle test
 
 lint-all:
-	docker run --rm \
+	@docker run --rm \
 	-e RUN_LOCAL=true \
 	-e VALIDATE_ALL_CODEBASE=true \
 	-e VALIDATE_JAVA=true \
-	-e JAVA_FILE_NAME=checkstyle_google.xml \
 	-e DEFAULT_BRANCH=main \
 	-e FILTER_REGEX_INCLUDE="src/.*" \
 	-v $(PWD):/tmp/lint \
 	github/super-linter:latest
 
 lint:
-	docker run --rm \
+	@docker run --rm \
 	-e RUN_LOCAL=true \
 	-e VALIDATE_ALL_CODEBASE=false \
 	-e VALIDATE_JAVA=true \
-	-e JAVA_FILE_NAME=checkstyle_google.xml \
 	-e DEFAULT_BRANCH=main \
 	-e FILTER_REGEX_INCLUDE="src/.*" \
 	-v $(PWD):/tmp/lint \
