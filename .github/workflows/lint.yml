@@ -31,4 +31,4 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVA: true
           LINTER_RULES_PATH: .github/templates
-          FILTER_REGEX_INCLUDE: `src/.*`
+          FILTER_REGEX_INCLUDE: src/.*
