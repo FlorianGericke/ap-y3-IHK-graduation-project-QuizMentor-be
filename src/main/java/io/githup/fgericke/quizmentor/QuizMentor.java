@@ -19,11 +19,4 @@ public class QuizMentor {
     // Run the Spring Boot application
     SpringApplication.run(QuizMentor.class, args);
   }
-
-  /**
-   * Private constructor to prevent instantiation of the main class.
-   */
-  private QuizMentor() {
-    throw new AssertionError("Main class should not be instantiated");
-  }
 }
