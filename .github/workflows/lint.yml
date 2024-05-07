@@ -29,5 +29,4 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVA: true
           JAVA_FILE_NAME: checkstyle_google.xml
-          DEFAULT_BRANCH: main
           FILTER_REGEX_INCLUDE: src/.*
