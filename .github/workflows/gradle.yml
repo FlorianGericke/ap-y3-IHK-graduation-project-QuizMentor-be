@@ -1,20 +1,20 @@
 name: Build and Test with Gradle
 
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches:
       - '**'
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  build:
-
+  # This workflow contains a single job called "build"
+  BuildAndTest:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    #    strategy:
-    #      matrix:
-    #        os: [ ubuntu-latest, windows-latest, macos-latest ]
-    permissions:
-      contents: read
-
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -23,7 +23,5 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      # Configure Gradle for optimal use in GiHub Actions, including caching of downloaded dependencies.
-      # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
       - name: Run Tests
-        uses: make test
+        run: make test

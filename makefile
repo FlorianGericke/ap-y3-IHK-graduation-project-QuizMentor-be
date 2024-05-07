@@ -16,19 +16,7 @@ startEnv:
 test:
 	@gradle test
 
-lint-all:
-	@docker run -rm \
-	--env-file ".github/super-linter.env" \
-	-e RUN_LOCAL=true \
-	-e GITHUB_TOKEN="" \
-	-e VALIDATE_ALL_CODEBASE=true \
-	-v $(PWD):/tmp/lint \
-	github/super-linter:latest
 
 lint:
-	@docker run  \
-	--env-file ".github/super-linter.env" \
-	-e RUN_LOCAL=true \
-	-e GITHUB_TOKEN="" \
-	-v $(PWD):/tmp/lint \
-	github/super-linter:latest
+	docker run --env-file .github/super-linter.env -v $(PWD):/tmp/lint \
+	github/super-linter
