@@ -6,9 +6,6 @@ on:
   push:
     branches:
       - '**'
-  pull_request:
-    branches:
-      - main
 
 jobs:
   # This workflow contains a single job called "build"
