@@ -1,11 +1,14 @@
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import io.githup.fgericke.quizmentor.entities.Category;
 import io.githup.fgericke.quizmentor.entities.Quiz;
 import io.githup.fgericke.quizmentor.entities.User;
 import io.githup.fgericke.quizmentor.entities.Visibility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class contains unit tests for the Quiz class. It tests the properties and behavior of a Quiz
@@ -24,11 +27,17 @@ class QuizTest {
   private User user;
 
   /**
+   * The Category instance under test.
+   */
+  private Category category;
+
+  /**
    * This method sets up the test environment before each test. It creates a new instance of Quiz
    * with a title, description, and visibility status.
    */
   @BeforeEach
   void setUp() {
+    category = new Category();
     user = User.builder()
         .mail("test@mail.com")
         .password("password")
@@ -93,5 +102,30 @@ class QuizTest {
     User newUser = Mockito.mock(User.class);
     quiz.setUser(newUser);
     assertEquals(newUser, quiz.getUser());
+  }
+
+  @Test
+  void givenNewQuiz_whenCheckedCategories_thenCategoriesIsEmpty() {
+    assertTrue(quiz.getCategories().isEmpty());
+  }
+
+  @Test
+  void givenQuiz_whenCategoryAdded_thenCategoryIsInCategories() {
+    quiz.getCategories().add(category);
+    assertTrue(quiz.getCategories().contains(category));
+  }
+
+  @Test
+  void givenQuizWithCategory_whenCategoryRemoved_thenCategoryIsNotInCategories() {
+    quiz.getCategories().add(category);
+    quiz.getCategories().remove(category);
+    assertFalse(quiz.getCategories().contains(category));
+  }
+
+  @Test
+  void givenQuizWithCategory_whenClearedCategories_thenCategoriesIsEmpty() {
+    quiz.getCategories().add(category);
+    quiz.getCategories().clear();
+    assertTrue(quiz.getCategories().isEmpty());
   }
 }

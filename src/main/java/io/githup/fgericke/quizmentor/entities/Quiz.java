@@ -6,8 +6,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -71,4 +74,19 @@ public class Quiz extends BaseEntity {
   @ManyToOne(cascade = CascadeType.ALL, optional = false)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
+
+  /**
+   * The categories that the quiz belongs to. It is a many-to-many relationship, meaning that each
+   * quiz can belong to multiple categories, and each category can have multiple quizzes. The
+   * 'quizze' in mappedBy indicates that the 'quizze' field in the Category entity owns the
+   * relationship (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE,
+   * CascadeType.REFRESH, CascadeType.DETACH indicates that if a Quiz entity is persisted, merged,
+   * refreshed, or detached, the same operation will be applied to the Category entity. The
+   * @Builder.Default annotation is used to initialize the 'categories' field with an empty set of
+   * Category.
+   */
+  @Builder.Default
+  @ManyToMany(mappedBy = "quizze", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+      CascadeType.REFRESH, CascadeType.DETACH})
+  private Set<Category> categories = new LinkedHashSet<>();
 }

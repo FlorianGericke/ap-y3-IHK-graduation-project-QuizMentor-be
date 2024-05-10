@@ -64,6 +64,10 @@ public class User extends BaseEntity implements UserDetails {
   @Column(name = "role", nullable = false)
   private Role role;
 
+  /**
+   * The set of quizzes created by the user. It is a one-to-many relationship with the Quiz entity.
+   */
+  @Builder.Default
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Quiz> quizzes = new LinkedHashSet<>();
 
