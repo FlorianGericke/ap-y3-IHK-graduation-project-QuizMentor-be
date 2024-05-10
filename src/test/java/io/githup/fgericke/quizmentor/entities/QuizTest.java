@@ -3,6 +3,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.githup.fgericke.quizmentor.entities.Category;
+import io.githup.fgericke.quizmentor.entities.Question;
 import io.githup.fgericke.quizmentor.entities.Quiz;
 import io.githup.fgericke.quizmentor.entities.User;
 import io.githup.fgericke.quizmentor.entities.Visibility;
@@ -32,12 +33,18 @@ class QuizTest {
   private Category category;
 
   /**
+   * The Question instance under test.
+   */
+  private Question question;
+
+  /**
    * This method sets up the test environment before each test. It creates a new instance of Quiz
    * with a title, description, and visibility status.
    */
   @BeforeEach
   void setUp() {
     category = new Category();
+    question = new Question();
     user = User.builder()
         .mail("test@mail.com")
         .password("password")
@@ -127,5 +134,38 @@ class QuizTest {
     quiz.getCategories().add(category);
     quiz.getCategories().clear();
     assertTrue(quiz.getCategories().isEmpty());
+  }
+
+  /**
+   * This test checks if a question can be added to a Quiz's questions set. It adds a question to
+   * the set and then checks if the set contains the added question.
+   */
+  @Test
+  void givenQuiz_whenQuestionAdded_thenQuestionIsInQuestions() {
+    quiz.getQuestions().add(question);
+    assertTrue(quiz.getQuestions().contains(question));
+  }
+
+  /**
+   * This test checks if a question can be removed from a Quiz's questions set. It first adds a
+   * question to the set, removes the same question, and then checks if the set does not contain the
+   * removed question.
+   */
+  @Test
+  void givenQuizWithQuestion_whenQuestionRemoved_thenQuestionIsNotInQuestions() {
+    quiz.getQuestions().add(question);
+    quiz.getQuestions().remove(question);
+    assertFalse(quiz.getQuestions().contains(question));
+  }
+
+  /**
+   * This test checks if all questions can be removed from a Quiz's questions set. It first adds a
+   * question to the set, clears the set, and then checks if the set is empty.
+   */
+  @Test
+  void givenQuizWithQuestion_whenClearedQuestions_thenQuestionsIsEmpty() {
+    quiz.getQuestions().add(question);
+    quiz.getQuestions().clear();
+    assertTrue(quiz.getQuestions().isEmpty());
   }
 }

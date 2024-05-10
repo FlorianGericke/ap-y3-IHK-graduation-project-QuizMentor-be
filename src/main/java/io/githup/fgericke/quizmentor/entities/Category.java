@@ -55,7 +55,6 @@ public class Category extends BaseEntity {
    * detached, the same operation will be applied to the Quiz entity. The @Builder.Default
    * annotation is used to initialize the 'quizze' field with an empty set of Quiz.
    */
-  @Exclude
   @Builder.Default
   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
       CascadeType.DETACH})
@@ -63,4 +62,23 @@ public class Category extends BaseEntity {
       joinColumns = @JoinColumn(name = "category_id"),
       inverseJoinColumns = @JoinColumn(name = "quizzes_id"))
   private Set<Quiz> quizze = new LinkedHashSet<>();
+
+  /**
+   * The questions that belong to this category. It is a many-to-many relationship, meaning that
+   * each category can have multiple questions, and each question can belong to multiple categories.
+   * The 'questions' in mappedBy indicates that the 'questions' field in the Question entity owns
+   * the relationship (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE,
+   * CascadeType.REFRESH, CascadeType.DETACH indicates that if a Category entity is persisted,
+   * merged, refreshed, or detached, the same operation will be applied to the Question entity. The
+   * @Builder.Default annotation is used to initialize the 'questions' field with an empty set of
+   * Question.
+   */
+  @Exclude
+  @Builder.Default
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+      CascadeType.DETACH})
+  @JoinTable(name = "category_questions",
+      joinColumns = @JoinColumn(name = "category_id"),
+      inverseJoinColumns = @JoinColumn(name = "questions_id"))
+  private Set<Question> questions = new LinkedHashSet<>();
 }

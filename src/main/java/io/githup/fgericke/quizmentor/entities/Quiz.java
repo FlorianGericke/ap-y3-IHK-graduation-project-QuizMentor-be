@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -58,8 +59,9 @@ public class Quiz extends BaseEntity {
    * The visibility status of the quiz. It cannot be null and is represented as an enumeration.
    */
   @Enumerated
+  @Builder.Default
   @Column(name = "visibility", nullable = false)
-  private Visibility visibility;
+  private Visibility visibility = Visibility.DRAFT;
 
   /**
    * The user who created the quiz. It is a many-to-one relationship, meaning that each quiz is
@@ -82,6 +84,7 @@ public class Quiz extends BaseEntity {
    * relationship (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE,
    * CascadeType.REFRESH, CascadeType.DETACH indicates that if a Quiz entity is persisted, merged,
    * refreshed, or detached, the same operation will be applied to the Category entity. The
+   *
    * @Builder.Default annotation is used to initialize the 'categories' field with an empty set of
    * Category.
    */
@@ -89,4 +92,23 @@ public class Quiz extends BaseEntity {
   @ManyToMany(mappedBy = "quizze", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
       CascadeType.REFRESH, CascadeType.DETACH})
   private Set<Category> categories = new LinkedHashSet<>();
+
+  /**
+   * The questions that belong to this quiz. It is a many-to-many relationship, meaning that each
+   * quiz can have multiple questions, and each question can belong to multiple quizzes. The
+   * 'questions' in mappedBy indicates that the 'questions' field in the Question entity owns the
+   * relationship (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE,
+   * CascadeType.REFRESH, CascadeType.DETACH indicates that if a Quiz entity is persisted, merged,
+   * refreshed, or detached, the same operation will be applied to the Question entity. The
+   * @Builder.Default annotation is used to initialize the 'questions' field with an empty set of
+   * Question.
+   */
+  @Exclude
+  @Builder.Default
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+      CascadeType.DETACH})
+  @JoinTable(name = "quiz_questions",
+      joinColumns = @JoinColumn(name = "quiz_id"),
+      inverseJoinColumns = @JoinColumn(name = "questions_id"))
+  private Set<Question> questions = new LinkedHashSet<>();
 }
