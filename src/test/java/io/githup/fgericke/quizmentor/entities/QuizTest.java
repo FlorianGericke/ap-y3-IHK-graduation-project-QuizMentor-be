@@ -29,10 +29,10 @@ class QuizTest {
    */
   @BeforeEach
   void setUp() {
-    quiz = Quiz.builder()
-        .title("Test Quiz")
-        .description("This is a test quiz")
-        .visibility(Visibility.DRAFT)
+    user = User.builder()
+        .mail("test@mail.com")
+        .password("password")
+        .role(io.githup.fgericke.quizmentor.entities.Role.TRAINEE)
         .build();
 
     quiz = Quiz.builder()
