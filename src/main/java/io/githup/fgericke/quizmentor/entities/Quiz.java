@@ -17,10 +17,10 @@ import org.hibernate.annotations.Where;
 import org.hibernate.type.SqlTypes;
 
 /**
- * This is an entity class that represents a Quiz.
- * It extends the BaseEntity class and includes additional fields specific to a Quiz.
- * It is annotated with @Entity, indicating that it is a JPA entity.
- * Lombok annotations are used to automatically generate getters, setters, toString, builder, and constructors.
+ * This is an entity class that represents a Quiz. It extends the BaseEntity class and includes
+ * additional fields specific to a Quiz. It is annotated with @Entity, indicating that it is a JPA
+ * entity. Lombok annotations are used to automatically generate getters, setters, toString,
+ * builder, and constructors.
  */
 @Entity
 @Getter
@@ -35,8 +35,7 @@ import org.hibernate.type.SqlTypes;
 public class Quiz extends BaseEntity {
 
   /**
-   * The title of the quiz.
-   * It is a unique field and cannot be null.
+   * The title of the quiz. It is a unique field and cannot be null.
    */
   @Column(name = "title", nullable = false, unique = true)
   private String title;
@@ -49,8 +48,7 @@ public class Quiz extends BaseEntity {
   private String description;
 
   /**
-   * The visibility status of the quiz.
-   * It cannot be null and is represented as an enumeration.
+   * The visibility status of the quiz. It cannot be null and is represented as an enumeration.
    */
   @Enumerated
   @Column(name = "visibility", nullable = false)

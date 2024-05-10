@@ -20,5 +20,8 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Start Database
+        run: make startDataBase
+
       - name: Run Tests
         run: make test
