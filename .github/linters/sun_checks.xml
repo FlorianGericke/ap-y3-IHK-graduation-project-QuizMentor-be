@@ -39,7 +39,6 @@
 
       <property name="basedir" value="${basedir}"/>
   -->
-  <property name="basedir" value="${src/}"/>
   <property name="severity" value="error"/>
 
   <property name="fileExtensions" value="java, properties, xml"/>
@@ -102,7 +101,6 @@
   <!-- </module> -->
 
   <module name="TreeWalker">
-
     <!-- Checks for Javadoc comments.                     -->
     <!-- See https://checkstyle.org/checks/javadoc/index.html -->
     <module name="InvalidJavadocPosition"/>
@@ -200,5 +198,4 @@
     </module>
 
   </module>
-
 </module>
