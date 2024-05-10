@@ -28,5 +28,4 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVA: true
           DEFAULT_BRANCH: main
-          LINTER_RULES_PATH: .github/templates
           FILTER_REGEX_INCLUDE: src/.*
