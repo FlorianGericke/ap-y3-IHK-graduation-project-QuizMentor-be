@@ -10,9 +10,7 @@ import jakarta.persistence.Table;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +24,6 @@ import org.hibernate.type.SqlTypes;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.validation.SimpleErrors;
 
 /**
  * This is an entity class that represents a User. It extends the BaseEntity class and includes
