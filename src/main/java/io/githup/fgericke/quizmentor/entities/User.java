@@ -71,6 +71,15 @@ public class User extends BaseEntity implements UserDetails {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Quiz> quizzes = new LinkedHashSet<>();
 
+
+  /**
+   * The set of questions created by the user. It is a one-to-many relationship with the Question
+   * entity.
+   */
+  @Builder.Default
+  @OneToMany(mappedBy = "createdFrom", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Question> questions = new LinkedHashSet<>();
+
   /**
    * This method returns the authorities granted to the user. It returns a collection of
    * GrantedAuthority, each representing a role of the user.

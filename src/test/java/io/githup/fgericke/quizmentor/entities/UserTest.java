@@ -2,6 +2,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.githup.fgericke.quizmentor.entities.Question;
 import io.githup.fgericke.quizmentor.entities.Quiz;
 import io.githup.fgericke.quizmentor.entities.Role;
 import io.githup.fgericke.quizmentor.entities.User;
@@ -24,10 +25,16 @@ class UserTest {
   private Quiz quiz;
 
   /**
+   * The Question instance that will be used in the tests.
+   */
+  private Question question;
+
+  /**
    * This method sets up the User instance before each test.
    */
   @BeforeEach
   void setUp() {
+    question = new Question();
     user = User.builder()
         .mail("test@mail.com")
         .password("password")
@@ -152,5 +159,46 @@ class UserTest {
     user.getQuizzes().add(quiz);
     user.getQuizzes().clear();
     assertTrue(user.getQuizzes().isEmpty());
+  }
+
+  /**
+   * This test checks if the questions set of a new User is empty.
+   */
+  @Test
+  void givenNewUser_whenCheckedQuestions_thenQuestionsIsEmpty() {
+    assertTrue(user.getQuestions().isEmpty());
+  }
+
+  /**
+   * This test checks if a question can be added to a User's questions set. It adds a question to
+   * the set and then checks if the set contains the added question.
+   */
+  @Test
+  void givenUser_whenQuestionAdded_thenQuestionIsInQuestions() {
+    user.getQuestions().add(question);
+    assertTrue(user.getQuestions().contains(question));
+  }
+
+  /**
+   * This test checks if a question can be removed from a User's questions set. It first adds a
+   * question to the set, removes the same question, and then checks if the set does not contain the
+   * removed question.
+   */
+  @Test
+  void givenUserWithQuestion_whenQuestionRemoved_thenQuestionIsNotInQuestions() {
+    user.getQuestions().add(question);
+    user.getQuestions().remove(question);
+    assertFalse(user.getQuestions().contains(question));
+  }
+
+  /**
+   * This test checks if all questions can be removed from a User's questions set. It first adds a
+   * question to the set, clears the set, and then checks if the set is empty.
+   */
+  @Test
+  void givenUserWithQuestion_whenClearedQuestions_thenQuestionsIsEmpty() {
+    user.getQuestions().add(question);
+    user.getQuestions().clear();
+    assertTrue(user.getQuestions().isEmpty());
   }
 }
