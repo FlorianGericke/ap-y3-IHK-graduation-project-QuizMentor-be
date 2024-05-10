@@ -87,10 +87,11 @@ public class Question extends BaseEntity {
   private Set<Category> categories = new LinkedHashSet<>();
 
   /**
-   * This method checks if the question is an open question. It returns true if the score is not
-   * null, and false otherwise.
+   * This method checks if the question is an open question.
+   * An open question is defined as a question with a non-null score.
+   * @return true if the score is not null, false otherwise.
    */
-  public boolean isOpenQuestion() {
+  boolean isOpenQuestion() {
     return score != null;
   }
 }

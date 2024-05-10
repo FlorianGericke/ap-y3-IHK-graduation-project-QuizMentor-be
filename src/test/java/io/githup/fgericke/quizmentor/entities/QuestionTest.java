@@ -17,6 +17,8 @@ class QuestionTest {
   private Question question;
   private Quiz quiz;
   private Category category;
+  private static final int INITIAL_SCORE = 10;
+  private static final int UPDATED_SCORE = 20;
 
   /**
    * This method sets up the objects used in the tests. It is run before each test.
@@ -26,7 +28,7 @@ class QuestionTest {
     quiz = new Quiz();
     category = new Category();
     question = Question.builder()
-        .score(10)
+        .score(INITIAL_SCORE)
         .status(Visibility.DRAFT)
         .build();
   }
@@ -119,7 +121,7 @@ class QuestionTest {
    */
   @Test
   void givenQuestion_whenCheckedScore_thenScoreIsCorrect() {
-    assertEquals(10, question.getScore());
+    assertEquals(INITIAL_SCORE, question.getScore());
   }
 
   /**
@@ -128,8 +130,8 @@ class QuestionTest {
    */
   @Test
   void givenQuestion_whenScoreChanged_thenScoreIsUpdated() {
-    question.setScore(20);
-    assertEquals(20, question.getScore());
+    question.setScore(UPDATED_SCORE);
+    assertEquals(UPDATED_SCORE, question.getScore());
   }
 
   /**
