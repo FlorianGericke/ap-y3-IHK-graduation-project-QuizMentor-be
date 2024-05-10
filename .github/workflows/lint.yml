@@ -24,7 +24,7 @@ jobs:
       - name: Super-linter
         uses: super-linter/super-linter@v6.4.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVA: true
           DEFAULT_BRANCH: main
