@@ -2,11 +2,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.githup.fgericke.quizmentor.entities.Question;
-import io.githup.fgericke.quizmentor.entities.Quiz;
-import io.githup.fgericke.quizmentor.entities.Role;
-import io.githup.fgericke.quizmentor.entities.Solution;
-import io.githup.fgericke.quizmentor.entities.User;
+import io.githup.fgericke.quizmentor.entity.Question;
+import io.githup.fgericke.quizmentor.entity.Quiz;
+import io.githup.fgericke.quizmentor.entity.Role;
+import io.githup.fgericke.quizmentor.entity.Solution;
+import io.githup.fgericke.quizmentor.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

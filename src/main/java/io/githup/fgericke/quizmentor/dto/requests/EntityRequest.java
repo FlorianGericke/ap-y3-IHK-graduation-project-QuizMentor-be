@@ -1,6 +1,6 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
-import io.githup.fgericke.quizmentor.entities.abstracts.BaseEntity;
+import io.githup.fgericke.quizmentor.entity.generic.BaseEntity;
 
 /**
  * The EntityRequest interface represents a request object that can be converted to an entity. It is

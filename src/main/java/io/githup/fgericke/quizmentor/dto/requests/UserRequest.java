@@ -1,7 +1,7 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
-import io.githup.fgericke.quizmentor.entities.Role;
-import io.githup.fgericke.quizmentor.entities.User;
+import io.githup.fgericke.quizmentor.entity.Role;
+import io.githup.fgericke.quizmentor.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

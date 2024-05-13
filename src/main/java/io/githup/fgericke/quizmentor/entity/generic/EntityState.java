@@ -1,4 +1,4 @@
-package io.githup.fgericke.quizmentor.entities.abstracts;
+package io.githup.fgericke.quizmentor.entity.generic;
 
 /**
  * This is an enumeration that represents the possible states of an entity. An entity can be in one

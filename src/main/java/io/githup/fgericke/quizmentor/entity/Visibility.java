@@ -1,4 +1,4 @@
-package io.githup.fgericke.quizmentor.entities;
+package io.githup.fgericke.quizmentor.entity;
 
 /**
  * This is an enumeration that represents the visibility status of a quiz. A quiz can be in one of

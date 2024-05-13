@@ -1,9 +1,9 @@
-package io.githup.fgericke.quizmentor.entities.abstracts;
+package io.githup.fgericke.quizmentor.entity.generic;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class contains unit tests for the BaseEntity class. It tests the state transitions and the

@@ -1,6 +1,6 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
-import io.githup.fgericke.quizmentor.entities.Answer;
+import io.githup.fgericke.quizmentor.entity.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

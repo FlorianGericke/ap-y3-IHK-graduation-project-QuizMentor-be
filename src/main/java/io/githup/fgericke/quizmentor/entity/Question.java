@@ -1,6 +1,6 @@
-package io.githup.fgericke.quizmentor.entities;
+package io.githup.fgericke.quizmentor.entity;
 
-import io.githup.fgericke.quizmentor.entities.abstracts.BaseEntity;
+import io.githup.fgericke.quizmentor.entity.generic.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

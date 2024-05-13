@@ -2,7 +2,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.githup.fgericke.quizmentor.dto.requests.SolutionRequest;
-import io.githup.fgericke.quizmentor.entities.Solution;
+import io.githup.fgericke.quizmentor.entity.Solution;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

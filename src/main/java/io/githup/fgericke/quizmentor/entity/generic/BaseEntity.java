@@ -1,4 +1,4 @@
-package io.githup.fgericke.quizmentor.entities.abstracts;
+package io.githup.fgericke.quizmentor.entity.generic;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;

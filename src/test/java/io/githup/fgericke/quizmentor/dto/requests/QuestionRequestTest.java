@@ -2,8 +2,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.githup.fgericke.quizmentor.dto.requests.QuestionRequest;
-import io.githup.fgericke.quizmentor.entities.Question;
-import io.githup.fgericke.quizmentor.entities.Visibility;
+import io.githup.fgericke.quizmentor.entity.Question;
+import io.githup.fgericke.quizmentor.entity.Visibility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
