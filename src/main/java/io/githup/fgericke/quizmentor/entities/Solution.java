@@ -6,7 +6,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -67,26 +66,8 @@ public class Solution extends BaseEntity {
    * solution is created by one user.
    */
   @Exclude
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "created_from_id")
+  @ManyToOne(cascade = CascadeType.ALL, optional = false)
+  @JoinColumn(name = "created_from_id", nullable = false)
   private User createdFrom;
 
-  /**
-   * The user who reviewed this solution. It is a one-to-one relationship, meaning that each
-   * solution is reviewed by one user.
-   */
-  @Exclude
-  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "reviewed_from")
-  private User reviewedFrom;
-
-  /**
-   * Checks if the solution is correct based on its score. A solution is considered correct if its
-   * score is greater than or equal to 1.
-   *
-   * @return true if the solution is correct, false otherwise.
-   */
-  public boolean isCorrect() {
-    return score >= 1;
-  }
 }

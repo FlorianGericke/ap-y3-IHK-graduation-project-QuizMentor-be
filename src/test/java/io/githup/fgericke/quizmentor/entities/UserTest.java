@@ -249,25 +249,4 @@ class UserTest {
     user.getSolutions().clear();
     assertTrue(user.getSolutions().isEmpty());
   }
-
-  /**
-   * This test checks if a reviewed solution can be set for a User. It sets a reviewed solution and
-   * then checks if the set reviewed solution is correct.
-   */
-  @Test
-  void givenUser_whenReviewedSolutionSet_thenReviewedSolutionIsCorrect() {
-    user.setSolution(reviewedSolution);
-    assertEquals(reviewedSolution, user.getSolution());
-  }
-
-  /**
-   * This test checks if a reviewed solution can be removed from a User. It first sets a reviewed
-   * solution, removes the reviewed solution, and then checks if the reviewed solution is null.
-   */
-  @Test
-  void givenUserWithReviewedSolution_whenReviewedSolutionRemoved_thenReviewedSolutionIsNull() {
-    user.setSolution(reviewedSolution);
-    user.setSolution(null);
-    assertEquals(null, user.getSolution());
-  }
 }

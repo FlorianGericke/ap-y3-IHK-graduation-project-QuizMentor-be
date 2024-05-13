@@ -1,9 +1,12 @@
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import io.githup.fgericke.quizmentor.entities.Question;
 import io.githup.fgericke.quizmentor.entities.Solution;
+import io.githup.fgericke.quizmentor.entities.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 /**
  * This class contains unit tests for the Solution class.
@@ -11,58 +14,67 @@ import org.junit.jupiter.api.Test;
 class SolutionTest {
 
   /**
-   * Constants representing different scores used in the tests.
-   */
-  private static final int SCORE_ZERO = 0;
-  private static final int SCORE_ONE = 1;
-  private static final int SCORE_TWO = 2;
-
-  /**
    * The Solution instance that will be tested.
    */
   private Solution solution;
 
   /**
+   * Mocked Question instance for testing.
+   */
+  @Mock
+  private Question question;
+
+  /**
+   * Mocked User instance representing the creator of the solution.
+   */
+  @Mock
+  private User createdFrom;
+
+
+  /**
    * This method sets up the testing environment before each test. It initializes a new Solution
-   * instance.
+   * instance with mocked dependencies.
    */
   @BeforeEach
   void setUp() {
-    solution = Solution.builder().build();
+    MockitoAnnotations.openMocks(this);
+    solution = Solution.builder()
+        .solution("Test Solution")
+        .question(question)
+        .score(0)
+        .createdFrom(createdFrom)
+        .build();
   }
 
   /**
-   * This test checks if the isCorrect method returns false when the score is not set.
+   * This test checks if the getSolution method returns the correct solution.
    */
   @Test
-  void givenSolution_whenCheckedIsCorrect_thenFalse() {
-    assertFalse(solution.isCorrect());
+  void givenSolution_whenGetSolution_thenReturnSolution() {
+    assertEquals("Test Solution", solution.getSolution());
   }
 
   /**
-   * This test checks if the isCorrect method returns false when the score is zero.
+   * This test checks if the getQuestion method returns the correct question.
    */
   @Test
-  void givenSolutionWithScoreZero_whenCheckedIsCorrect_thenFalse() {
-    solution.setScore(SCORE_ZERO);
-    assertFalse(solution.isCorrect());
+  void givenSolution_whenGetQuestion_thenReturnQuestion() {
+    assertEquals(question, solution.getQuestion());
   }
 
   /**
-   * This test checks if the isCorrect method returns true when the score is one.
+   * This test checks if the getScore method returns the correct score.
    */
   @Test
-  void givenSolutionWithScoreOne_whenCheckedIsCorrect_thenTrue() {
-    solution.setScore(SCORE_ONE);
-    assertTrue(solution.isCorrect());
+  void givenSolution_whenGetScore_thenReturnScore() {
+    assertEquals(0, solution.getScore());
   }
 
   /**
-   * This test checks if the isCorrect method returns true when the score is more than one.
+   * This test checks if the getCreatedFrom method returns the correct User instance.
    */
   @Test
-  void givenSolutionWithScoreMoreThanOne_whenCheckedIsCorrect_thenTrue() {
-    solution.setScore(SCORE_TWO);
-    assertTrue(solution.isCorrect());
+  void givenSolution_whenGetCreatedFrom_thenReturnCreatedFrom() {
+    assertEquals(createdFrom, solution.getCreatedFrom());
   }
 }
