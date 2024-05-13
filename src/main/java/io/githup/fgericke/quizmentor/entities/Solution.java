@@ -21,11 +21,11 @@ import org.hibernate.annotations.Where;
 import org.hibernate.type.SqlTypes;
 
 /**
- * Solution entity represents a solution to a question in the quiz.
- * It extends the BaseEntity class which provides common fields like id, created_at, and updated_at.
- * It is marked as a JPA Entity and mapped to the 'solution' table in the database.
- * It uses the Lombok library to generate getters, setters, toString, builder, and other utility methods.
- * It uses the Hibernate library to define SQL operations and constraints.
+ * Solution entity represents a solution to a question in the quiz. It extends the BaseEntity class
+ * which provides common fields like id, created_at, and updated_at. It is marked as a JPA Entity
+ * and mapped to the 'solution' table in the database. It uses the Lombok library to generate
+ * getters, setters, toString, builder, and other utility methods. It uses the Hibernate library to
+ * define SQL operations and constraints.
  */
 @Entity
 @Getter
@@ -40,16 +40,15 @@ import org.hibernate.type.SqlTypes;
 public class Solution extends BaseEntity {
 
   /**
-   * The solution text.
-   * It is a required field in the database.
+   * The solution text. It is a required field in the database.
    */
   @Column(name = "solution", nullable = false)
   @JdbcTypeCode(SqlTypes.LONGVARCHAR)
   private String solution;
 
   /**
-   * The question to which this solution belongs.
-   * It is a many-to-one relationship, meaning that each solution belongs to one question.
+   * The question to which this solution belongs. It is a many-to-one relationship, meaning that
+   * each solution belongs to one question.
    */
   @Exclude
   @ManyToOne(cascade = CascadeType.ALL)
@@ -57,16 +56,15 @@ public class Solution extends BaseEntity {
   private Question question;
 
   /**
-   * The score of the solution.
-   * It is an optional field in the database.
+   * The score of the solution. It is an optional field in the database.
    */
   @Column(name = "score")
   @Builder.Default
   private Integer score = 0;
 
   /**
-   * The user who created this solution.
-   * It is a many-to-one relationship, meaning that each solution is created by one user.
+   * The user who created this solution. It is a many-to-one relationship, meaning that each
+   * solution is created by one user.
    */
   @Exclude
   @ManyToOne(cascade = CascadeType.ALL)
@@ -74,8 +72,8 @@ public class Solution extends BaseEntity {
   private User createdFrom;
 
   /**
-   * The user who reviewed this solution.
-   * It is a one-to-one relationship, meaning that each solution is reviewed by one user.
+   * The user who reviewed this solution. It is a one-to-one relationship, meaning that each
+   * solution is reviewed by one user.
    */
   @Exclude
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -83,8 +81,9 @@ public class Solution extends BaseEntity {
   private User reviewedFrom;
 
   /**
-   * Checks if the solution is correct based on its score.
-   * A solution is considered correct if its score is greater than or equal to 1.
+   * Checks if the solution is correct based on its score. A solution is considered correct if its
+   * score is greater than or equal to 1.
+   *
    * @return true if the solution is correct, false otherwise.
    */
   public boolean isCorrect() {
