@@ -2,10 +2,13 @@ package io.githup.fgericke.quizmentor.dto.requests;
 
 import io.githup.fgericke.quizmentor.entity.Question;
 import io.githup.fgericke.quizmentor.entity.Visibility;
+import io.githup.fgericke.quizmentor.repository.CategoryRepository;
+import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,9 +20,12 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class QuestionRequest implements EntityRequest<Question> {
+
+  // todo Use service when its implemented
+  private final CategoryRepository categoryRepository;
 
   /**
    * The title of the question. This is a required field for a question.
@@ -37,6 +43,11 @@ public class QuestionRequest implements EntityRequest<Question> {
   private Visibility status;
 
   /**
+   * The categories of the question. This is a required field for a question.
+   */
+  private List<UUID> categories;
+
+  /**
    * The score of the question. This is an optional field for a question.
    */
   private int score;
@@ -52,16 +63,17 @@ public class QuestionRequest implements EntityRequest<Question> {
    */
   @Override
   public Question toEntity() {
-    if (getTitle() == null) {
+    if (getTitle() == null || getCategories() == null) {
       // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          "[Question] Title cannot be "
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+          "[Question] Title,Categories cannot be "
           + "null");
     }
     return Question.builder()
         .status(getStatus())
         .title(getTitle())
         .description(getDescription())
+        .categories(categoryRepository.findAllById(getCategories()))
         .status(getStatus())
         .score(getScore())
         .build();

@@ -1,13 +1,14 @@
+package io.githup.fgericke.quizmentor.dto.requests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import io.githup.fgericke.quizmentor.dto.requests.QuizRequest;
 import io.githup.fgericke.quizmentor.entity.Quiz;
 import io.githup.fgericke.quizmentor.entity.Visibility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -16,7 +17,12 @@ import org.springframework.web.server.ResponseStatusException;
  */
 class QuizRequestTest {
 
-  public static final int INTERNAL_SERVER_ERROR = 500;
+  private static final String TEST_QUIZ = "Test Quiz";
+  private static final String TEST_DESCRIPTION = "Test Description";
+  private static final Visibility TEST_VISIBILITY = Visibility.PUBLISHED;
+  private static final String EXCEPTION_REASON = "[QUIZ] Title cannot be null";
+  private static final HttpStatus EXCEPTION_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
+
 
   /**
    * The QuizRequest object that will be used in the tests.
@@ -40,15 +46,15 @@ class QuizRequestTest {
   @Test
   @DisplayName("Should convert to entity when title is not null")
   void shouldConvertToEntityWhenTitleIsNotNull() {
-    quizRequest.setTitle("Test Quiz");
-    quizRequest.setDescription("Test Description");
-    quizRequest.setStatus(Visibility.PUBLISHED);
+    quizRequest.setTitle(TEST_QUIZ);
+    quizRequest.setDescription(TEST_DESCRIPTION);
+    quizRequest.setStatus(TEST_VISIBILITY);
 
     Quiz quiz = quizRequest.toEntity();
 
-    assertEquals("Test Quiz", quiz.getTitle());
-    assertEquals("Test Description", quiz.getDescription());
-    assertEquals(Visibility.PUBLISHED, quiz.getVisibility());
+    assertEquals(TEST_QUIZ, quiz.getTitle());
+    assertEquals(TEST_DESCRIPTION, quiz.getDescription());
+    assertEquals(TEST_VISIBILITY, quiz.getVisibility());
   }
 
   /**
@@ -60,13 +66,13 @@ class QuizRequestTest {
   @DisplayName("Should throw exception when title is null")
   void shouldThrowExceptionWhenTitleIsNull() {
     quizRequest.setTitle(null);
-    quizRequest.setDescription("Test Description");
-    quizRequest.setStatus(Visibility.PUBLISHED);
+    quizRequest.setDescription(TEST_DESCRIPTION);
+    quizRequest.setStatus(TEST_VISIBILITY);
 
     ResponseStatusException exception = assertThrows(ResponseStatusException.class,
         quizRequest::toEntity);
 
-    assertEquals(HttpStatusCode.valueOf(INTERNAL_SERVER_ERROR), exception.getStatusCode());
-    assertEquals("[QUIZ] Title cannot be null", exception.getReason());
+    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
+    assertEquals(EXCEPTION_REASON, exception.getReason());
   }
 }

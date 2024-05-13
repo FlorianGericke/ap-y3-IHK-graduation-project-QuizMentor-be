@@ -1,11 +1,13 @@
+package io.githup.fgericke.quizmentor.dto.requests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import io.githup.fgericke.quizmentor.dto.requests.CategoryRequest;
 import io.githup.fgericke.quizmentor.entity.Category;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -14,6 +16,10 @@ import org.springframework.web.server.ResponseStatusException;
  * conversion of a CategoryRequest to a Category entity.
  */
 class CategoryRequestTest {
+
+  private static final String TEST_CATEGORY = "Test Category";
+  private static final String EXCEPTION_REASON = "[Category] Name cannot be null";
+  private static final HttpStatusCode EXCEPTION_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
 
   public static final int INTERNAL_SERVER_ERROR = 500;
 
@@ -38,11 +44,11 @@ class CategoryRequestTest {
   @Test
   @DisplayName("Should convert to entity when name is not null")
   void shouldConvertToEntityWhenNameIsNotNull() {
-    categoryRequest.setName("Test Category");
+    categoryRequest.setName(TEST_CATEGORY);
 
     Category category = categoryRequest.toEntity();
 
-    assertEquals("Test Category", category.getName());
+    assertEquals(TEST_CATEGORY, category.getName());
   }
 
   /**
@@ -59,7 +65,7 @@ class CategoryRequestTest {
     ResponseStatusException exception = assertThrows(ResponseStatusException.class,
         categoryRequest::toEntity);
 
-    assertEquals(HttpStatusCode.valueOf(INTERNAL_SERVER_ERROR), exception.getStatusCode());
-    assertEquals("[Category] Name cannot be null", exception.getReason());
+    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
+    assertEquals(EXCEPTION_REASON, exception.getReason());
   }
 }

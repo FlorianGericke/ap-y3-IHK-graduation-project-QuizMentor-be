@@ -1,12 +1,13 @@
+package io.githup.fgericke.quizmentor.dto.requests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import io.githup.fgericke.quizmentor.dto.requests.SolutionRequest;
 import io.githup.fgericke.quizmentor.entity.Solution;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -15,7 +16,12 @@ import org.springframework.web.server.ResponseStatusException;
  */
 class SolutionRequestTest {
 
-  public static final int INTERNAL_SERVER_ERROR = 500;
+
+  private static final String TEST_SOLUTION = "Test Solution";
+  private static final int TEST_SCORE = 10;
+  private static final String EXCEPTION_REASON = "[Solution] Solution cannot be null";
+  private static final HttpStatus EXCEPTION_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
+
 
   /**
    * The SolutionRequest object that will be used in the tests.
@@ -39,13 +45,13 @@ class SolutionRequestTest {
   @Test
   @DisplayName("Should convert to entity when solution is not null")
   void shouldConvertToEntityWhenSolutionIsNotNull() {
-    solutionRequest.setSolution("Test Solution");
-    solutionRequest.setScore(10);
+    solutionRequest.setSolution(TEST_SOLUTION);
+    solutionRequest.setScore(TEST_SCORE);
 
     Solution solution = solutionRequest.toEntity();
 
-    assertEquals("Test Solution", solution.getSolution());
-    assertEquals(10, solution.getScore());
+    assertEquals(TEST_SOLUTION, solution.getSolution());
+    assertEquals(TEST_SCORE, solution.getScore());
   }
 
   /**
@@ -58,12 +64,12 @@ class SolutionRequestTest {
   @DisplayName("Should throw exception when solution is null")
   void shouldThrowExceptionWhenSolutionIsNull() {
     solutionRequest.setSolution(null);
-    solutionRequest.setScore(10);
+    solutionRequest.setScore(TEST_SCORE);
 
     ResponseStatusException exception = assertThrows(ResponseStatusException.class,
         solutionRequest::toEntity);
 
-    assertEquals(HttpStatusCode.valueOf(INTERNAL_SERVER_ERROR), exception.getStatusCode());
-    assertEquals("[Solution] Solution cannot be null", exception.getReason());
+    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
+    assertEquals(EXCEPTION_REASON, exception.getReason());
   }
 }

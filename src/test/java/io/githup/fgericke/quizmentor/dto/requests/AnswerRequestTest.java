@@ -1,12 +1,13 @@
+package io.githup.fgericke.quizmentor.dto.requests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import io.githup.fgericke.quizmentor.dto.requests.AnswerRequest;
 import io.githup.fgericke.quizmentor.entity.Answer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -15,7 +16,10 @@ import org.springframework.web.server.ResponseStatusException;
  */
 class AnswerRequestTest {
 
-  public static final int INTERNAL_SERVER_ERROR = 500;
+  private static final String TEST_ANSWER = "Test Answer";
+  private static final boolean TEST_CORRECTNESS = true;
+  private static final String EXCEPTION_REASON = "[Answer] Title cannot be null";
+  private static final HttpStatus EXCEPTION_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
 
   /**
    * The AnswerRequest object that will be used in the tests.
@@ -39,13 +43,13 @@ class AnswerRequestTest {
   @Test
   @DisplayName("Should convert to entity when answer is not null")
   void shouldConvertToEntityWhenAnswerIsNotNull() {
-    answerRequest.setAnswer("Test Answer");
-    answerRequest.setIsCorrect(true);
+    answerRequest.setAnswer(TEST_ANSWER);
+    answerRequest.setIsCorrect(TEST_CORRECTNESS);
 
     Answer answer = answerRequest.toEntity();
 
-    assertEquals("Test Answer", answer.getAnswer());
-    assertEquals(true, answer.getIsCorrect());
+    assertEquals(TEST_ANSWER, answer.getAnswer());
+    assertEquals(TEST_CORRECTNESS, answer.getIsCorrect());
   }
 
   /**
@@ -58,12 +62,12 @@ class AnswerRequestTest {
   @DisplayName("Should throw exception when answer is null")
   void shouldThrowExceptionWhenAnswerIsNull() {
     answerRequest.setAnswer(null);
-    answerRequest.setIsCorrect(true);
+    answerRequest.setIsCorrect(TEST_CORRECTNESS);
 
     ResponseStatusException exception = assertThrows(ResponseStatusException.class,
         answerRequest::toEntity);
 
-    assertEquals(HttpStatusCode.valueOf(INTERNAL_SERVER_ERROR), exception.getStatusCode());
-    assertEquals("[Answer] Title cannot be null", exception.getReason());
+    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
+    assertEquals(EXCEPTION_REASON, exception.getReason());
   }
 }

@@ -11,8 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-//ToDo : Create a Test Environment to Test against a test database
-
+/**
+ * This class contains unit tests for the QuestionRepository class. It tests the basic CRUD
+ * operations: find by ID and delete by ID. The tests are currently disabled and need a test
+ * environment to run against a test database.
+ */
 @DataJpaTest
 public class QuestionRepositoryTest {
 
@@ -21,6 +24,10 @@ public class QuestionRepositoryTest {
 
   private Question question;
 
+  /**
+   * This method sets up the test environment before each test. It initializes a new Question, saves
+   * it in the repository.
+   */
   @BeforeEach
   public void setUp() {
     question = new Question();
@@ -29,6 +36,10 @@ public class QuestionRepositoryTest {
     questionRepository.save(question);
   }
 
+  /**
+   * This test checks the find by ID operation of the QuestionRepository. It verifies that a
+   * Question can be found by its ID.
+   */
   @Test
   @Disabled
   public void shouldFindQuestionById() {
@@ -38,6 +49,10 @@ public class QuestionRepositoryTest {
     assertThat(foundQuestion.get().getTitle()).isEqualTo(question.getTitle());
   }
 
+  /**
+   * This test checks the find by ID operation of the QuestionRepository when the ID does not exist.
+   * It verifies that a Question cannot be found by a non-existing ID.
+   */
   @Test
   @Disabled
   public void shouldNotFindQuestionByNonExistingId() {
@@ -46,6 +61,10 @@ public class QuestionRepositoryTest {
     assertThat(foundQuestion).isNotPresent();
   }
 
+  /**
+   * This test checks the delete by ID operation of the QuestionRepository. It verifies that a
+   * Question can be deleted by its ID.
+   */
   @Test
   @Disabled
   public void shouldDeleteQuestionById() {

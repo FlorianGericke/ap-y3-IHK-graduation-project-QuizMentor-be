@@ -11,8 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-//ToDo : Create a Test Environment to Test against a test database
-
+/**
+ * This class contains unit tests for the AnswerRepository class. It tests the basic CRUD
+ * operations: find by ID and delete by ID. The tests are currently disabled and need a test
+ * environment to run against a test database.
+ */
 @DataJpaTest
 public class AnswerRepositoryTest {
 
@@ -22,6 +25,10 @@ public class AnswerRepositoryTest {
   private UUID id;
   private Answer answer;
 
+  /**
+   * This method sets up the test environment before each test. It initializes a new Answer, saves
+   * it in the repository, and stores its ID for later use.
+   */
   @BeforeEach
   public void setUp() {
     answer = new Answer();
@@ -30,6 +37,10 @@ public class AnswerRepositoryTest {
     id = answer.getId();
   }
 
+  /**
+   * This test checks the find by ID operation of the AnswerRepository. It verifies that an Answer
+   * can be found by its ID.
+   */
   @Test
   @Disabled
   public void shouldFindAnswerById() {
@@ -38,6 +49,10 @@ public class AnswerRepositoryTest {
     assertThat(foundAnswer.get().getAnswer()).isEqualTo(answer.getAnswer());
   }
 
+  /**
+   * This test checks the find by ID operation of the AnswerRepository when the ID does not exist.
+   * It verifies that an Answer cannot be found by a non-existing ID.
+   */
   @Test
   @Disabled
   public void shouldNotFindAnswerByNonExistingId() {
@@ -45,6 +60,10 @@ public class AnswerRepositoryTest {
     assertThat(foundAnswer).isNotPresent();
   }
 
+  /**
+   * This test checks the delete by ID operation of the AnswerRepository. It verifies that an Answer
+   * can be deleted by its ID.
+   */
   @Test
   @Disabled
   public void shouldDeleteAnswerById() {

@@ -15,22 +15,32 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-//ToDo : Create a Test Environment to Test against a test database
-
+/**
+ * This class contains unit tests for the UserRepository class. It tests the basic CRUD operations:
+ * save, find by ID, and delete by ID. The tests are currently disabled and need a test environment
+ * to run against a test database.
+ */
 @SpringBootTest
 public class UserRepositoryTest {
 
   @Autowired
-  UserRepository userRepository;
+  private UserRepository userRepository;
 
   //  @Mock
-  User user;
+  private User user;
 
+  /**
+   * This method sets up the test environment before each test. It initializes a new User.
+   */
   @BeforeEach
   public void init() {
 //    MockitoAnnotations.openMocks(this);
   }
 
+  /**
+   * This test checks the find by ID operation of the UserRepository.
+   * It verifies that a User can be found by its ID.
+   */
   @Test
   @Disabled
   public void shouldFindUserById() {
@@ -44,6 +54,10 @@ public class UserRepositoryTest {
     verify(userRepository, times(1)).findById(id);
   }
 
+  /**
+   * This test checks the save operation of the UserRepository.
+   * It verifies that a User can be saved.
+   */
   @Test
   @Disabled
   public void shouldSaveUser() {
@@ -55,6 +69,10 @@ public class UserRepositoryTest {
     verify(userRepository, times(1)).save(user);
   }
 
+  /**
+   * This test checks the find by ID operation of the UserRepository when the ID does not exist.
+   * It verifies that a User cannot be found by a non-existing ID.
+   */
   @Test
   @Disabled
   public void shouldNotFindUserById() {

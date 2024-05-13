@@ -48,7 +48,7 @@ public class QuizRequest implements EntityRequest<Quiz> {
   public Quiz toEntity() {
     if (getTitle() == null) {
       // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
           "[QUIZ] Title cannot be null");
     }
 

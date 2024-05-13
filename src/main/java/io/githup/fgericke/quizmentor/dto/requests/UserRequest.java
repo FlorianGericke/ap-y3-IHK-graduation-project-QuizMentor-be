@@ -48,7 +48,7 @@ public class UserRequest implements EntityRequest<User> {
   public User toEntity() {
     if (getMail() == null || getPassword() == null) {
       // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
           "[User] Mail,Password cannot be null");
     }
 

@@ -10,8 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-//ToDo : Create a Test Environment to Test against a test database
-
+/**
+ * This class contains unit tests for the QuizRepository class. It tests the basic CRUD operations:
+ * save, find by ID, and delete by ID. The tests are currently disabled and need a test environment
+ * to run against a test database.
+ */
 @DataJpaTest
 public class QuizRepositoryTest {
 
@@ -20,6 +23,10 @@ public class QuizRepositoryTest {
 
   private Quiz quiz;
 
+  /**
+   * This method sets up the test environment before each test. It initializes a new Quiz and sets
+   * its ID.
+   */
   @BeforeEach
   public void setUp() {
     quiz = new Quiz();
@@ -27,6 +34,10 @@ public class QuizRepositoryTest {
     // Set other necessary fields for the Quiz object
   }
 
+  /**
+   * This test checks the save operation of the QuizRepository. It verifies that a Quiz can be saved
+   * and retrieved with the same ID.
+   */
   @Test
   @Disabled
   public void shouldSaveQuiz() {
@@ -35,6 +46,10 @@ public class QuizRepositoryTest {
     assertThat(savedQuiz.getId()).isEqualTo(quiz.getId());
   }
 
+  /**
+   * This test checks the find by ID operation of the QuizRepository. It verifies that a Quiz can be
+   * found by its ID.
+   */
   @Test
   @Disabled
   public void shouldFindQuizById() {
@@ -44,6 +59,10 @@ public class QuizRepositoryTest {
     assertThat(foundQuiz.getId()).isEqualTo(quiz.getId());
   }
 
+  /**
+   * This test checks the find by ID operation of the QuizRepository when the ID does not exist. It
+   * verifies that a Quiz cannot be found by a non-existing ID.
+   */
   @Test
   @Disabled
   public void shouldNotFindQuizByNonExistentId() {
@@ -51,6 +70,10 @@ public class QuizRepositoryTest {
     assertThat(foundQuiz).isNull();
   }
 
+  /**
+   * This test checks the delete by ID operation of the QuizRepository. It verifies that a Quiz can
+   * be deleted by its ID.
+   */
   @Test
   @Disabled
   public void shouldDeleteQuizById() {

@@ -42,7 +42,7 @@ public class AnswerRequest implements EntityRequest<Answer> {
   public Answer toEntity() {
     if (getAnswer() == null) {
       // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
           "[Answer] Title cannot be null");
     }
     return Answer.builder()

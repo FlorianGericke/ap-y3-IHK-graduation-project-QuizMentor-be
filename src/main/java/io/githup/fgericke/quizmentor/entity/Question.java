@@ -10,7 +10,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -97,7 +99,8 @@ public class Question extends BaseEntity {
   @Builder.Default
   @ManyToMany(mappedBy = "questions", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
       CascadeType.REFRESH, CascadeType.DETACH})
-  private Set<Category> categories = new LinkedHashSet<>();
+  private List<Category> categories = new ArrayList<>() {
+  };
 
   /**
    * A set of solutions associated with this question. This is a one-to-many relationship, meaning

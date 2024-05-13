@@ -1,76 +1,112 @@
+package io.githup.fgericke.quizmentor.dto.requests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import io.githup.fgericke.quizmentor.dto.requests.QuestionRequest;
 import io.githup.fgericke.quizmentor.entity.Question;
 import io.githup.fgericke.quizmentor.entity.Visibility;
+import io.githup.fgericke.quizmentor.repository.CategoryRepository;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
- * The QuestionRequestTest class contains unit tests for the QuestionRequest class. It tests the
- * conversion of a QuestionRequest to a Question entity.
+ * This class contains unit tests for the QuestionRequest class. It tests the conversion of a
+ * QuestionRequest to a Question entity.
  */
 class QuestionRequestTest {
 
-  public static final int INTERNAL_SERVER_ERROR = 500;
+  private static final String TEST_QUESTION = "Test Question";
+  private static final String TEST_DESCRIPTION = "Test Description";
+  private static final Visibility TEST_VISIBILITY = Visibility.PUBLISHED;
+  private static final int TEST_SCORE = 10;
+  private static final String EXCEPTION_REASON = "[Question] Title,Categories cannot be null";
+  private static final HttpStatus EXCEPTION_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
 
-  /**
-   * The QuestionRequest object that will be used in the tests.
-   */
+
   private QuestionRequest questionRequest;
+  private CategoryRepository categoryRepository;
 
   /**
-   * This method is executed before each test. It initializes the QuestionRequest object.
+   * This method sets up the test environment before each test. It initializes a mock
+   * CategoryRepository and a new QuestionRequest.
    */
   @BeforeEach
   void setUp() {
-    questionRequest = new QuestionRequest();
+    categoryRepository = mock(CategoryRepository.class);
+    questionRequest = new QuestionRequest(categoryRepository);
   }
 
   /**
-   * This test checks the conversion of a QuestionRequest to a Question entity when the title is not
-   * null. It sets the title, description, status, and score of the QuestionRequest, converts it to
-   * a Question entity, and asserts that the title, description, status, and score of the Question
-   * entity are the same as those set in the QuestionRequest.
+   * This test checks the conversion of a QuestionRequest to a Question entity when the title and
+   * categories are not null. It verifies that the converted Question has the same properties as the
+   * QuestionRequest.
    */
   @Test
-  @DisplayName("Should convert to entity when title is not null")
-  void shouldConvertToEntityWhenTitleIsNotNull() {
-    questionRequest.setTitle("Test Question");
-    questionRequest.setDescription("Test Description");
-    questionRequest.setStatus(Visibility.PUBLISHED);
-    questionRequest.setScore(10);
+  @DisplayName("Should convert to entity when title and categories are not null")
+  void shouldConvertToEntityWhenTitleAndCategoriesAreNotNull() {
+    questionRequest.setTitle(TEST_QUESTION);
+    questionRequest.setDescription(TEST_DESCRIPTION);
+    questionRequest.setStatus(TEST_VISIBILITY);
+    questionRequest.setScore(TEST_SCORE);
+    questionRequest.setCategories(List.of(UUID.randomUUID()));
+
+    when(categoryRepository.findAllById(questionRequest.getCategories())).thenReturn(
+        List.of());
 
     Question question = questionRequest.toEntity();
 
-    assertEquals("Test Question", question.getTitle());
-    assertEquals("Test Description", question.getDescription());
+    assertEquals(TEST_QUESTION, question.getTitle());
+    assertEquals(TEST_DESCRIPTION, question.getDescription());
     assertEquals(Visibility.PUBLISHED, question.getStatus());
-    assertEquals(10, question.getScore());
+    assertEquals(TEST_SCORE, question.getScore());
   }
 
   /**
    * This test checks the conversion of a QuestionRequest to a Question entity when the title is
-   * null. It sets the title of the QuestionRequest to null, tries to convert it to a Question
-   * entity, and asserts that a ResponseStatusException is thrown with a 500 status code and a
-   * specific error message.
+   * null. It verifies that a ResponseStatusException is thrown with the correct status code and
+   * reason.
    */
   @Test
   @DisplayName("Should throw exception when title is null")
   void shouldThrowExceptionWhenTitleIsNull() {
     questionRequest.setTitle(null);
-    questionRequest.setDescription("Test Description");
-    questionRequest.setStatus(Visibility.PUBLISHED);
-    questionRequest.setScore(10);
+    questionRequest.setDescription(TEST_DESCRIPTION);
+    questionRequest.setStatus(TEST_VISIBILITY);
+    questionRequest.setScore(TEST_SCORE);
+    questionRequest.setCategories(List.of(UUID.randomUUID()));
 
     ResponseStatusException exception = assertThrows(ResponseStatusException.class,
         questionRequest::toEntity);
 
-    assertEquals(HttpStatusCode.valueOf(INTERNAL_SERVER_ERROR), exception.getStatusCode());
-    assertEquals("[Question] Title cannot be null", exception.getReason());
+    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
+    assertEquals(EXCEPTION_REASON, exception.getReason());
+  }
+
+  /**
+   * This test checks the conversion of a QuestionRequest to a Question entity when the categories
+   * are null. It verifies that a ResponseStatusException is thrown with the correct status code and
+   * reason.
+   */
+  @Test
+  @DisplayName("Should throw exception when categories are null")
+  void shouldThrowExceptionWhenCategoriesAreNull() {
+    questionRequest.setTitle(TEST_QUESTION);
+    questionRequest.setDescription(TEST_DESCRIPTION);
+    questionRequest.setStatus(TEST_VISIBILITY);
+    questionRequest.setScore(TEST_SCORE);
+    questionRequest.setCategories(null);
+
+    ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+        questionRequest::toEntity);
+
+    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
+    assertEquals(EXCEPTION_REASON, exception.getReason());
   }
 }

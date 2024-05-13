@@ -42,7 +42,7 @@ public class SolutionRequest implements EntityRequest<Solution> {
   public Solution toEntity() {
     if (getSolution() == null) {
       // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
           "[Solution] Solution cannot be null");
     }
     return Solution.builder()

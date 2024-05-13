@@ -11,8 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-//ToDo : Create a Test Environment to Test against a test database
-
+/**
+ * This class contains unit tests for the SolutionRepository class. It tests the basic CRUD
+ * operations: save, find by ID, and delete by ID. The tests are currently disabled and need a test
+ * environment to run against a test database.
+ */
 @DataJpaTest
 public class SolutionRepositoryTest {
 
@@ -21,6 +24,10 @@ public class SolutionRepositoryTest {
 
   private Solution solution;
 
+  /**
+   * This method sets up the test environment before each test. It initializes a new Solution and
+   * sets its ID.
+   */
   @BeforeEach
   public void setUp() {
     solution = new Solution();
@@ -28,6 +35,10 @@ public class SolutionRepositoryTest {
     // Set other properties of the solution as required
   }
 
+  /**
+   * This test checks the save operation of the SolutionRepository. It verifies that a Solution can
+   * be saved and retrieved with the same ID.
+   */
   @Test
   @Disabled
   public void shouldSaveSolution() {
@@ -36,6 +47,10 @@ public class SolutionRepositoryTest {
     assertThat(savedSolution.getId()).isEqualTo(solution.getId());
   }
 
+  /**
+   * This test checks the find by ID operation of the SolutionRepository. It verifies that a
+   * Solution can be found by its ID.
+   */
   @Test
   @Disabled
   public void shouldFindSolutionById() {
@@ -45,6 +60,10 @@ public class SolutionRepositoryTest {
     assertThat(foundSolution.get().getId()).isEqualTo(solution.getId());
   }
 
+  /**
+   * This test checks the find by ID operation of the SolutionRepository when the ID does not exist.
+   * It verifies that a Solution cannot be found by a non-existing ID.
+   */
   @Test
   @Disabled
   public void shouldNotFindSolutionByNonExistentId() {
@@ -52,6 +71,10 @@ public class SolutionRepositoryTest {
     assertThat(foundSolution).isNotPresent();
   }
 
+  /**
+   * This test checks the delete by ID operation of the SolutionRepository. It verifies that a
+   * Solution can be deleted by its ID.
+   */
   @Test
   @Disabled
   public void shouldDeleteSolutionById() {

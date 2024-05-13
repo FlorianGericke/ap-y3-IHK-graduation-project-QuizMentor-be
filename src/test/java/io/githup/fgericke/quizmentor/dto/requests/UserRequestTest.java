@@ -1,13 +1,14 @@
+package io.githup.fgericke.quizmentor.dto.requests;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import io.githup.fgericke.quizmentor.dto.requests.UserRequest;
 import io.githup.fgericke.quizmentor.entity.Role;
 import io.githup.fgericke.quizmentor.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -16,7 +17,13 @@ import org.springframework.web.server.ResponseStatusException;
  */
 class UserRequestTest {
 
-  public static final int INTERNAL_SERVER_ERROR = 500;
+  private static final String TEST_MAIL = "test@mail.com";
+  private static final String TEST_PASSWORD = "testPassword";
+  private static final Role TEST_ROLE_MENTOR = Role.MENTOR;
+  private static final Role TEST_ROLE_TRAINEE = Role.TRAINEE;
+  private static final Role TEST_ROLE_TRAINER = Role.TRAINER;
+  private static final String EXCEPTION_REASON = "[User] Mail,Password cannot be null";
+  private static final HttpStatus EXCEPTION_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
 
   /**
    * The UserRequest object that will be used in the tests.
@@ -40,15 +47,15 @@ class UserRequestTest {
   @Test
   @DisplayName("Should convert to entity when mail and password are not null")
   void shouldConvertToEntityWhenMailAndPasswordAreNotNull() {
-    userRequest.setMail("test@mail.com");
-    userRequest.setPassword("testPassword");
-    userRequest.setRole(Role.MENTOR);
+    userRequest.setMail(TEST_MAIL);
+    userRequest.setPassword(TEST_PASSWORD);
+    userRequest.setRole(TEST_ROLE_MENTOR);
 
     User user = userRequest.toEntity();
 
-    assertEquals("test@mail.com", user.getMail());
-    assertEquals("testPassword", user.getPassword());
-    assertEquals(Role.MENTOR, user.getRole());
+    assertEquals(TEST_MAIL, user.getMail());
+    assertEquals(TEST_PASSWORD, user.getPassword());
+    assertEquals(TEST_ROLE_MENTOR, user.getRole());
   }
 
   /**
@@ -60,14 +67,14 @@ class UserRequestTest {
   @DisplayName("Should throw exception when mail is null")
   void shouldThrowExceptionWhenMailIsNull() {
     userRequest.setMail(null);
-    userRequest.setPassword("testPassword");
-    userRequest.setRole(Role.TRAINEE);
+    userRequest.setPassword(TEST_PASSWORD);
+    userRequest.setRole(TEST_ROLE_TRAINEE);
 
     ResponseStatusException exception = assertThrows(ResponseStatusException.class,
         userRequest::toEntity);
 
-    assertEquals(HttpStatusCode.valueOf(INTERNAL_SERVER_ERROR), exception.getStatusCode());
-    assertEquals("[User] Mail,Password cannot be null", exception.getReason());
+    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
+    assertEquals(EXCEPTION_REASON, exception.getReason());
   }
 
   /**
@@ -78,14 +85,14 @@ class UserRequestTest {
   @Test
   @DisplayName("Should throw exception when password is null")
   void shouldThrowExceptionWhenPasswordIsNull() {
-    userRequest.setMail("test@mail.com");
+    userRequest.setMail(TEST_MAIL);
     userRequest.setPassword(null);
-    userRequest.setRole(Role.TRAINER);
+    userRequest.setRole(TEST_ROLE_TRAINER);
 
     ResponseStatusException exception = assertThrows(ResponseStatusException.class,
         userRequest::toEntity);
 
-    assertEquals(HttpStatusCode.valueOf(INTERNAL_SERVER_ERROR), exception.getStatusCode());
-    assertEquals("[User] Mail,Password cannot be null", exception.getReason());
+    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
+    assertEquals(EXCEPTION_REASON, exception.getReason());
   }
 }

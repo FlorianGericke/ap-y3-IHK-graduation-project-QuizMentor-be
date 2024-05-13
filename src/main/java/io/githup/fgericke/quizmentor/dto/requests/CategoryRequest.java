@@ -36,7 +36,7 @@ public class CategoryRequest implements EntityRequest<Category> {
   public Category toEntity() {
     if (getName() == null) {
       // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
           "[Category] Name cannot be null");
     }
     return Category.builder().name(getName()).build();
