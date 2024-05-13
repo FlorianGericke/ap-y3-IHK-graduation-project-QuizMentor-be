@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -48,7 +48,7 @@ public class UserRequest implements EntityRequest<User> {
   public User toEntity() {
     if (getMail() == null || getPassword() == null) {
       // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatusCode.valueOf(500),
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
           "[User] Mail,Password cannot be null");
     }
 

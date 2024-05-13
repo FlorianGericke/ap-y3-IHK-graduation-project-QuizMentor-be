@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -54,7 +54,8 @@ public class QuestionRequest implements EntityRequest<Question> {
   public Question toEntity() {
     if (getTitle() == null) {
       // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatusCode.valueOf(500), "[Question] Title cannot be "
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          "[Question] Title cannot be "
           + "null");
     }
     return Question.builder()

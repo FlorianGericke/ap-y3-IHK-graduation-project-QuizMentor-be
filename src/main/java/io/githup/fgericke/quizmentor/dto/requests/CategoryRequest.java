@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -36,7 +36,7 @@ public class CategoryRequest implements EntityRequest<Category> {
   public Category toEntity() {
     if (getName() == null) {
       // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatusCode.valueOf(500),
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
           "[Category] Name cannot be null");
     }
     return Category.builder().name(getName()).build();
