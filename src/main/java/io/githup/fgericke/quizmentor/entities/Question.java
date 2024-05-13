@@ -51,6 +51,18 @@ public class Question extends BaseEntity {
   private User createdFrom;
 
   /**
+   * The title of the question. It is a unique field and cannot be null.
+   */
+  @Column(name = "title", nullable = false, unique = true)
+  private String title;
+
+  /**
+   * The description of the question. It is an optional field.
+   */
+  @Column(name = "description")
+  private String description;
+
+  /**
    * The quizzes that contain this question. It is a many-to-many relationship, meaning that each
    * question can be in multiple quizzes, and each quiz can contain multiple questions.
    */
