@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Arrays;
 import java.util.Collection;
@@ -79,6 +80,30 @@ public class User extends BaseEntity implements UserDetails {
   @Builder.Default
   @OneToMany(mappedBy = "createdFrom", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Question> questions = new LinkedHashSet<>();
+
+  /**
+   * A set of solutions created by this user. This is a one-to-many relationship, meaning that each
+   * user can create multiple solutions. The 'mappedBy = "createdFrom"' attribute indicates that the
+   * 'createdFrom' field in the Solution entity is the owning side of the relationship. The 'cascade
+   * = CascadeType.ALL' attribute means that any changes made to the user entity will also be
+   * reflected in the associated solutions. The 'orphanRemoval = true' attribute ensures that when a
+   * solution is removed from this set, it will also be removed from the database. The solutions are
+   * stored in a LinkedHashSet to maintain insertion order and to avoid duplicate solutions.
+   */
+  @Builder.Default
+  @OneToMany(mappedBy = "createdFrom", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Solution> solutions = new LinkedHashSet<>();
+
+  /**
+   * A solution reviewed by this user. This is a one-to-one relationship, meaning that each user can
+   * review one solution. The 'mappedBy = "reviewedFrom"' attribute indicates that the
+   * 'reviewedFrom' field in the Solution entity is the owning side of the relationship. The
+   * 'cascade = CascadeType.ALL' attribute means that any changes made to the user entity will also
+   * be reflected in the associated solution. The 'orphanRemoval = true' attribute ensures that when
+   * the solution is disassociated from this user, it will also be removed from the database.
+   */
+  @OneToOne(mappedBy = "reviewedFrom", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Solution solution;
 
   /**
    * This method returns the authorities granted to the user. It returns a collection of

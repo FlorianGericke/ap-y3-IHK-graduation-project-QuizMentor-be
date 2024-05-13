@@ -8,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -87,8 +88,23 @@ public class Question extends BaseEntity {
   private Set<Category> categories = new LinkedHashSet<>();
 
   /**
-   * This method checks if the question is an open question.
-   * An open question is defined as a question with a non-null score.
+   * A set of solutions associated with this question. This is a one-to-many relationship, meaning
+   * that each question can have multiple solutions. The 'mappedBy = "question"' attribute indicates
+   * that the 'question' field in the Solution entity is the owning side of the relationship. The
+   * 'cascade = CascadeType.ALL' attribute means that any changes made to the question entity will
+   * also be reflected in the associated solutions. The 'orphanRemoval = true' attribute ensures
+   * that when a solution is removed from this set, it will also be removed from the database. The
+   * solutions are stored in a LinkedHashSet to maintain insertion order and to avoid duplicate
+   * solutions.
+   */
+  @Builder.Default
+  @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Solution> solutions = new LinkedHashSet<>();
+
+  /**
+   * This method checks if the question is an open question. An open question is defined as a
+   * question with a non-null score.
+   *
    * @return true if the score is not null, false otherwise.
    */
   boolean isOpenQuestion() {

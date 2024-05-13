@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.githup.fgericke.quizmentor.entities.Question;
 import io.githup.fgericke.quizmentor.entities.Quiz;
 import io.githup.fgericke.quizmentor.entities.Role;
+import io.githup.fgericke.quizmentor.entities.Solution;
 import io.githup.fgericke.quizmentor.entities.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,9 @@ class UserTest {
    */
   private Question question;
 
+  private Solution solution;
+  private Solution reviewedSolution;
+
   /**
    * This method sets up the User instance before each test.
    */
@@ -46,6 +50,9 @@ class UserTest {
         .password("password")
         .role(Role.TRAINEE)
         .build();
+
+    solution = new Solution();
+    reviewedSolution = new Solution();
   }
 
   /**
@@ -200,5 +207,67 @@ class UserTest {
     user.getQuestions().add(question);
     user.getQuestions().clear();
     assertTrue(user.getQuestions().isEmpty());
+  }
+
+  /**
+   * This test checks if the solutions set of a new User is empty.
+   */
+  @Test
+  void givenNewUser_whenCheckedSolutions_thenSolutionsIsEmpty() {
+    assertTrue(user.getSolutions().isEmpty());
+  }
+
+  /**
+   * This test checks if a solution can be added to a User's solutions set. It adds a solution to
+   * the set and then checks if the set contains the added solution.
+   */
+  @Test
+  void givenUser_whenSolutionAdded_thenSolutionIsInSolutions() {
+    user.getSolutions().add(solution);
+    assertTrue(user.getSolutions().contains(solution));
+  }
+
+  /**
+   * This test checks if a solution can be removed from a User's solutions set. It first adds a
+   * solution to the set, removes the same solution, and then checks if the set does not contain the
+   * removed solution.
+   */
+  @Test
+  void givenUserWithSolution_whenSolutionRemoved_thenSolutionIsNotInSolutions() {
+    user.getSolutions().add(solution);
+    user.getSolutions().remove(solution);
+    assertFalse(user.getSolutions().contains(solution));
+  }
+
+  /**
+   * This test checks if all solutions can be removed from a User's solutions set. It first adds a
+   * solution to the set, clears the set, and then checks if the set is empty.
+   */
+  @Test
+  void givenUserWithSolution_whenClearedSolutions_thenSolutionsIsEmpty() {
+    user.getSolutions().add(solution);
+    user.getSolutions().clear();
+    assertTrue(user.getSolutions().isEmpty());
+  }
+
+  /**
+   * This test checks if a reviewed solution can be set for a User. It sets a reviewed solution and
+   * then checks if the set reviewed solution is correct.
+   */
+  @Test
+  void givenUser_whenReviewedSolutionSet_thenReviewedSolutionIsCorrect() {
+    user.setSolution(reviewedSolution);
+    assertEquals(reviewedSolution, user.getSolution());
+  }
+
+  /**
+   * This test checks if a reviewed solution can be removed from a User. It first sets a reviewed
+   * solution, removes the reviewed solution, and then checks if the reviewed solution is null.
+   */
+  @Test
+  void givenUserWithReviewedSolution_whenReviewedSolutionRemoved_thenReviewedSolutionIsNull() {
+    user.setSolution(reviewedSolution);
+    user.setSolution(null);
+    assertEquals(null, user.getSolution());
   }
 }
