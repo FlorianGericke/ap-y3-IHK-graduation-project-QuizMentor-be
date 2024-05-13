@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.githup.fgericke.quizmentor.entities.Category;
 import io.githup.fgericke.quizmentor.entities.Question;
 import io.githup.fgericke.quizmentor.entities.Quiz;
+import io.githup.fgericke.quizmentor.entities.Solution;
 import io.githup.fgericke.quizmentor.entities.Visibility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,10 @@ class QuestionTest {
   private Question question;
   private Quiz quiz;
   private Category category;
+  private Solution solution;
   private static final int INITIAL_SCORE = 10;
   private static final int UPDATED_SCORE = 20;
+  private static final int EXPECTED_SOLUTIONS_SIZE = 2;
 
   /**
    * This method sets up the objects used in the tests. It is run before each test.
@@ -27,6 +30,7 @@ class QuestionTest {
   void setUp() {
     quiz = new Quiz();
     category = new Category();
+    solution = new Solution();
     question = Question.builder()
         .score(INITIAL_SCORE)
         .status(Visibility.DRAFT)
@@ -152,5 +156,59 @@ class QuestionTest {
   void givenQuestion_whenStatusChangedToPublished_thenStatusIsUpdated() {
     question.setStatus(Visibility.PUBLISHED);
     assertEquals(Visibility.PUBLISHED, question.getStatus());
+  }
+
+  /**
+   * This test checks if the solutions set of a new Question is empty.
+   */
+  @Test
+  void givenNewQuestion_whenCheckedSolutions_thenSolutionsIsEmpty() {
+    assertTrue(question.getSolutions().isEmpty());
+  }
+
+  /**
+   * This test checks if a solution can be added to a Question's solutions set. It adds a solution
+   * to the set and then checks if the set contains the added solution.
+   */
+  @Test
+  void givenQuestion_whenSolutionAdded_thenSolutionIsInSolutions() {
+    question.getSolutions().add(solution);
+    assertTrue(question.getSolutions().contains(solution));
+  }
+
+  /**
+   * This test checks if a solution can be removed from a Question's solutions set. It first adds a
+   * solution to the set, removes the same solution, and then checks if the set does not contain the
+   * removed solution.
+   */
+  @Test
+  void givenQuestionWithSolution_whenSolutionRemoved_thenSolutionIsNotInSolutions() {
+    question.getSolutions().add(solution);
+    question.getSolutions().remove(solution);
+    assertFalse(question.getSolutions().contains(solution));
+  }
+
+  /**
+   * This test checks if all solutions can be removed from a Question's solutions set. It first adds
+   * a solution to the set, clears the set, and then checks if the set is empty.
+   */
+  @Test
+  void givenQuestionWithSolution_whenClearedSolutions_thenSolutionsIsEmpty() {
+    question.getSolutions().add(solution);
+    question.getSolutions().clear();
+    assertTrue(question.getSolutions().isEmpty());
+  }
+
+  /**
+   * This test checks if multiple solutions can be added to a Question's solutions set. It first
+   * adds a solution to the set, adds another solution, and then checks if the size of the set is as
+   * expected.
+   */
+  @Test
+  void givenQuestionWithSolution_whenAnotherSolutionAdded_thenSolutionsSizeIsTwo() {
+    question.getSolutions().add(solution);
+    Solution anotherSolution = new Solution();
+    question.getSolutions().add(anotherSolution);
+    assertEquals(EXPECTED_SOLUTIONS_SIZE, question.getSolutions().size());
   }
 }
