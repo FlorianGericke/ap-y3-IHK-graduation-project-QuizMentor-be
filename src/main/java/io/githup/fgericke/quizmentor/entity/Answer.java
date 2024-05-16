@@ -69,6 +69,14 @@ public class Answer extends BaseEntity {
    */
   @Exclude
   @ManyToOne(cascade = CascadeType.ALL, optional = false)
-  @JoinColumn(name = "answered_from_id", nullable = false)
-  private User answeredFrom;
+  @JoinColumn(name = "owner_id", nullable = false)
+  private User owner;
+
+  /**
+   * The question field represents the question to which this answer belongs. It is a many-to-one
+   * relationship with the Question entity.
+   */
+  @ManyToOne
+  @JoinColumn(name = "question_id")
+  private Question question;
 }

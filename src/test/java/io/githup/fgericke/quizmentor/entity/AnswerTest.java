@@ -1,9 +1,12 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.githup.fgericke.quizmentor.entity.Answer;
+import io.githup.fgericke.quizmentor.entity.Question;
 import io.githup.fgericke.quizmentor.entity.User;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -28,7 +31,13 @@ class AnswerTest {
    * Mocked User instance representing the user who answered.
    */
   @Mock
-  private User answeredFrom;
+  private User owner;
+
+  /**
+   * Mocked Question instance representing the question to which the answer belongs.
+   */
+  @Mock
+  private Question question;
 
   /**
    * This method sets up the testing environment before each test. It initializes a new Answer
@@ -41,7 +50,7 @@ class AnswerTest {
         .answer("Test Answer")
         .isCorrect(true)
         .reviewedFrom(reviewedFrom)
-        .answeredFrom(answeredFrom)
+        .owner(owner)
         .build();
   }
 
@@ -74,6 +83,53 @@ class AnswerTest {
    */
   @Test
   void givenAnswer_whenGetAnsweredFrom_thenReturnAnsweredFrom() {
-    assertEquals(answeredFrom, answer.getAnsweredFrom());
+    assertEquals(owner, answer.getOwner());
+  }
+
+  /**
+   * This test checks if the answers set of a new Question is empty. It asserts that the answers set
+   * of a newly created question is empty.
+   */
+  @DisplayName("Answers set of a new Question is empty")
+  @Test
+  void givenNewQuestion_whenCheckedAnswers_thenAnswersIsEmpty() {
+    assertTrue(question.getAnswers().isEmpty());
+  }
+
+  /**
+   * This test checks if an answer can be added to a Question's answers set. It adds an answer to
+   * the set and then asserts that the set contains the added answer.
+   */
+  @DisplayName("Answer can be added to a Question's answers set")
+  @Test
+  void givenQuestion_whenAnswerAdded_thenAnswerIsInAnswers() {
+    Question question = Question.builder().build();
+    question.getAnswers().add(answer);
+    assertTrue(question.getAnswers().contains(answer));
+  }
+
+  /**
+   * This test checks if an answer can be removed from a Question's answers set. It first adds an
+   * answer to the set, removes the same answer, and then asserts that the set does not contain the
+   * removed answer.
+   */
+  @DisplayName("Answer can be removed from a Question's answers set")
+  @Test
+  void givenQuestionWithAnswer_whenAnswerRemoved_thenAnswerIsNotInAnswers() {
+    question.getAnswers().add(answer);
+    question.getAnswers().remove(answer);
+    assertFalse(question.getAnswers().contains(answer));
+  }
+
+  /**
+   * This test checks if all answers can be removed from a Question's answers set. It first adds an
+   * answer to the set, clears the set, and then asserts that the set is empty.
+   */
+  @DisplayName("All answers can be removed from a Question's answers set")
+  @Test
+  void givenQuestionWithAnswer_whenClearedAnswers_thenAnswersIsEmpty() {
+    question.getAnswers().add(answer);
+    question.getAnswers().clear();
+    assertTrue(question.getAnswers().isEmpty());
   }
 }

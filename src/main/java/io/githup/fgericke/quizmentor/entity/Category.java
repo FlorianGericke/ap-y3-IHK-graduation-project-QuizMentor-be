@@ -50,14 +50,13 @@ public class Category extends BaseEntity {
    * The quizzes that belong to this category. It is a many-to-many relationship, meaning that each
    * category can have multiple quizzes, and each quiz can belong to multiple categories. The
    * 'quizze' in mappedBy indicates that the 'quizze' field in the Quiz entity owns the relationship
-   * (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
-   * CascadeType.DETACH indicates that if a Category entity is persisted, merged, refreshed, or
-   * detached, the same operation will be applied to the Quiz entity. The @Builder.Default
-   * annotation is used to initialize the 'quizze' field with an empty set of Quiz.
+   * (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH
+   * indicates that if a Category entity is persisted, merged, or refreshed, the same operation will
+   * be applied to the Quiz entity. The @Builder.Default annotation is used to initialize the
+   * 'quizze' field with an empty set of Quiz.
    */
   @Builder.Default
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
-      CascadeType.DETACH})
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
   @JoinTable(name = "category_quizzes",
       joinColumns = @JoinColumn(name = "category_id"),
       inverseJoinColumns = @JoinColumn(name = "quizzes_id"))
@@ -70,6 +69,7 @@ public class Category extends BaseEntity {
    * the relationship (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE,
    * CascadeType.REFRESH, CascadeType.DETACH indicates that if a Category entity is persisted,
    * merged, refreshed, or detached, the same operation will be applied to the Question entity. The
+   *
    * @Builder.Default annotation is used to initialize the 'questions' field with an empty set of
    * Question.
    */

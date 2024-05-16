@@ -125,4 +125,17 @@ public class Question extends BaseEntity {
   boolean isOpenQuestion() {
     return score != null;
   }
+
+  /**
+   * A set of answers associated with this question. This is a one-to-many relationship, meaning
+   * that each question can have multiple answers. The 'mappedBy = "question"' attribute indicates
+   * that the 'question' field in the Answer entity is the owning side of the relationship. The
+   * 'orphanRemoval = true' attribute ensures that when an answer is removed from this set, it will
+   * also be removed from the database. The answers are stored in a LinkedHashSet to avoid duplicate
+   * answers.
+   */
+  @Exclude
+  @Builder.Default
+  @OneToMany(mappedBy = "question", orphanRemoval = true)
+  private Set<Answer> answers = new LinkedHashSet<>();
 }
