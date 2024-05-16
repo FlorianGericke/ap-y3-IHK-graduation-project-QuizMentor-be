@@ -46,11 +46,13 @@ class AnswerTest {
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
-    answer = Answer.builder()
+    this.question = Question.builder().build();
+    this.answer = Answer.builder()
         .answer("Test Answer")
         .isCorrect(true)
-        .reviewedFrom(reviewedFrom)
-        .owner(owner)
+        .reviewedFrom(this.reviewedFrom)
+        .owner(this.owner)
+        .question(this.question)
         .build();
   }
 
@@ -103,9 +105,9 @@ class AnswerTest {
   @DisplayName("Answer can be added to a Question's answers set")
   @Test
   void givenQuestion_whenAnswerAdded_thenAnswerIsInAnswers() {
-    Question question = Question.builder().build();
-    question.getAnswers().add(answer);
-    assertTrue(question.getAnswers().contains(answer));
+    Question questionForTest = Question.builder().build();
+    questionForTest.getAnswers().add(answer);
+    assertTrue(questionForTest.getAnswers().contains(answer));
   }
 
   /**

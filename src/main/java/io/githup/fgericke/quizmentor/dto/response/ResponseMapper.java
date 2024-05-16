@@ -17,7 +17,7 @@ public interface ResponseMapper<I, R> {
    * @param input the object of type I to be converted
    * @return the converted object of type R
    */
-  R mapToResponse(final I input);
+  R mapToResponse(I input);
 
 
   /**

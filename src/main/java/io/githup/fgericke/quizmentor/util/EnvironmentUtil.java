@@ -25,10 +25,10 @@ public class EnvironmentUtil {
    * annotation, so Spring will automatically use it to create an instance of EnvironmentUtil. The
    * API_BASE_URL environment variable is injected into the constructor using the Value annotation.
    *
-   * @param apiBaseUrl the API base URL, loaded from the environment variable API_BASE_URL
+   * @param baseUrl the API base URL, loaded from the environment variable API_BASE_URL
    */
   @Autowired
-  public EnvironmentUtil(@Value("${API_BASE_URL}") final String apiBaseUrl) {
-    EnvironmentUtil.apiBaseUrl = apiBaseUrl;
+  public EnvironmentUtil(@Value("${API_BASE_URL}") final String baseUrl) {
+    EnvironmentUtil.apiBaseUrl = baseUrl;
   }
 }
