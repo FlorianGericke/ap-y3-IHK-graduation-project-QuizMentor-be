@@ -38,7 +38,9 @@ public class CategoryService extends
   @Override
   public Category patch(final Category entityToUpdate, final CategoryRequest categoryRequest) {
     entityToUpdate.setName(
-        categoryRequest.getName() != null ? categoryRequest.getName() : entityToUpdate.getName());
+        categoryRequest.getName() != null
+            ? categoryRequest.getName()
+            : entityToUpdate.getName());
     return entityToUpdate;
   }
 }
