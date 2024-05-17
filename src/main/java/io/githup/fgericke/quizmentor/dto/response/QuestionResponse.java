@@ -58,8 +58,8 @@ public class QuestionResponse implements ResponseMapper<Question, QuestionRespon
    * @return A new QuestionResponse object with the data from the input Question.
    */
   @Override
-  public QuestionResponse mapToResponse(final Question input) {
-    return QuestionResponse.builder()
+  public QuestionResponse map(final Question input) {
+    return input == null ? null : QuestionResponse.builder()
         .id(input.getId())
         .iri(UuidUtil.getIriFromBaseEntity(input))
         .title(input.getTitle())
