@@ -65,14 +65,6 @@ public class User extends BaseEntity implements UserDetails {
   private Role role;
 
   /**
-   * The set of quizzes created by the user. It is a one-to-many relationship with the Quiz entity.
-   */
-  @Builder.Default
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Quiz> quizzes = new LinkedHashSet<>();
-
-
-  /**
    * The set of questions created by the user. It is a one-to-many relationship with the Question
    * entity.
    */
@@ -96,6 +88,18 @@ public class User extends BaseEntity implements UserDetails {
   @Builder.Default
   @OneToMany(mappedBy = "reviewedFrom", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Answer> answers = new LinkedHashSet<>();
+
+
+  /**
+   * The set of quizzes owned by the user. It is a one-to-many relationship with the Quiz entity.
+   * The 'mappedBy = "owner"' attribute indicates that the 'owner' field in the Quiz entity is the
+   * owning side of the relationship. The 'orphanRemoval = true' attribute ensures that when a quiz
+   * is removed from this set, it will also be removed from the database. The quizzes are stored in
+   * a LinkedHashSet to maintain insertion order and to avoid duplicate quizzes.
+   */
+  @Builder.Default
+  @OneToMany(mappedBy = "owner", orphanRemoval = true)
+  private Set<Quiz> quizzes = new LinkedHashSet<>();
 
   /**
    * This method returns the authorities granted to the user. It returns a collection of

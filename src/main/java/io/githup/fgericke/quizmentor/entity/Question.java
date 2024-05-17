@@ -122,7 +122,7 @@ public class Question extends BaseEntity {
    *
    * @return true if the score is not null, false otherwise.
    */
-  boolean isOpenQuestion() {
+  public boolean isOpenQuestion() {
     return score != null;
   }
 

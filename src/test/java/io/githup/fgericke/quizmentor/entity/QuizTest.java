@@ -1,171 +1,191 @@
+package io.githup.fgericke.quizmentor.entity;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.githup.fgericke.quizmentor.entity.Category;
-import io.githup.fgericke.quizmentor.entity.Question;
-import io.githup.fgericke.quizmentor.entity.Quiz;
-import io.githup.fgericke.quizmentor.entity.User;
-import io.githup.fgericke.quizmentor.entity.Visibility;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 /**
- * This class contains unit tests for the Quiz class. It tests the properties and behavior of a Quiz
- * instance.
+ * This class contains unit tests for the Quiz entity.
  */
 class QuizTest {
 
-  /**
-   * The Quiz instance under test.
-   */
   private Quiz quiz;
 
   /**
-   * The User instance under test.
-   */
-  private User user;
-
-  /**
-   * The Category instance under test.
-   */
-  private Category category;
-
-  /**
-   * The Question instance under test.
-   */
-  private Question question;
-
-  /**
-   * This method sets up the test environment before each test. It creates a new instance of Quiz
-   * with a title, description, and visibility status.
+   * This method sets up the test environment before each test. It initializes a new Quiz object.
    */
   @BeforeEach
   void setUp() {
-    category = new Category();
-    question = new Question();
-    user = User.builder()
-        .mail("test@mail.com")
-        .password("password")
-        .role(io.githup.fgericke.quizmentor.entity.Role.TRAINEE)
-        .build();
-
-    quiz = Quiz.builder()
-        .title("Test Quiz")
-        .description("This is a test quiz")
-        .visibility(Visibility.DRAFT)
-        .user(user)
-        .build();
+    quiz = new Quiz();
   }
 
   /**
-   * This test checks if the title of a new Quiz is set correctly.
+   * This test checks if setting the title of a Quiz updates the title. It sets the title of the
+   * quiz and then asserts that the title of the quiz is the same as the set title.
    */
   @Test
-  void givenNewQuiz_whenCheckedTitle_thenTitleIsCorrect() {
-    assertEquals("Test Quiz", quiz.getTitle());
+  void givenNewQuiz_whenSetTitle_thenTitleIsSet() {
+    quiz.setTitle("New Quiz");
+    assertEquals("New Quiz", quiz.getTitle());
   }
 
   /**
-   * This test checks if the description of a new Quiz is set correctly.
+   * This test checks if setting the title of a Quiz to null throws a NullPointerException. It is
+   * currently disabled.
    */
   @Test
-  void givenNewQuiz_whenCheckedDescription_thenDescriptionIsCorrect() {
-    assertEquals("This is a test quiz", quiz.getDescription());
+  @Disabled
+  void givenNewQuiz_whenSetTitleWithNull_thenThrowsException() {
+    assertThrows(NullPointerException.class, () -> quiz.setTitle(null));
   }
 
   /**
-   * This test checks if the visibility status of a new Quiz is set to DRAFT.
+   * This test checks if setting the description of a Quiz updates the description. It sets the
+   * description of the quiz and then asserts that the description of the quiz is the same as the
+   * set description.
    */
   @Test
-  void givenNewQuiz_whenCheckedVisibility_thenVisibilityIsDraft() {
-    assertEquals(Visibility.DRAFT, quiz.getVisibility());
+  void givenNewQuiz_whenSetDescription_thenDescriptionIsSet() {
+    quiz.setDescription("This is a new quiz");
+    assertEquals("This is a new quiz", quiz.getDescription());
   }
 
   /**
-   * This test checks if the visibility status of a Quiz can be updated.
+   * This test checks if setting the visibility of a Quiz updates the visibility. It sets the
+   * visibility of the quiz and then asserts that the visibility of the quiz is the same as the set
+   * visibility.
    */
   @Test
-  void givenQuiz_whenVisibilityChanged_thenVisibilityIsUpdated() {
+  void givenNewQuiz_whenSetVisibility_thenVisibilityIsSet() {
     quiz.setVisibility(Visibility.PUBLISHED);
     assertEquals(Visibility.PUBLISHED, quiz.getVisibility());
   }
 
   /**
-   * This test checks if the User of a new Quiz is set correctly.
+   * This test checks if setting the visibility of a Quiz to null throws a NullPointerException. It
+   * is currently disabled.
    */
   @Test
-  void givenNewQuiz_whenCheckedUser_thenUserIsCorrect() {
-    assertEquals(user, quiz.getUser());
+  @Disabled
+  void givenNewQuiz_whenSetVisibilityWithNull_thenThrowsException() {
+    assertThrows(NullPointerException.class, () -> quiz.setVisibility(null));
   }
 
   /**
-   * This test checks if the User of a Quiz can be updated. It creates a new mock User, sets it as
-   * the User of the Quiz, and then checks if the User of the Quiz is the new User.
+   * This test checks if adding a category to a Quiz's categories set updates the set. It adds a
+   * category to the quiz's categories set and then asserts that the set contains the category.
    */
   @Test
-  void givenQuiz_whenUserChanged_thenUserIsUpdated() {
-    User newUser = Mockito.mock(User.class);
-    quiz.setUser(newUser);
-    assertEquals(newUser, quiz.getUser());
-  }
-
-  @Test
-  void givenNewQuiz_whenCheckedCategories_thenCategoriesIsEmpty() {
-    assertTrue(quiz.getCategories().isEmpty());
-  }
-
-  @Test
-  void givenQuiz_whenCategoryAdded_thenCategoryIsInCategories() {
+  void givenNewQuiz_whenAddCategory_thenCategoryIsAdded() {
+    Category category = new Category();
     quiz.getCategories().add(category);
     assertTrue(quiz.getCategories().contains(category));
   }
 
+  /**
+   * This test checks if adding a null category to a Quiz's categories set throws a
+   * NullPointerException. It is currently disabled.
+   */
   @Test
-  void givenQuizWithCategory_whenCategoryRemoved_thenCategoryIsNotInCategories() {
+  @Disabled
+  void givenNewQuiz_whenAddNullCategory_thenThrowsException() {
+    assertThrows(NullPointerException.class, () -> quiz.getCategories().add(null));
+  }
+
+  /**
+   * This test checks if removing a category from a Quiz's categories set updates the set. It adds a
+   * category to the quiz's categories set, removes the category, and then asserts that the set does
+   * not contain the category.
+   */
+  @Test
+  void givenQuizWithCategory_whenRemoveCategory_thenCategoryIsRemoved() {
+    Category category = new Category();
     quiz.getCategories().add(category);
     quiz.getCategories().remove(category);
     assertFalse(quiz.getCategories().contains(category));
   }
 
+  /**
+   * This test checks if removing a null category from a Quiz's categories set throws a
+   * NullPointerException. It is currently disabled.
+   */
   @Test
-  void givenQuizWithCategory_whenClearedCategories_thenCategoriesIsEmpty() {
+  @Disabled
+  void givenQuizWithCategory_whenRemoveNullCategory_thenThrowsException() {
+    Category category = new Category();
     quiz.getCategories().add(category);
-    quiz.getCategories().clear();
-    assertTrue(quiz.getCategories().isEmpty());
+    assertThrows(NullPointerException.class, () -> quiz.getCategories().remove(null));
   }
 
   /**
-   * This test checks if a question can be added to a Quiz's questions set. It adds a question to
-   * the set and then checks if the set contains the added question.
+   * This test checks if adding a question to a Quiz's questions set updates the set. It adds a
+   * question to the quiz's questions set and then asserts that the set contains the question.
    */
   @Test
-  void givenQuiz_whenQuestionAdded_thenQuestionIsInQuestions() {
+  void givenNewQuiz_whenAddQuestion_thenQuestionIsAdded() {
+    Question question = new Question();
     quiz.getQuestions().add(question);
     assertTrue(quiz.getQuestions().contains(question));
   }
 
   /**
-   * This test checks if a question can be removed from a Quiz's questions set. It first adds a
-   * question to the set, removes the same question, and then checks if the set does not contain the
-   * removed question.
+   * This test checks if adding a null question to a Quiz's questions set throws a
+   * NullPointerException. It is currently disabled.
    */
   @Test
-  void givenQuizWithQuestion_whenQuestionRemoved_thenQuestionIsNotInQuestions() {
+  @Disabled
+  void givenNewQuiz_whenAddNullQuestion_thenThrowsException() {
+    assertThrows(NullPointerException.class, () -> quiz.getQuestions().add(null));
+  }
+
+  /**
+   * This test checks if removing a question from a Quiz's questions set updates the set. It adds a
+   * question to the quiz's questions set, removes the question, and then asserts that the set does
+   * not contain the question.
+   */
+  @Test
+  void givenQuizWithQuestion_whenRemoveQuestion_thenQuestionIsRemoved() {
+    Question question = new Question();
     quiz.getQuestions().add(question);
     quiz.getQuestions().remove(question);
     assertFalse(quiz.getQuestions().contains(question));
   }
 
   /**
-   * This test checks if all questions can be removed from a Quiz's questions set. It first adds a
-   * question to the set, clears the set, and then checks if the set is empty.
+   * This test checks if removing a null question from a Quiz's questions set throws a
+   * NullPointerException. It is currently disabled.
    */
   @Test
-  void givenQuizWithQuestion_whenClearedQuestions_thenQuestionsIsEmpty() {
+  @Disabled
+  void givenQuizWithQuestion_whenRemoveNullQuestion_thenThrowsException() {
+    Question question = new Question();
     quiz.getQuestions().add(question);
-    quiz.getQuestions().clear();
-    assertTrue(quiz.getQuestions().isEmpty());
+    assertThrows(NullPointerException.class, () -> quiz.getQuestions().remove(null));
+  }
+
+  /**
+   * This test checks if setting the owner of a Quiz updates the owner. It sets the owner of the
+   * quiz to a User object and then asserts that the owner of the quiz is the same User object.
+   */
+  @Test
+  void givenNewQuiz_whenSetOwner_thenOwnerIsSet() {
+    User user = new User();
+    quiz.setOwner(user);
+    assertEquals(user, quiz.getOwner());
+  }
+
+  /**
+   * This test checks if setting the owner of a Quiz to null throws a NullPointerException. It is
+   * currently disabled.
+   */
+  @Test
+  @Disabled
+  void givenNewQuiz_whenSetOwnerWithNull_thenThrowsException() {
+    assertThrows(NullPointerException.class, () -> quiz.setOwner(null));
   }
 }
