@@ -37,8 +37,8 @@ public class SolutionResponse implements ResponseMapper<Solution, SolutionRespon
    * @return The created SolutionResponse object.
    */
   @Override
-  public SolutionResponse mapToResponse(final Solution input) {
-    return SolutionResponse.builder()
+  public SolutionResponse map(final Solution input) {
+    return input == null ? null : SolutionResponse.builder()
         .id(input.getId())
         .iri(UuidUtil.getIriFromBaseEntity(input))
         .questionIri(UuidUtil.getIriFromBaseEntity(input.getQuestion()))

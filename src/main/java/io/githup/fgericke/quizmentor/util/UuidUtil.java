@@ -33,4 +33,16 @@ public class UuidUtil {
   public static <E extends BaseEntity> String getIriFromBaseEntity(final E entity) {
     return entity == null ? null : getIriFromUuid(entity.getId());
   }
+
+
+  /**
+   * Converts an IRI to a UUID. The IRI should be in the format of an API base URL concatenated with
+   * the UUID's string representation. The method extracts the UUID from the IRI and returns it.
+   *
+   * @param iri the IRI to be converted to a UUID
+   * @return the UUID extracted from the IRI
+   */
+  public static UUID getUuidFromIri(final String iri) {
+    return UUID.fromString(iri.substring(iri.lastIndexOf("/") + 1));
+  }
 }

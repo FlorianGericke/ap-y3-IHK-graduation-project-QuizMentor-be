@@ -67,8 +67,8 @@ public class AnswerResponse implements ResponseMapper<Answer, AnswerResponse> {
    * @return the mapped AnswerResponse
    */
   @Override
-  public AnswerResponse mapToResponse(final Answer input) {
-    return AnswerResponse.builder()
+  public AnswerResponse map(final Answer input) {
+    return input == null ? null : AnswerResponse.builder()
         .id(input.getId())
         .iri(UuidUtil.getIriFromBaseEntity(input))
         .questionIri(UuidUtil.getIriFromBaseEntity(input.getQuestion()))

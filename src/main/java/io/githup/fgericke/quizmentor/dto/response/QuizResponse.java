@@ -41,8 +41,8 @@ public class QuizResponse implements ResponseMapper<Quiz, QuizResponse> {
    * @return The created QuizResponse object.
    */
   @Override
-  public QuizResponse mapToResponse(final Quiz input) {
-    return QuizResponse.builder()
+  public QuizResponse map(final Quiz input) {
+    return input == null ? null : QuizResponse.builder()
         .id(input.getId())
         .iri(UuidUtil.getIriFromBaseEntity(input))
         .title(input.getTitle())

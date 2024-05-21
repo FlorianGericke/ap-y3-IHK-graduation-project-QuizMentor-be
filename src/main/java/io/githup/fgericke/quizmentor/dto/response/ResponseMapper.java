@@ -17,17 +17,5 @@ public interface ResponseMapper<I, R> {
    * @param input the object of type I to be converted
    * @return the converted object of type R
    */
-  R mapToResponse(I input);
-
-
-  /**
-   * This method is used to map or convert an object of type I into an object of type R. It is a
-   * default method that returns null if the input object is null.
-   *
-   * @param input the object of type I to be converted
-   * @return the converted object of type R
-   */
-  default R map(final I input) {
-    return input == null ? null : mapToResponse(input);
-  }
+  R map(I input);
 }

@@ -38,8 +38,8 @@ public class CategoryResponse implements ResponseMapper<Category, CategoryRespon
    * @return A new CategoryResponse object with the data from the input Category.
    */
   @Override
-  public CategoryResponse mapToResponse(final Category input) {
-    return CategoryResponse.builder()
+  public CategoryResponse map(final Category input) {
+    return input == null ? null : CategoryResponse.builder()
         .name(input.getName())
         .id(input.getId())
         .iri(UuidUtil.getIriFromBaseEntity(input))
