@@ -13,14 +13,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 /**
  * This class contains unit tests for the UserRepository class. It tests the basic CRUD operations:
  * save, find by ID, and delete by ID. The tests are currently disabled and need a test environment
  * to run against a test database.
  */
-@SpringBootTest
+@Disabled
+@DataJpaTest
 public class UserRepositoryTest {
 
   @Autowired
