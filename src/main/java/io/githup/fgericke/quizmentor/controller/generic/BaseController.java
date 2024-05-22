@@ -111,7 +111,7 @@ public abstract class BaseController<
    * @param id The ID of the entity.
    * @return The deleted entity.
    */
-  public @ResponseBody Response deleteEntity(@PathVariable UUID id) {
+  public @ResponseBody Response deleteEntity(@PathVariable final UUID id) {
     return enittService.delete(id);
   }
 }
