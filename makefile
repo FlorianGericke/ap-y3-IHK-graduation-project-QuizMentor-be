@@ -31,7 +31,7 @@ lint:
 	-e RUN_LOCAL=true \
 	-e VALIDATE_ALL_CODEBASE=false \
 	-e VALIDATE_JAVA=true \
-	-e DEFAULT_BRANCH=main \
+	-e DEFAULT_BRANCH=develop \
 	-e FILTER_REGEX_INCLUDE="src/.*" \
 	-v $(PWD):/tmp/lint \
 	github/super-linter:latest
