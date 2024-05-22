@@ -8,6 +8,7 @@ import io.githup.fgericke.quizmentor.dto.response.CategoryResponse;
 import io.githup.fgericke.quizmentor.entity.Category;
 import io.githup.fgericke.quizmentor.repository.CategoryRepository;
 import io.githup.fgericke.quizmentor.service.CategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(path = "/api/v1/category")
+@Tag(name = "Category", description = "The Category API")
 public class CategoryController extends BaseController<
     Category,
     CategoryRepository,
