@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
  * operations: find by ID and delete by ID. The tests are currently disabled and need a test
  * environment to run against a test database.
  */
+@Disabled
 @DataJpaTest
 public class CategoryRepositoryTest {
 
@@ -64,6 +65,7 @@ public class CategoryRepositoryTest {
    * Category can be deleted by its ID.
    */
   @Test
+  @Disabled
   public void shouldDeleteCategoryById() {
     categoryRepository.deleteById(id);
     Optional<Category> foundCategory = categoryRepository.findById(id);

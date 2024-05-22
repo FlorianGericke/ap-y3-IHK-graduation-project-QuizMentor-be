@@ -7,8 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -21,9 +19,6 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.hibernate.type.SqlTypes;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * This is an entity class that represents a User. It extends the BaseEntity class and includes
@@ -41,7 +36,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Where(clause = "deleted_at IS NULL")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User extends BaseEntity implements UserDetails {
+//public class User extends BaseEntity implements UserDetails {
+public class User extends BaseEntity {
 
   /**
    * The email of the user. It is a unique field and cannot be null.
@@ -101,56 +97,56 @@ public class User extends BaseEntity implements UserDetails {
   @OneToMany(mappedBy = "owner", orphanRemoval = true)
   private Set<Quiz> quizzes = new LinkedHashSet<>();
 
-  /**
-   * This method returns the authorities granted to the user. It returns a collection of
-   * GrantedAuthority, each representing a role of the user.
-   */
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Arrays.stream(Role.values()).map(SimpleGrantedAuthority.class::cast).toList();
-  }
-
-  /**
-   * This method returns the username of the user. In this case, the email is used as the username.
-   */
-  @Override
-  public String getUsername() {
-    return this.mail;
-  }
-
-  /**
-   * This method checks if the user's account has not expired. It returns true indicating that the
-   * account is valid (not expired).
-   */
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
-
-  /**
-   * This method checks if the user's account is not locked. It returns true indicating that the
-   * account is not locked.
-   */
-  @Override
-  public boolean isAccountNonLocked() {
-    return true;
-  }
-
-  /**
-   * This method checks if the user's credentials (password) has not expired. It returns true
-   * indicating that the credentials are valid (not expired).
-   */
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
-
-  /**
-   * This method checks if the user's account is enabled. It returns true indicating that the
-   * account is enabled.
-   */
-  @Override
-  public boolean isEnabled() {
-    return true;
-  }
+//  /**
+//   * This method returns the authorities granted to the user. It returns a collection of
+//   * GrantedAuthority, each representing a role of the user.
+//   */
+//  @Override
+//  public Collection<? extends GrantedAuthority> getAuthorities() {
+//    return Arrays.stream(Role.values()).map(SimpleGrantedAuthority.class::cast).toList();
+//  }
+//
+//  /**
+//   * This method returns the username of the user. In this case, the email is used as the username.
+//   */
+//  @Override
+//  public String getUsername() {
+//    return this.mail;
+//  }
+//
+//  /**
+//   * This method checks if the user's account has not expired. It returns true indicating that the
+//   * account is valid (not expired).
+//   */
+//  @Override
+//  public boolean isAccountNonExpired() {
+//    return true;
+//  }
+//
+//  /**
+//   * This method checks if the user's account is not locked. It returns true indicating that the
+//   * account is not locked.
+//   */
+//  @Override
+//  public boolean isAccountNonLocked() {
+//    return true;
+//  }
+//
+//  /**
+//   * This method checks if the user's credentials (password) has not expired. It returns true
+//   * indicating that the credentials are valid (not expired).
+//   */
+//  @Override
+//  public boolean isCredentialsNonExpired() {
+//    return true;
+//  }
+//
+//  /**
+//   * This method checks if the user's account is enabled. It returns true indicating that the
+//   * account is enabled.
+//   */
+//  @Override
+//  public boolean isEnabled() {
+//    return true;
+//  }
 }
