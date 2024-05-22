@@ -34,7 +34,7 @@ public abstract class BaseController<
     Service extends BaseService<Type, Repository, Request, Response>
     > {
 
-  private final Service service;
+  private final Service enittService;
 
   /**
    * Constructs a BaseController with the provided service and response.
@@ -42,7 +42,7 @@ public abstract class BaseController<
    * @param service The service to be used.
    */
   public BaseController(final Service service) {
-    this.service = service;
+    this.enittService = service;
   }
 
   /**
@@ -53,7 +53,7 @@ public abstract class BaseController<
    */
   @PostMapping(produces = "application/json")
   public @ResponseBody Response postEntity(@RequestBody final Request request) {
-    return service.post(request);
+    return enittService.post(request);
   }
 
   /**
@@ -64,7 +64,7 @@ public abstract class BaseController<
    */
   @GetMapping(produces = "application/json")
   public @ResponseBody Page<Response> getEntities(final Pageable pageable) {
-    return service.getAll(pageable);
+    return enittService.getAll(pageable);
   }
 
   /**
@@ -75,7 +75,7 @@ public abstract class BaseController<
    */
   @GetMapping(path = "/{id}", produces = "application/json")
   public @ResponseBody Response getEntity(@PathVariable final UUID id) {
-    return service.get(id);
+    return enittService.get(id);
   }
 
   /**
@@ -89,7 +89,7 @@ public abstract class BaseController<
   public @ResponseBody Response putEntity(
       @PathVariable final UUID id,
       @RequestBody final Request request) {
-    return service.put(id, request);
+    return enittService.put(id, request);
   }
 
   /**
@@ -103,7 +103,7 @@ public abstract class BaseController<
   public @ResponseBody Response patchEntity(
       @PathVariable final UUID id,
       @RequestBody final Request request) {
-    return service.patch(id, request);
+    return enittService.patch(id, request);
   }
 
   /**
@@ -114,6 +114,6 @@ public abstract class BaseController<
    */
   @DeleteMapping(path = "/{id}", produces = "application/json")
   public @ResponseBody Response deleteEntity(@PathVariable final UUID id) {
-    return service.delete(id);
+    return enittService.delete(id);
   }
 }
