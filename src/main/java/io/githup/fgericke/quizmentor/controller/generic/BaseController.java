@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -112,8 +111,7 @@ public abstract class BaseController<
    * @param id The ID of the entity.
    * @return The deleted entity.
    */
-  @DeleteMapping(path = "/{id}", produces = "application/json")
-  public @ResponseBody Response deleteEntity(@PathVariable final UUID id) {
+  public @ResponseBody Response deleteEntity(@PathVariable UUID id) {
     return enittService.delete(id);
   }
 }
