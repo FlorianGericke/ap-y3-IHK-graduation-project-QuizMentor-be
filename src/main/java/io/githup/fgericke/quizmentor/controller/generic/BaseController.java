@@ -113,7 +113,5 @@ public abstract class BaseController<
    * @return The deleted entity.
    */
   @DeleteMapping(path = "/{id}", produces = "application/json")
-  public @ResponseBody Response deleteEntity(@PathVariable final UUID id) {
-    return enittService.delete(id);
   }
 }
