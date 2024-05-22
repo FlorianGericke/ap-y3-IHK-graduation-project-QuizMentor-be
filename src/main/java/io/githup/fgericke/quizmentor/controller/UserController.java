@@ -6,12 +6,14 @@ import io.githup.fgericke.quizmentor.dto.response.UserResponse;
 import io.githup.fgericke.quizmentor.entity.User;
 import io.githup.fgericke.quizmentor.repository.UserRepository;
 import io.githup.fgericke.quizmentor.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/api/v1/user")
+@Tag(name = "User", description = "The User API")
 public class UserController extends BaseController<
     User,
     UserRepository,

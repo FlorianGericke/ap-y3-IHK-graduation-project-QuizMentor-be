@@ -5,6 +5,7 @@ import io.githup.fgericke.quizmentor.dto.response.ResponseMapper;
 import io.githup.fgericke.quizmentor.entity.generic.BaseEntity;
 import io.githup.fgericke.quizmentor.service.generic.BaseService;
 import java.util.UUID;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -51,7 +52,7 @@ public abstract class BaseController<
    * @return The created entity.
    */
   @PostMapping(produces = "application/json")
-  public @ResponseBody Response postEntity(@RequestBody final Request request) {
+  public @ResponseBody Response postEntity(@ParameterObject final Request request) {
     return enittService.post(request);
   }
 
@@ -62,7 +63,9 @@ public abstract class BaseController<
    * @return A page of entities.
    */
   @GetMapping(produces = "application/json")
-  public @ResponseBody Page<Response> getEntities(final Pageable pageable) {
+  public @ResponseBody Page<Response> getEntities(
+      @ParameterObject @RequestBody final Pageable pageable
+  ) {
     return enittService.getAll(pageable);
   }
 
@@ -87,7 +90,7 @@ public abstract class BaseController<
   @PutMapping(path = "/{id}", produces = "application/json")
   public @ResponseBody Response putEntity(
       @PathVariable final UUID id,
-      @RequestBody final Request request) {
+      @ParameterObject @RequestBody final Request request) {
     return enittService.put(id, request);
   }
 
@@ -101,7 +104,7 @@ public abstract class BaseController<
   @PatchMapping(path = "/{id}", produces = "application/json")
   public @ResponseBody Response patchEntity(
       @PathVariable final UUID id,
-      @RequestBody final Request request) {
+      @ParameterObject @RequestBody final Request request) {
     return enittService.patch(id, request);
   }
 

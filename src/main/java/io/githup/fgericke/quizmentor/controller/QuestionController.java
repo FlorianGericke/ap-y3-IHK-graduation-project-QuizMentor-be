@@ -6,12 +6,14 @@ import io.githup.fgericke.quizmentor.dto.response.QuestionResponse;
 import io.githup.fgericke.quizmentor.entity.Question;
 import io.githup.fgericke.quizmentor.repository.QuestionRepository;
 import io.githup.fgericke.quizmentor.service.QuestionService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/api/v1/question")
+@Tag(name = "Question", description = "The Question API")
 public class QuestionController extends BaseController<
     Question,
     QuestionRepository,
