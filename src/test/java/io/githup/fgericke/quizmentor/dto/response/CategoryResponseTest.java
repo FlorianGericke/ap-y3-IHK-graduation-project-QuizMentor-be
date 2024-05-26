@@ -1,72 +1,82 @@
+package io.githup.fgericke.quizmentor.dto.response;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import io.githup.fgericke.quizmentor.dto.response.CategoryResponse;
-import io.githup.fgericke.quizmentor.entity.Category;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * This class contains unit tests for the CategoryResponse class. It tests the mapToResponse method
- * with different scenarios.
+ * This class contains unit tests for the CategoryResponse class. It tests the getter and setter
+ * methods of the CategoryResponse class.
  */
 class CategoryResponseTest {
 
-  // The CategoryResponse object to be tested
+  // Instance of CategoryResponse to be used in the tests
   private CategoryResponse categoryResponse;
 
-  // The Category object used as input for the mapToResponse method
-  private Category category;
-
   /**
-   * This method sets up the test environment before each test. It initializes the CategoryResponse
-   * and Category objects.
+   * This method sets up the CategoryResponse instance before each test.
    */
   @BeforeEach
   void setUp() {
     categoryResponse = new CategoryResponse();
-    category = new Category();
   }
 
   /**
-   * This test checks if the mapToResponse method returns null when the input is null.
+   * This test checks the setter and getter for the name field. It verifies that the set value is
+   * correctly retrieved by the getter.
    */
-  @DisplayName("Mapping null Category results in null")
+  @DisplayName("Should set and get name correctly")
   @Test
-  void mapNullCategoryResultsInNull() {
-    assertNull(categoryResponse.map(null));
+  void shouldSetAndGetName() {
+    String expectedName = "TestCategory";
+    categoryResponse.setName(expectedName);
+    String actualName = categoryResponse.getName();
+    assertEquals(expectedName, actualName);
   }
 
   /**
-   * This test checks if the mapToResponse method correctly maps a Category object with null fields
-   * to a CategoryResponse object.
+   * This test checks the setter and getter for the iri field. It verifies that the set value is
+   * correctly retrieved by the getter.
    */
-  @DisplayName("Mapping Category with null fields results in corresponding CategoryResponse")
+  @DisplayName("Should set and get iri correctly")
   @Test
-  void mapCategoryWithNullFieldsResultsInCorrespondingCategoryResponse() {
-    CategoryResponse result = categoryResponse.map(category);
-    assertNull(result.getId());
-    assertNull(result.getIri());
-    assertNull(result.getName());
+  void shouldSetAndGetIri() {
+    String expectedIri = "testIri";
+    categoryResponse.setIri(expectedIri);
+    String actualIri = categoryResponse.getIri();
+    assertEquals(expectedIri, actualIri);
   }
 
   /**
-   * This test checks if the mapToResponse method correctly maps a Category object with non-null
-   * fields to a CategoryResponse object.
+   * This test checks the setter and getter for the id field. It verifies that the set value is
+   * correctly retrieved by the getter.
    */
-  @DisplayName("Mapping Category with non-null fields results in corresponding CategoryResponse")
+  @DisplayName("Should set and get id correctly")
   @Test
-  void mapCategoryWithNonNullFieldsResultsInCorrespondingCategoryResponse() {
-    UUID id = UUID.randomUUID();
-    category.setId(id);
-    category.setName("Category Name");
+  void shouldSetAndGetId() {
+    UUID expectedId = UUID.randomUUID();
+    categoryResponse.setId(expectedId);
+    UUID actualId = categoryResponse.getId();
+    assertEquals(expectedId, actualId);
+  }
 
-    CategoryResponse result = categoryResponse.map(category);
-    assertEquals(id, result.getId());
-    assertEquals("Category Name", result.getName());
-    assertNotNull(result.getIri());
+  /**
+   * This test checks the handling of null values by the setter and getter methods. It verifies that
+   * null is returned when the setter is called with null.
+   */
+  @DisplayName("Should handle null values correctly")
+  @Test
+  void shouldHandleNullValues() {
+    categoryResponse.setName(null);
+    categoryResponse.setIri(null);
+    categoryResponse.setId(null);
+
+    assertNull(categoryResponse.getName());
+    assertNull(categoryResponse.getIri());
+    assertNull(categoryResponse.getId());
   }
 }

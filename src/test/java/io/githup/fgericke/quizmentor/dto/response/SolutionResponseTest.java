@@ -1,89 +1,128 @@
+package io.githup.fgericke.quizmentor.dto.response;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import io.githup.fgericke.quizmentor.dto.response.SolutionResponse;
-import io.githup.fgericke.quizmentor.entity.Question;
-import io.githup.fgericke.quizmentor.entity.Solution;
-import io.githup.fgericke.quizmentor.entity.User;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 /**
- * This class contains unit tests for the SolutionResponse class.
+ * This class contains unit tests for the SolutionResponse class. It tests the getter and setter
+ * methods of the SolutionResponse class.
  */
 class SolutionResponseTest {
 
-  private static final int TEST_SCORE = 10;
+  final int EXPECTED_SCORE = 10;
 
+  // Instance of SolutionResponse to be used in the tests
   private SolutionResponse solutionResponse;
-  private Solution solution;
-
-  @Mock
-  private Question question;
-
-  @Mock
-  private User owner;
 
   /**
-   * This method sets up the test environment before each test. It initializes a new Solution and
-   * SolutionResponse object.
+   * This method sets up the SolutionResponse instance before each test.
    */
   @BeforeEach
   void setUp() {
-    MockitoAnnotations.openMocks(this);
-    solution = new Solution();
     solutionResponse = new SolutionResponse();
   }
 
   /**
-   * This test checks if a null Solution is correctly mapped to a null SolutionResponse. It maps a
-   * null Solution to a SolutionResponse and then asserts that the SolutionResponse is null.
+   * This test checks the setter and getter for the id field. It verifies that the set value is
+   * correctly retrieved by the getter.
    */
-  @DisplayName("Mapping null Solution results in null")
+  @DisplayName("Should set and get id correctly")
   @Test
-  void mapNullSolutionResultsInNull() {
-    assertNull(solutionResponse.map(null));
+  void shouldSetAndGetId() {
+    UUID expectedId = UUID.randomUUID();
+    solutionResponse.setId(expectedId);
+    UUID actualId = solutionResponse.getId();
+    assertEquals(expectedId, actualId);
   }
 
   /**
-   * This test checks if a Solution with null fields is correctly mapped to a SolutionResponse with
-   * null fields. It maps a Solution with null fields to a SolutionResponse and then asserts that
-   * all fields of the SolutionResponse are null.
+   * This test checks the setter and getter for the iri field. It verifies that the set value is
+   * correctly retrieved by the getter.
    */
-  @DisplayName("Mapping Solution with null fields results in corresponding SolutionResponse")
+  @DisplayName("Should set and get iri correctly")
   @Test
-  void mapSolutionWithNullFieldsResultsInCorrespondingSolutionResponse() {
-    SolutionResponse result = solutionResponse.map(solution);
-    assertNull(result.getId());
-    assertNull(result.getIri());
-    assertNull(result.getQuestionIri());
-    assertNull(result.getOwnerIri());
-    assertNull(result.getSolution());
+  void shouldSetAndGetIri() {
+    String expectedIri = "testIri";
+    solutionResponse.setIri(expectedIri);
+    String actualIri = solutionResponse.getIri();
+    assertEquals(expectedIri, actualIri);
   }
 
   /**
-   * This test checks if a Solution with non-null fields is correctly mapped to a corresponding
-   * SolutionResponse. It sets the fields of the Solution, maps the Solution to a SolutionResponse,
-   * and then asserts that the fields of the SolutionResponse are the same as the fields of the
-   * Solution.
+   * This test checks the setter and getter for the questionIri field. It verifies that the set
+   * value is correctly retrieved by the getter.
    */
-  @DisplayName("Mapping Solution with non-null fields results in corresponding SolutionResponse")
+  @DisplayName("Should set and get questionIri correctly")
   @Test
-  void mapSolutionWithNonNullFieldsResultsInCorrespondingSolutionResponse() {
-    UUID id = UUID.randomUUID();
-    solution.setId(id);
-    solution.setQuestion(question);
-    solution.setCreatedFrom(owner);
-    solution.setScore(TEST_SCORE);
-    solution.setSolution("Solution");
+  void shouldSetAndGetQuestionIri() {
+    String expectedQuestionIri = "testQuestionIri";
+    solutionResponse.setQuestionIri(expectedQuestionIri);
+    String actualQuestionIri = solutionResponse.getQuestionIri();
+    assertEquals(expectedQuestionIri, actualQuestionIri);
+  }
 
-    SolutionResponse result = solutionResponse.map(solution);
-    assertEquals(id, result.getId());
-    assertEquals(TEST_SCORE, result.getScore());
-    assertEquals("Solution", result.getSolution());
+  /**
+   * This test checks the setter and getter for the ownerIri field. It verifies that the set value
+   * is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get ownerIri correctly")
+  @Test
+  void shouldSetAndGetOwnerIri() {
+    String expectedOwnerIri = "testOwnerIri";
+    solutionResponse.setOwnerIri(expectedOwnerIri);
+    String actualOwnerIri = solutionResponse.getOwnerIri();
+    assertEquals(expectedOwnerIri, actualOwnerIri);
+  }
+
+  /**
+   * This test checks the setter and getter for the score field. It verifies that the set value is
+   * correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get score correctly")
+  @Test
+  void shouldSetAndGetScore() {
+    solutionResponse.setScore(EXPECTED_SCORE);
+    int actualScore = solutionResponse.getScore();
+    assertEquals(EXPECTED_SCORE, actualScore);
+  }
+
+  /**
+   * This test checks the setter and getter for the solution field. It verifies that the set value
+   * is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get solution correctly")
+  @Test
+  void shouldSetAndGetSolution() {
+    String expectedSolution = "testSolution";
+    solutionResponse.setSolution(expectedSolution);
+    String actualSolution = solutionResponse.getSolution();
+    assertEquals(expectedSolution, actualSolution);
+  }
+
+  /**
+   * This test checks the handling of null values by the setter and getter methods. It verifies that
+   * null is returned when the setter is called with null.
+   */
+  @DisplayName("Should handle null values correctly")
+  @Test
+  void shouldHandleNullValues() {
+    solutionResponse.setId(null);
+    solutionResponse.setIri(null);
+    solutionResponse.setQuestionIri(null);
+    solutionResponse.setOwnerIri(null);
+    solutionResponse.setScore(null);
+    solutionResponse.setSolution(null);
+
+    assertNull(solutionResponse.getId());
+    assertNull(solutionResponse.getIri());
+    assertNull(solutionResponse.getQuestionIri());
+    assertNull(solutionResponse.getOwnerIri());
+    assertNull(solutionResponse.getScore());
+    assertNull(solutionResponse.getSolution());
   }
 }

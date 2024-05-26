@@ -1,50 +1,52 @@
 package io.githup.fgericke.quizmentor.dto.response;
 
-import io.githup.fgericke.quizmentor.entity.Solution;
-import io.githup.fgericke.quizmentor.util.UuidUtil;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 /**
- * This class represents the response object for a Solution. It is annotated with @Component to
- * indicate that it is a Spring component. It implements the ResponseMapper interface, which
- * requires a mapToResponse method.
+ * This class represents the response object for a Solution. It is a DTO (Data Transfer Object) that
+ * is used to send data over the network. It is annotated with Lombok annotations to automatically
+ * generate getters, builders, and constructors.
  */
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Component
-public class SolutionResponse implements ResponseMapper<Solution, SolutionResponse> {
-
-  private UUID id;
-  private String iri;
-  private String questionIri;
-  private String ownerIri;
-  private Integer score;
-  private String solution;
+public class SolutionResponse {
 
   /**
-   * This method maps a Solution entity to a SolutionResponse object. It uses the builder pattern to
-   * create a new SolutionResponse object. It uses the UuidUtil class to convert the UUIDs of the
-   * Solution, its question, and its owner to IRIs. It returns the created SolutionResponse object.
-   *
-   * @param input The Solution entity to map to a SolutionResponse object.
-   * @return The created SolutionResponse object.
+   * The unique identifier of the solution. This is a UUID.
    */
-  @Override
-  public SolutionResponse map(final Solution input) {
-    return input == null ? null : SolutionResponse.builder()
-        .id(input.getId())
-        .iri(UuidUtil.getIriFromBaseEntity(input))
-        .questionIri(UuidUtil.getIriFromBaseEntity(input.getQuestion()))
-        .ownerIri(UuidUtil.getIriFromBaseEntity(input.getCreatedFrom()))
-        .score(input.getScore())
-        .solution(input.getSolution())
-        .build();
-  }
+  private UUID id;
+
+  /**
+   * The IRI (Internationalized Resource Identifier) of the solution. This is a unique identifier
+   * for the solution in the form of an IRI.
+   */
+  private String iri;
+
+  /**
+   * The IRI of the question that this solution is associated with. This is a unique identifier for
+   * the question in the form of an IRI.
+   */
+  private String questionIri;
+
+  /**
+   * The IRI of the owner of the solution. This is a unique identifier for the owner in the form of
+   * an IRI.
+   */
+  private String ownerIri;
+
+  /**
+   * The score of the solution. This is an integer value representing the score of the solution.
+   */
+  private Integer score;
+
+  /**
+   * The solution text. This is the actual solution provided by the user.
+   */
+  private String solution;
 }

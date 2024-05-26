@@ -9,21 +9,26 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * This class contains unit tests for the Question entity.
+ * This class contains unit tests for the Question class. It tests the add, remove, and update
+ * operations for quizzes, categories, solutions, and answers in a question. It also tests the
+ * isOpenQuestion method.
  */
 class QuestionTest {
 
+  final int TEST_SCORE = 10;
+  final int NEW_SCORE = 20;
+
+  // Instance of Question to be used in the tests
   private Question question;
+  // Instances of Quiz, Category, Solution, and Answer to be used in the tests
   private Quiz quiz;
   private Category category;
   private Solution solution;
-  private static final int INITIAL_SCORE = 10;
-  private static final int UPDATED_SCORE = 20;
-  private static final int EXPECTED_SOLUTIONS_SIZE = 2;
   private Answer answer;
 
   /**
-   * This method sets up the objects used in the tests. It is run before each test.
+   * This method sets up the Question, Quiz, Category, Solution, and Answer instances before each
+   * test.
    */
   @BeforeEach
   void setUp() {
@@ -32,229 +37,101 @@ class QuestionTest {
     solution = new Solution();
     answer = new Answer();
     question = Question.builder()
-        .score(INITIAL_SCORE)
+        .title("Test Question")
+        .description("Test Description")
+        .score(TEST_SCORE)
         .status(Visibility.DRAFT)
         .build();
   }
 
   /**
-   * This test checks if the quizzes set of a new Question is empty.
+   * This test checks the add and remove operations for a quiz in a question. It verifies that a
+   * quiz can be added to and removed from a question correctly.
    */
+  @DisplayName("Should add and remove quiz correctly")
   @Test
-  void givenNewQuestion_whenCheckedQuizzes_thenQuizzesIsEmpty() {
+  void shouldAddAndRemoveQuiz() {
     assertTrue(question.getQuizzes().isEmpty());
-  }
-
-  /**
-   * This test checks if a quiz can be added to a Question's quizzes set. It adds a quiz to the set
-   * and then checks if the set contains the added quiz.
-   */
-  @Test
-  void givenQuestion_whenQuizAdded_thenQuizIsInQuizzes() {
     question.getQuizzes().add(quiz);
     assertTrue(question.getQuizzes().contains(quiz));
-  }
-
-  /**
-   * This test checks if a quiz can be removed from a Question's quizzes set. It first adds a quiz
-   * to the set, removes the same quiz, and then checks if the set does not contain the removed
-   * quiz.
-   */
-  @Test
-  void givenQuestionWithQuiz_whenQuizRemoved_thenQuizIsNotInQuizzes() {
-    question.getQuizzes().add(quiz);
     question.getQuizzes().remove(quiz);
     assertFalse(question.getQuizzes().contains(quiz));
   }
 
   /**
-   * This test checks if all quizzes can be removed from a Question's quizzes set. It first adds a
-   * quiz to the set, clears the set, and then checks if the set is empty.
+   * This test checks the add and remove operations for a category in a question. It verifies that a
+   * category can be added to and removed from a question correctly.
    */
+  @DisplayName("Should add and remove category correctly")
   @Test
-  void givenQuestionWithQuiz_whenClearedQuizzes_thenQuizzesIsEmpty() {
-    question.getQuizzes().add(quiz);
-    question.getQuizzes().clear();
-    assertTrue(question.getQuizzes().isEmpty());
-  }
-
-  /**
-   * This test checks if the categories set of a new Question is empty.
-   */
-  @Test
-  void givenNewQuestion_whenCheckedCategories_thenCategoriesIsEmpty() {
+  void shouldAddAndRemoveCategory() {
     assertTrue(question.getCategories().isEmpty());
-  }
-
-  /**
-   * This test checks if a category can be added to a Question's categories set. It adds a category
-   * to the set and then checks if the set contains the added category.
-   */
-  @Test
-  void givenQuestion_whenCategoryAdded_thenCategoryIsInCategories() {
     question.getCategories().add(category);
     assertTrue(question.getCategories().contains(category));
-  }
-
-  /**
-   * This test checks if a category can be removed from a Question's categories set. It first adds a
-   * category to the set, removes the same category, and then checks if the set does not contain the
-   * removed category.
-   */
-  @Test
-  void givenQuestionWithCategory_whenCategoryRemoved_thenCategoryIsNotInCategories() {
-    question.getCategories().add(category);
     question.getCategories().remove(category);
     assertFalse(question.getCategories().contains(category));
   }
 
   /**
-   * This test checks if all categories can be removed from a Question's categories set. It first
-   * adds a category to the set, clears the set, and then checks if the set is empty.
+   * This test checks the add and remove operations for a solution in a question. It verifies that a
+   * solution can be added to and removed from a question correctly.
    */
+  @DisplayName("Should add and remove solution correctly")
   @Test
-  void givenQuestionWithCategory_whenClearedCategories_thenCategoriesIsEmpty() {
-    question.getCategories().add(category);
-    question.getCategories().clear();
-    assertTrue(question.getCategories().isEmpty());
-  }
-
-  /**
-   * This test checks the score of a Question. It checks if the score of the question is as
-   * expected.
-   */
-  @Test
-  void givenQuestion_whenCheckedScore_thenScoreIsCorrect() {
-    assertEquals(INITIAL_SCORE, question.getScore());
-  }
-
-  /**
-   * This test checks if the score of a Question can be updated. It first changes the score of the
-   * question, and then checks if the updated score is as expected.
-   */
-  @Test
-  void givenQuestion_whenScoreChanged_thenScoreIsUpdated() {
-    question.setScore(UPDATED_SCORE);
-    assertEquals(UPDATED_SCORE, question.getScore());
-  }
-
-  /**
-   * This test checks the visibility status of a Question. It checks if the visibility status of the
-   * question is as expected.
-   */
-  @Test
-  void givenQuestion_whenCheckedStatus_thenStatusIsDraft() {
-    assertEquals(Visibility.DRAFT, question.getStatus());
-  }
-
-  /**
-   * This test checks if the visibility status of a Question can be updated. It first changes the
-   * visibility status of the question, and then checks if the updated visibility status is as
-   * expected.
-   */
-  @Test
-  void givenQuestion_whenStatusChangedToPublished_thenStatusIsUpdated() {
-    question.setStatus(Visibility.PUBLISHED);
-    assertEquals(Visibility.PUBLISHED, question.getStatus());
-  }
-
-  /**
-   * This test checks if the solutions set of a new Question is empty.
-   */
-  @Test
-  void givenNewQuestion_whenCheckedSolutions_thenSolutionsIsEmpty() {
+  void shouldAddAndRemoveSolution() {
     assertTrue(question.getSolutions().isEmpty());
-  }
-
-  /**
-   * This test checks if a solution can be added to a Question's solutions set. It adds a solution
-   * to the set and then checks if the set contains the added solution.
-   */
-  @Test
-  void givenQuestion_whenSolutionAdded_thenSolutionIsInSolutions() {
     question.getSolutions().add(solution);
     assertTrue(question.getSolutions().contains(solution));
-  }
-
-  /**
-   * This test checks if a solution can be removed from a Question's solutions set. It first adds a
-   * solution to the set, removes the same solution, and then checks if the set does not contain the
-   * removed solution.
-   */
-  @Test
-  void givenQuestionWithSolution_whenSolutionRemoved_thenSolutionIsNotInSolutions() {
-    question.getSolutions().add(solution);
     question.getSolutions().remove(solution);
     assertFalse(question.getSolutions().contains(solution));
   }
 
   /**
-   * This test checks if all solutions can be removed from a Question's solutions set. It first adds
-   * a solution to the set, clears the set, and then checks if the set is empty.
+   * This test checks the add and remove operations for an answer in a question. It verifies that an
+   * answer can be added to and removed from a question correctly.
    */
+  @DisplayName("Should add and remove answer correctly")
   @Test
-  void givenQuestionWithSolution_whenClearedSolutions_thenSolutionsIsEmpty() {
-    question.getSolutions().add(solution);
-    question.getSolutions().clear();
-    assertTrue(question.getSolutions().isEmpty());
-  }
-
-  /**
-   * This test checks if multiple solutions can be added to a Question's solutions set. It first
-   * adds a solution to the set, adds another solution, and then checks if the size of the set is as
-   * expected.
-   */
-  @Test
-  void givenQuestionWithSolution_whenAnotherSolutionAdded_thenSolutionsSizeIsTwo() {
-    question.getSolutions().add(solution);
-    Solution anotherSolution = new Solution();
-    question.getSolutions().add(anotherSolution);
-    assertEquals(EXPECTED_SOLUTIONS_SIZE, question.getSolutions().size());
-  }
-
-  /**
-   * This test checks if the answers set of a new Question is empty. It asserts that the answers set
-   * of a newly created question is empty.
-   */
-  @DisplayName("Answers set of a new Question is empty")
-  @Test
-  void givenNewQuestion_whenCheckedAnswers_thenAnswersIsEmpty() {
+  void shouldAddAndRemoveAnswer() {
     assertTrue(question.getAnswers().isEmpty());
-  }
-
-  /**
-   * This test checks if an answer can be added to a Question's answers set. It adds an answer to
-   * the set and then asserts that the set contains the added answer.
-   */
-  @DisplayName("Answer can be added to a Question's answers set")
-  @Test
-  void givenQuestion_whenAnswerAdded_thenAnswerIsInAnswers() {
     question.getAnswers().add(answer);
     assertTrue(question.getAnswers().contains(answer));
-  }
-
-  /**
-   * This test checks if an answer can be removed from a Question's answers set. It first adds an
-   * answer to the set, removes the same answer, and then asserts that the set does not contain the
-   * removed answer.
-   */
-  @DisplayName("Answer can be removed from a Question's answers set")
-  @Test
-  void givenQuestionWithAnswer_whenAnswerRemoved_thenAnswerIsNotInAnswers() {
-    question.getAnswers().add(answer);
     question.getAnswers().remove(answer);
     assertFalse(question.getAnswers().contains(answer));
   }
 
   /**
-   * This test checks if all answers can be removed from a Question's answers set. It first adds an
-   * answer to the set, clears the set, and then asserts that the set is empty.
+   * This test checks the update operation for the score of a question. It verifies that the score
+   * of a question can be updated correctly.
    */
-  @DisplayName("All answers can be removed from a Question's answers set")
+  @DisplayName("Should update score correctly")
   @Test
-  void givenQuestionWithAnswer_whenClearedAnswers_thenAnswersIsEmpty() {
-    question.getAnswers().add(answer);
-    question.getAnswers().clear();
-    assertTrue(question.getAnswers().isEmpty());
+  void shouldUpdateScore() {
+    question.setScore(NEW_SCORE);
+    assertEquals(NEW_SCORE, question.getScore());
+  }
+
+  /**
+   * This test checks the update operation for the status of a question. It verifies that the status
+   * of a question can be updated correctly.
+   */
+  @DisplayName("Should update status correctly")
+  @Test
+  void shouldUpdateStatus() {
+    Visibility newStatus = Visibility.PUBLISHED;
+    question.setStatus(newStatus);
+    assertEquals(newStatus, question.getStatus());
+  }
+
+  /**
+   * This test checks the isOpenQuestion method of a question. It verifies that the method returns
+   * true if the score is not null, and false otherwise.
+   */
+  @DisplayName("Should check if question is open correctly")
+  @Test
+  void shouldCheckIfQuestionIsOpen() {
+    assertTrue(question.isOpenQuestion());
+    question.setScore(null);
+    assertFalse(question.isOpenQuestion());
   }
 }

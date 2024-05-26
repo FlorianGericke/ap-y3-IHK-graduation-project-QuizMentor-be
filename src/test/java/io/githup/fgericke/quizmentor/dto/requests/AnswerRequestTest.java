@@ -1,33 +1,23 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import io.githup.fgericke.quizmentor.entity.Answer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
- * The AnswerRequestTest class contains unit tests for the AnswerRequest class. It tests the
- * conversion of an AnswerRequest to an Answer entity.
+ * This class contains unit tests for the AnswerRequest class.
+ * It tests the getter and setter methods of the AnswerRequest class.
  */
 class AnswerRequestTest {
 
-  private static final String TEST_ANSWER = "Test Answer";
-  private static final boolean TEST_CORRECTNESS = true;
-  private static final String EXCEPTION_REASON = "[Answer] Title cannot be null";
-  private static final HttpStatus EXCEPTION_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
-
-  /**
-   * The AnswerRequest object that will be used in the tests.
-   */
+  // Instance of AnswerRequest to be used in the tests
   private AnswerRequest answerRequest;
 
   /**
-   * This method is executed before each test. It initializes the AnswerRequest object.
+   * This method sets up the AnswerRequest instance before each test.
    */
   @BeforeEach
   void setUp() {
@@ -35,39 +25,87 @@ class AnswerRequestTest {
   }
 
   /**
-   * This test checks the conversion of an AnswerRequest to an Answer entity when the answer is not
-   * null. It sets the answer and correctness of the AnswerRequest, converts it to an Answer entity,
-   * and asserts that the answer and correctness of the Answer entity are the same as those set in
-   * the AnswerRequest.
+   * This test checks the setter and getter for the answer field.
+   * It verifies that the set value is correctly retrieved by the getter.
    */
+  @DisplayName("Should set and get answer correctly")
   @Test
-  @DisplayName("Should convert to entity when answer is not null")
-  void shouldConvertToEntityWhenAnswerIsNotNull() {
-    answerRequest.setAnswer(TEST_ANSWER);
-    answerRequest.setIsCorrect(TEST_CORRECTNESS);
-
-    Answer answer = answerRequest.toEntity();
-
-    assertEquals(TEST_ANSWER, answer.getAnswer());
-    assertEquals(TEST_CORRECTNESS, answer.getIsCorrect());
+  void shouldSetAndGetAnswer() {
+    String expectedAnswer = "Test Answer";
+    answerRequest.setAnswer(expectedAnswer);
+    String actualAnswer = answerRequest.getAnswer();
+    assertEquals(expectedAnswer, actualAnswer);
   }
 
   /**
-   * This test checks the conversion of an AnswerRequest to an Answer entity when the answer is
-   * null. It sets the answer of the AnswerRequest to null, tries to convert it to an Answer entity,
-   * and asserts that a ResponseStatusException is thrown with a 500 status code and a specific
-   * error message.
+   * This test checks the setter and getter for the isCorrect field.
+   * It verifies that the set value is correctly retrieved by the getter.
    */
+  @DisplayName("Should set and get correctness correctly")
   @Test
-  @DisplayName("Should throw exception when answer is null")
-  void shouldThrowExceptionWhenAnswerIsNull() {
+  void shouldSetAndGetCorrectness() {
+    Boolean expectedCorrectness = true;
+    answerRequest.setIsCorrect(expectedCorrectness);
+    Boolean actualCorrectness = answerRequest.getIsCorrect();
+    assertEquals(expectedCorrectness, actualCorrectness);
+  }
+
+  /**
+   * This test checks the setter and getter for the reviewedFrom field. It verifies that the set
+   * value is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get reviewedFrom correctly")
+  @Test
+  void shouldSetAndGetReviewedFrom() {
+    String expectedReviewedFrom = "Reviewer";
+    answerRequest.setReviewedFrom(expectedReviewedFrom);
+    String actualReviewedFrom = answerRequest.getReviewedFrom();
+    assertEquals(expectedReviewedFrom, actualReviewedFrom);
+  }
+
+  /**
+   * This test checks the setter and getter for the question field. It verifies that the set value
+   * is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get question correctly")
+  @Test
+  void shouldSetAndGetQuestion() {
+    String expectedQuestion = "Question";
+    answerRequest.setQuestion(expectedQuestion);
+    String actualQuestion = answerRequest.getQuestion();
+    assertEquals(expectedQuestion, actualQuestion);
+  }
+
+  /**
+   * This test checks the setter and getter for the owner field.
+   * It verifies that the set value is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get owner correctly")
+  @Test
+  void shouldSetAndGetOwner() {
+    String expectedOwner = "Owner";
+    answerRequest.setOwner(expectedOwner);
+    String actualOwner = answerRequest.getOwner();
+    assertEquals(expectedOwner, actualOwner);
+  }
+
+  /**
+   * This test checks the handling of null values by the setter and getter methods. It verifies that
+   * null is returned when the setter is called with null.
+   */
+  @DisplayName("Should handle null values correctly")
+  @Test
+  void shouldHandleNullValues() {
     answerRequest.setAnswer(null);
-    answerRequest.setIsCorrect(TEST_CORRECTNESS);
+    answerRequest.setIsCorrect(null);
+    answerRequest.setReviewedFrom(null);
+    answerRequest.setQuestion(null);
+    answerRequest.setOwner(null);
 
-    ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-        answerRequest::toEntity);
-
-    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
-    assertEquals(EXCEPTION_REASON, exception.getReason());
+    assertNull(answerRequest.getAnswer());
+    assertNull(answerRequest.getIsCorrect());
+    assertNull(answerRequest.getReviewedFrom());
+    assertNull(answerRequest.getQuestion());
+    assertNull(answerRequest.getOwner());
   }
 }

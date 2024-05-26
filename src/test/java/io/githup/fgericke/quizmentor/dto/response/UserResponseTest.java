@@ -4,50 +4,64 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import io.githup.fgericke.quizmentor.entity.Role;
-import io.githup.fgericke.quizmentor.entity.User;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * This class contains unit tests for the UserResponse class. It tests the map method of the
- * UserResponse class.
+ * This class contains unit tests for the UserResponse class. It tests the getter and setter methods
+ * of the UserResponse class.
  */
 class UserResponseTest {
 
+  // Instance of UserResponse to be used in the tests
+  private UserResponse userResponse;
+
   /**
-   * This test checks the map method when the User object is not null. It creates a User object with
-   * a mail and a role, and maps it to a UserResponse object. It then checks if the mail and role in
-   * the UserResponse object match the ones in the User object.
+   * This method sets up the UserResponse instance before each test.
    */
-  @Test
-  void mapShouldReturnUserResponseWhenUserIsNotNull() {
-    // Given
-    User user = new User();
-    user.setMail("test@mail.com");
-    user.setRole(Role.TRAINER);
-
-    UserResponse userResponse = new UserResponse();
-
-    // When
-    UserResponse result = userResponse.map(user);
-
-    // Then
-    assertEquals("test@mail.com", result.getMail());
-    assertEquals(Role.TRAINER, result.getRole());
+  @BeforeEach
+  void setUp() {
+    userResponse = new UserResponse();
   }
 
   /**
-   * This test checks the map method when the User object is null. It tries to map a null User
-   * object to a UserResponse object. It then checks if the result is null.
+   * This test checks the setter and getter for the mail field. It verifies that the set value is
+   * correctly retrieved by the getter.
    */
+  @DisplayName("Should set and get mail correctly")
   @Test
-  void mapShouldReturnNullWhenUserIsNull() {
-    // Given
-    UserResponse userResponse = new UserResponse();
+  void shouldSetAndGetMail() {
+    String expectedMail = "test@mail.com";
+    userResponse.setMail(expectedMail);
+    String actualMail = userResponse.getMail();
+    assertEquals(expectedMail, actualMail);
+  }
 
-    // When
-    UserResponse result = userResponse.map(null);
+  /**
+   * This test checks the setter and getter for the role field. It verifies that the set value is
+   * correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get role correctly")
+  @Test
+  void shouldSetAndGetRole() {
+    Role expectedRole = Role.TRAINER;
+    userResponse.setRole(expectedRole);
+    Role actualRole = userResponse.getRole();
+    assertEquals(expectedRole, actualRole);
+  }
 
-    // Then
-    assertNull(result);
+  /**
+   * This test checks the handling of null values by the setter and getter methods. It verifies that
+   * null is returned when the setter is called with null.
+   */
+  @DisplayName("Should handle null values correctly")
+  @Test
+  void shouldHandleNullValues() {
+    userResponse.setMail(null);
+    userResponse.setRole(null);
+
+    assertNull(userResponse.getMail());
+    assertNull(userResponse.getRole());
   }
 }
