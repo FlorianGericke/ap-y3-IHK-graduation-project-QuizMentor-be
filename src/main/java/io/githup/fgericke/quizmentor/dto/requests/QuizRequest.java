@@ -1,13 +1,11 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
-import io.githup.fgericke.quizmentor.entity.Quiz;
 import io.githup.fgericke.quizmentor.entity.Visibility;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * The QuizRequest class is a data transfer object (DTO) that represents a request to create or
@@ -19,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuizRequest implements EntityRequest<Quiz> {
+public class QuizRequest {
 
   /**
    * The title of the quiz. This is a required field for a quiz.
@@ -37,25 +35,19 @@ public class QuizRequest implements EntityRequest<Quiz> {
   private Visibility status;
 
   /**
-   * Converts this QuizRequest to a Quiz entity. This is used when the request is received, and we
-   * need to convert it to an entity to persist it in the database. If the title is null, it throws
-   * a ResponseStatusException with a 500 status code.
-   *
-   * @return a Quiz entity with the same title, description, and visibility status as this request.
-   * @throws ResponseStatusException if the title is null
+   * The categories of the quiz. This is an optional field for a quiz.
+   * It is a list of category identifiers.
    */
-  @Override
-  public Quiz toEntity() {
-    if (getTitle() == null) {
-      // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-          "[QUIZ] Title cannot be null");
-    }
+  private List<String> categories;
 
-    return Quiz.builder()
-        .title(getTitle())
-        .description(getDescription())
-        .visibility(getStatus())
-        .build();
-  }
+  /**
+   * The questions of the quiz. This is an optional field for a quiz.
+   * It is a list of question identifiers.
+   */
+  private List<String> questions;
+
+  /**
+   * The owner of the quiz. This is an optional field for a quiz.
+   */
+  private String owner;
 }

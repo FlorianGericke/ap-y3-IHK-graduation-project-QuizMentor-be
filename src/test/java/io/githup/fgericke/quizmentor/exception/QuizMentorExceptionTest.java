@@ -1,4 +1,5 @@
-import io.githup.fgericke.quizmentor.exception.QuizMentorException;
+package io.githup.fgericke.quizmentor.exception;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

@@ -1,23 +1,27 @@
+package io.githup.fgericke.quizmentor.entity;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.githup.fgericke.quizmentor.entity.Category;
-import io.githup.fgericke.quizmentor.entity.Question;
-import io.githup.fgericke.quizmentor.entity.Quiz;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * This class contains unit tests for the Category entity.
+ * This class contains unit tests for the Category class. It tests the add, remove, and clear
+ * operations for quizzes and questions in a category.
  */
 class CategoryTest {
 
+  // Instance of Category to be used in the tests
   private Category category;
+  // Instance of Quiz to be used in the tests
   private Quiz quiz;
+  // Instance of Question to be used in the tests
   private Question question;
 
   /**
-   * This method sets up the objects used in the tests. It is run before each test.
+   * This method sets up the Category, Quiz, and Question instances before each test.
    */
   @BeforeEach
   void setUp() {
@@ -29,82 +33,52 @@ class CategoryTest {
   }
 
   /**
-   * This test checks if the quizzes set of a new Category is empty.
+   * This test checks the add and remove operations for a quiz in a category. It verifies that a
+   * quiz can be added to and removed from a category correctly.
    */
+  @DisplayName("Should add and remove quiz correctly")
   @Test
-  void givenNewCategory_whenCheckedQuizzes_thenQuizzesIsEmpty() {
+  void shouldAddAndRemoveQuiz() {
     assertTrue(category.getQuizze().isEmpty());
-  }
-
-  /**
-   * This test checks if a quiz can be added to a Category's quizzes set. It adds a quiz to the set
-   * and then checks if the set contains the added quiz.
-   */
-  @Test
-  void givenCategory_whenQuizAdded_thenQuizIsInQuizzes() {
     category.getQuizze().add(quiz);
     assertTrue(category.getQuizze().contains(quiz));
-  }
-
-  /**
-   * This test checks if a quiz can be removed from a Category's quizzes set. It first adds a quiz
-   * to the set, removes the same quiz, and then checks if the set does not contain the removed
-   * quiz.
-   */
-  @Test
-  void givenCategoryWithQuiz_whenQuizRemoved_thenQuizIsNotInQuizzes() {
-    category.getQuizze().add(quiz);
     category.getQuizze().remove(quiz);
     assertFalse(category.getQuizze().contains(quiz));
   }
 
   /**
-   * This test checks if all quizzes can be removed from a Category's quizzes set. It first adds a
-   * quiz to the set, clears the set, and then checks if the set is empty.
+   * This test checks the add and remove operations for a question in a category. It verifies that a
+   * question can be added to and removed from a category correctly.
    */
+  @DisplayName("Should add and remove question correctly")
   @Test
-  void givenCategoryWithQuiz_whenClearedQuizzes_thenQuizzesIsEmpty() {
+  void shouldAddAndRemoveQuestion() {
+    assertTrue(category.getQuestions().isEmpty());
+    category.getQuestions().add(question);
+    assertTrue(category.getQuestions().contains(question));
+    category.getQuestions().remove(question);
+    assertFalse(category.getQuestions().contains(question));
+  }
+
+  /**
+   * This test checks the clear operation for quizzes in a category. It verifies that all quizzes
+   * can be removed from a category correctly.
+   */
+  @DisplayName("Should clear quizzes correctly")
+  @Test
+  void shouldClearQuizzes() {
     category.getQuizze().add(quiz);
     category.getQuizze().clear();
     assertTrue(category.getQuizze().isEmpty());
   }
 
   /**
-   * This test checks if the questions set of a new Category is empty.
+   * This test checks the clear operation for questions in a category. It verifies that all
+   * questions can be removed from a category correctly.
    */
+  @DisplayName("Should clear questions correctly")
   @Test
-  void givenNewCategory_whenCheckedQuestions_thenQuestionsIsEmpty() {
-    assertTrue(category.getQuestions().isEmpty());
-  }
-
-  /**
-   * This test checks if a question can be added to a Category's questions set. It adds a question
-   * to the set and then checks if the set contains the added question.
-   */
-  @Test
-  void givenCategory_whenQuestionAdded_thenQuestionIsInQuestions() {
-    category.getQuestions().add(question);
-    assertTrue(category.getQuestions().contains(question));
-  }
-
-  /**
-   * This test checks if a question can be removed from a Category's questions set. It first adds a
-   * question to the set, removes the same question, and then checks if the set does not contain the
-   * removed question.
-   */
-  @Test
-  void givenCategoryWithQuestion_whenQuestionRemoved_thenQuestionIsNotInQuestions() {
-    category.getQuestions().add(question);
-    category.getQuestions().remove(question);
-    assertFalse(category.getQuestions().contains(question));
-  }
-
-  /**
-   * This test checks if all questions can be removed from a Category's questions set. It first adds
-   * a question to the set, clears the set, and then checks if the set is empty.
-   */
-  @Test
-  void givenCategoryWithQuestion_whenClearedQuestions_thenQuestionsIsEmpty() {
+  void shouldClearQuestions() {
     category.getQuestions().add(question);
     category.getQuestions().clear();
     assertTrue(category.getQuestions().isEmpty());

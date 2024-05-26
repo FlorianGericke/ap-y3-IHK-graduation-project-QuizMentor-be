@@ -1,36 +1,26 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import io.githup.fgericke.quizmentor.entity.Quiz;
 import io.githup.fgericke.quizmentor.entity.Visibility;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
- * The QuizRequestTest class contains unit tests for the QuizRequest class. It tests the conversion
- * of a QuizRequest to a Quiz entity.
+ * This class contains unit tests for the QuizRequest class. It tests the getter and setter methods
+ * of the QuizRequest class.
  */
 class QuizRequestTest {
 
-  private static final String TEST_QUIZ = "Test Quiz";
-  private static final String TEST_DESCRIPTION = "Test Description";
-  private static final Visibility TEST_VISIBILITY = Visibility.PUBLISHED;
-  private static final String EXCEPTION_REASON = "[QUIZ] Title cannot be null";
-  private static final HttpStatus EXCEPTION_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
-
-
-  /**
-   * The QuizRequest object that will be used in the tests.
-   */
+  // Instance of QuizRequest to be used in the tests
   private QuizRequest quizRequest;
 
   /**
-   * This method is executed before each test. It initializes the QuizRequest object.
+   * This method sets up the QuizRequest instance before each test.
    */
   @BeforeEach
   void setUp() {
@@ -38,41 +28,102 @@ class QuizRequestTest {
   }
 
   /**
-   * This test checks the conversion of a QuizRequest to a Quiz entity when the title is not null.
-   * It sets the title, description, and status of the QuizRequest, converts it to a Quiz entity,
-   * and asserts that the title, description, and status of the Quiz entity are the same as those
-   * set in the QuizRequest.
+   * This test checks the setter and getter for the title field. It verifies that the set value is
+   * correctly retrieved by the getter.
    */
+  @DisplayName("Should set and get title correctly")
   @Test
-  @DisplayName("Should convert to entity when title is not null")
-  void shouldConvertToEntityWhenTitleIsNotNull() {
-    quizRequest.setTitle(TEST_QUIZ);
-    quizRequest.setDescription(TEST_DESCRIPTION);
-    quizRequest.setStatus(TEST_VISIBILITY);
-
-    Quiz quiz = quizRequest.toEntity();
-
-    assertEquals(TEST_QUIZ, quiz.getTitle());
-    assertEquals(TEST_DESCRIPTION, quiz.getDescription());
-    assertEquals(TEST_VISIBILITY, quiz.getVisibility());
+  void shouldSetAndGetTitle() {
+    String expectedTitle = "Test Title";
+    quizRequest.setTitle(expectedTitle);
+    String actualTitle = quizRequest.getTitle();
+    assertEquals(expectedTitle, actualTitle);
   }
 
   /**
-   * This test checks the conversion of a QuizRequest to a Quiz entity when the title is null. It
-   * sets the title of the QuizRequest to null, tries to convert it to a Quiz entity, and asserts
-   * that a ResponseStatusException is thrown with a 500 status code and a specific error message.
+   * This test checks the setter and getter for the description field. It verifies that the set
+   * value is correctly retrieved by the getter.
    */
+  @DisplayName("Should set and get description correctly")
   @Test
-  @DisplayName("Should throw exception when title is null")
-  void shouldThrowExceptionWhenTitleIsNull() {
+  void shouldSetAndGetDescription() {
+    String expectedDescription = "Test Description";
+    quizRequest.setDescription(expectedDescription);
+    String actualDescription = quizRequest.getDescription();
+    assertEquals(expectedDescription, actualDescription);
+  }
+
+  /**
+   * This test checks the setter and getter for the status field. It verifies that the set value is
+   * correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get status correctly")
+  @Test
+  void shouldSetAndGetStatus() {
+    Visibility expectedStatus = Visibility.PUBLISHED;
+    quizRequest.setStatus(expectedStatus);
+    Visibility actualStatus = quizRequest.getStatus();
+    assertEquals(expectedStatus, actualStatus);
+  }
+
+  /**
+   * This test checks the setter and getter for the categories field. It verifies that the set value
+   * is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get categories correctly")
+  @Test
+  void shouldSetAndGetCategories() {
+    List<String> expectedCategories = Arrays.asList("Category1", "Category2");
+    quizRequest.setCategories(expectedCategories);
+    List<String> actualCategories = quizRequest.getCategories();
+    assertEquals(expectedCategories, actualCategories);
+  }
+
+  /**
+   * This test checks the setter and getter for the questions field. It verifies that the set value
+   * is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get questions correctly")
+  @Test
+  void shouldSetAndGetQuestions() {
+    List<String> expectedQuestions = Arrays.asList("Question1", "Question2");
+    quizRequest.setQuestions(expectedQuestions);
+    List<String> actualQuestions = quizRequest.getQuestions();
+    assertEquals(expectedQuestions, actualQuestions);
+  }
+
+  /**
+   * This test checks the setter and getter for the owner field. It verifies that the set value is
+   * correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get owner correctly")
+  @Test
+  void shouldSetAndGetOwner() {
+    String expectedOwner = "Test Owner";
+    quizRequest.setOwner(expectedOwner);
+    String actualOwner = quizRequest.getOwner();
+    assertEquals(expectedOwner, actualOwner);
+  }
+
+  /**
+   * This test checks the handling of null values by the setter and getter methods. It verifies that
+   * null is returned when the setter is called with null.
+   */
+  @DisplayName("Should handle null values correctly")
+  @Test
+  void shouldHandleNullValues() {
     quizRequest.setTitle(null);
-    quizRequest.setDescription(TEST_DESCRIPTION);
-    quizRequest.setStatus(TEST_VISIBILITY);
+    quizRequest.setDescription(null);
+    quizRequest.setStatus(null);
+    quizRequest.setCategories(null);
+    quizRequest.setQuestions(null);
+    quizRequest.setOwner(null);
 
-    ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-        quizRequest::toEntity);
-
-    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
-    assertEquals(EXCEPTION_REASON, exception.getReason());
+    assertNull(quizRequest.getTitle());
+    assertNull(quizRequest.getDescription());
+    assertNull(quizRequest.getStatus());
+    assertNull(quizRequest.getCategories());
+    assertNull(quizRequest.getQuestions());
+    assertNull(quizRequest.getOwner());
   }
 }

@@ -1,7 +1,7 @@
 package io.githup.fgericke.quizmentor.service;
 
+import io.githup.fgericke.quizmentor.dto.mapper.AnswerMapper;
 import io.githup.fgericke.quizmentor.dto.requests.AnswerRequest;
-import io.githup.fgericke.quizmentor.dto.response.AnswerResponse;
 import io.githup.fgericke.quizmentor.entity.Answer;
 import io.githup.fgericke.quizmentor.repository.AnswerRepository;
 import io.githup.fgericke.quizmentor.service.generic.BaseService;
@@ -17,17 +17,17 @@ public class AnswerService extends BaseService<
     Answer,
     AnswerRepository,
     AnswerRequest,
-    AnswerResponse> {
+    AnswerMapper> {
 
   /**
-   * Constructs a new BaseService with the given repository and response DTO.
+   * Constructs a new AnswerService with the given repository and mapper.
    *
-   * @param repo     The repository to be used by this service.
-   * @param response The response DTO to be used by this service.
+   * @param repo   The repository to be used by this service.
+   * @param mapper The mapper to be used by this service.
    */
   @Autowired
-  public AnswerService(final AnswerRepository repo, final AnswerResponse response) {
-    super(repo, response);
+  public AnswerService(final AnswerRepository repo, final AnswerMapper mapper) {
+    super(repo, mapper);
   }
 
   /**

@@ -1,32 +1,33 @@
 package io.githup.fgericke.quizmentor.service;
 
+import io.githup.fgericke.quizmentor.dto.mapper.SolutionMapper;
 import io.githup.fgericke.quizmentor.dto.requests.SolutionRequest;
-import io.githup.fgericke.quizmentor.dto.response.SolutionResponse;
 import io.githup.fgericke.quizmentor.entity.Solution;
 import io.githup.fgericke.quizmentor.repository.SolutionRepository;
 import io.githup.fgericke.quizmentor.service.generic.BaseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Service class for handling operations related to Solutions. Extends the BaseService class.
+ * Service class for handling operations related to Solutions. Extends the BaseService class. It
+ * provides specific implementation for Solution related operations.
  */
 @Service
 public class SolutionService extends BaseService<
     Solution,
     SolutionRepository,
     SolutionRequest,
-    SolutionResponse> {
+    SolutionMapper
+    > {
 
   /**
-   * Constructs a new BaseService with the given repository and response DTO.
+   * Constructor for the SolutionService. It initializes the BaseService with the provided
+   * SolutionRepository and SolutionMapper.
    *
-   * @param repo     The repository to be used by this service.
-   * @param response The response DTO to be used by this service.
+   * @param repo   The SolutionRepository to be used by the BaseService.
+   * @param mapper The SolutionMapper to be used by the BaseService.
    */
-  @Autowired
-  public SolutionService(final SolutionRepository repo, final SolutionResponse response) {
-    super(repo, response);
+  public SolutionService(final SolutionRepository repo, final SolutionMapper mapper) {
+    super(repo, mapper);
   }
 
   /**

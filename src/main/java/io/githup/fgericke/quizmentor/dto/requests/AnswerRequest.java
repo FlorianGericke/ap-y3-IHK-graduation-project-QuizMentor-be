@@ -1,12 +1,9 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
-import io.githup.fgericke.quizmentor.entity.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * The AnswerRequest class is a data transfer object (DTO) that represents a request to create or
@@ -18,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnswerRequest implements EntityRequest<Answer> {
+public class AnswerRequest {
 
   /**
    * The answer string. This is a required field for an answer.
@@ -31,23 +28,17 @@ public class AnswerRequest implements EntityRequest<Answer> {
   private Boolean isCorrect;
 
   /**
-   * Converts this AnswerRequest to an Answer entity. This is used when the request is received, and
-   * we need to convert it to an entity to persist it in the database. If the answer is null, it
-   * throws a ResponseStatusException with a 500 status code.
-   *
-   * @return an Answer entity with the same answer string and correctness as this request.
-   * @throws ResponseStatusException if the answer is null
+   * The identifier of the user who reviewed the answer. This is an optional field.
    */
-  @Override
-  public Answer toEntity() {
-    if (getAnswer() == null) {
-      // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-          "[Answer] Title cannot be null");
-    }
-    return Answer.builder()
-        .answer(getAnswer())
-        .isCorrect(getIsCorrect())
-        .build();
-  }
+  private String reviewedFrom;
+
+  /**
+   * The identifier of the question to which this answer belongs. This is a required field.
+   */
+  private String question;
+
+  /**
+   * The identifier of the user who owns the answer. This is a required field.
+   */
+  private String owner;
 }
