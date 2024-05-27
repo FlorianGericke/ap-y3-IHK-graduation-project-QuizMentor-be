@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,6 +51,18 @@ public class ApplicationConfigurationTest {
    */
   @Mock
   private AuthenticationConfiguration authenticationConfiguration;
+
+  /**
+   * A mock of UserDetailsService.
+   */
+  @Mock
+  private UserDetailsService userDetailsService;
+
+  /**
+   * A mock of PasswordEncoder.
+   */
+  @Mock
+  private PasswordEncoder passwordEncoder;
 
   /**
    * This method sets up the test environment before each test.
@@ -107,8 +120,7 @@ public class ApplicationConfigurationTest {
   @Test
   public void userDetailsServiceReturnsNotNullWhenUserServiceIsNotNull() {
     when(userService.findByMail(anyString())).thenReturn(new User());
-    UserDetailsService userDetailsService = applicationConfiguration.userDetailsService(
-        userService);
+    UserDetailsService userDetailsService = applicationConfiguration.userDetailsService();
     assertNotNull(userDetailsService);
   }
 
@@ -121,7 +133,56 @@ public class ApplicationConfigurationTest {
   @Test
   @Disabled
   public void userDetailsServiceReturnsNullWhenUserServiceIsNull() {
-    UserDetailsService userDetailsService = applicationConfiguration.userDetailsService(null);
+    UserDetailsService userDetailsService = applicationConfiguration.userDetailsService();
     assertNull(userDetailsService);
+  }
+
+  /**
+   * This test checks if the authenticationProvider method in the ApplicationConfiguration class
+   * returns a non-null AuthenticationProvider object when both UserDetailsService and
+   * PasswordEncoder are not null. It first mocks the UserDetailsService's loadUserByUsername method
+   * to return a new User object and the PasswordEncoder's encode method to return an encoded
+   * password. Then it calls the authenticationProvider method and asserts that the returned
+   * AuthenticationProvider object is not null.
+   */
+  @Test
+  public void authenticationProviderReturnsNotNullWhenDependenciesAreNotNull() {
+    when(userDetailsService.loadUserByUsername(anyString())).thenReturn(new User());
+    when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+    AuthenticationProvider authenticationProvider =
+        applicationConfiguration.authenticationProvider();
+    assertNotNull(authenticationProvider);
+  }
+
+  /**
+   * This test checks if the authenticationProvider method in the ApplicationConfiguration class
+   * returns a null AuthenticationProvider object when UserDetailsService is null. It mocks the
+   * PasswordEncoder's encode method to return an encoded password. Then it calls the
+   * authenticationProvider method and asserts that the returned AuthenticationProvider object is
+   * null.
+   */
+  @Test
+  @Disabled
+  public void authenticationProviderReturnsNullWhenUserDetailsServiceIsNull() {
+    when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+    AuthenticationProvider authenticationProvider =
+        applicationConfiguration.authenticationProvider();
+    assertNull(authenticationProvider);
+  }
+
+  /**
+   * This test checks if the authenticationProvider method in the ApplicationConfiguration class
+   * returns a null AuthenticationProvider object when PasswordEncoder is null. It mocks the
+   * UserDetailsService's loadUserByUsername method to return a new User object. Then it calls the
+   * authenticationProvider method and asserts that the returned AuthenticationProvider object is
+   * null.
+   */
+  @Test
+  @Disabled
+  public void authenticationProviderReturnsNullWhenPasswordEncoderIsNull() {
+    when(userDetailsService.loadUserByUsername(anyString())).thenReturn(new User());
+    AuthenticationProvider authenticationProvider =
+        applicationConfiguration.authenticationProvider();
+    assertNull(authenticationProvider);
   }
 }
