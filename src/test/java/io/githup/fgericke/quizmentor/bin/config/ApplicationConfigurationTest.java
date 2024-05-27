@@ -149,7 +149,8 @@ public class ApplicationConfigurationTest {
   public void authenticationProviderReturnsNotNullWhenDependenciesAreNotNull() {
     when(userDetailsService.loadUserByUsername(anyString())).thenReturn(new User());
     when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
-    AuthenticationProvider authenticationProvider = applicationConfiguration.authenticationProvider();
+    AuthenticationProvider authenticationProvider =
+        applicationConfiguration.authenticationProvider();
     assertNotNull(authenticationProvider);
   }
 
@@ -164,7 +165,8 @@ public class ApplicationConfigurationTest {
   @Disabled
   public void authenticationProviderReturnsNullWhenUserDetailsServiceIsNull() {
     when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
-    AuthenticationProvider authenticationProvider = applicationConfiguration.authenticationProvider();
+    AuthenticationProvider authenticationProvider =
+        applicationConfiguration.authenticationProvider();
     assertNull(authenticationProvider);
   }
 
@@ -179,7 +181,8 @@ public class ApplicationConfigurationTest {
   @Disabled
   public void authenticationProviderReturnsNullWhenPasswordEncoderIsNull() {
     when(userDetailsService.loadUserByUsername(anyString())).thenReturn(new User());
-    AuthenticationProvider authenticationProvider = applicationConfiguration.authenticationProvider();
+    AuthenticationProvider authenticationProvider =
+        applicationConfiguration.authenticationProvider();
     assertNull(authenticationProvider);
   }
 }
