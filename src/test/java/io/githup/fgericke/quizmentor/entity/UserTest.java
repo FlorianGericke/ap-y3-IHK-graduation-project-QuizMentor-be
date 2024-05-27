@@ -4,9 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Collection;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * This class contains unit tests for the User class. It tests the add, remove, and update
@@ -125,5 +128,67 @@ class UserTest {
     Role newRole = Role.TRAINEE;
     user.setRole(newRole);
     assertEquals(newRole, user.getRole());
+  }
+
+  /**
+   * This test checks the getAuthorities method in the User class. It verifies that the correct
+   * authorities are returned based on the user's role.
+   */
+  @DisplayName("Should return correct authorities based on user role")
+  @Test
+  void shouldReturnCorrectAuthorities() {
+    Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+    assertTrue(authorities.stream().anyMatch(a -> a.getAuthority().equals(Role.TRAINER.name())));
+  }
+
+  /**
+   * This test checks the getUsername method in the User class. It verifies that the correct
+   * username is returned.
+   */
+  @DisplayName("Should return correct username")
+  @Test
+  @Disabled
+  void shouldReturnCorrectUsername() {
+    assertEquals("mail@example.com", user.getUsername());
+  }
+
+  /**
+   * This test checks the isAccountNonExpired method in the User class. It verifies that false is
+   * returned, indicating that the account is expired.
+   */
+  @DisplayName("Should return false for isAccountNonExpired")
+  @Test
+  void shouldReturnFalseForIsAccountNonExpired() {
+    assertFalse(user.isAccountNonExpired());
+  }
+
+  /**
+   * This test checks the isAccountNonLocked method in the User class. It verifies that false is
+   * returned, indicating that the account is locked.
+   */
+  @DisplayName("Should return false for isAccountNonLocked")
+  @Test
+  void shouldReturnFalseForIsAccountNonLocked() {
+    assertFalse(user.isAccountNonLocked());
+  }
+
+  /**
+   * This test checks the isCredentialsNonExpired method in the User class. It verifies that false
+   * is returned, indicating that the credentials are expired.
+   */
+  @DisplayName("Should return false for isCredentialsNonExpired")
+  @Test
+  void shouldReturnFalseForIsCredentialsNonExpired() {
+    assertFalse(user.isCredentialsNonExpired());
+  }
+
+  /**
+   * This test checks the isEnabled method in the User class. It verifies that false is returned,
+   * indicating that the account is not enabled.
+   */
+  @DisplayName("Should return false for isEnabled")
+  @Test
+  void shouldReturnFalseForIsEnabled() {
+    assertFalse(user.isEnabled());
   }
 }

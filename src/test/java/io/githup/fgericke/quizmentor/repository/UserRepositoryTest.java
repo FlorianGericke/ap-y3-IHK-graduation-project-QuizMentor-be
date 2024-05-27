@@ -8,81 +8,70 @@ import static org.mockito.Mockito.when;
 
 import io.githup.fgericke.quizmentor.entity.User;
 import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 /**
- * This class contains unit tests for the UserRepository class. It tests the basic CRUD operations:
- * save, find by ID, and delete by ID. The tests are currently disabled and need a test environment
- * to run against a test database.
+ * This class contains unit tests for the UserRepository. It uses the JUnit 5 and Mockito frameworks
+ * for testing and mocking respectively. The class is currently disabled, meaning its tests won't be
+ * run.
  */
-@Disabled
 @DataJpaTest
+@Disabled
 public class UserRepositoryTest {
 
+  // The email that will be used in the tests
+  String mail = "mail@example.com";
+  // The User object that will be used in the tests
+  private User user;
+  // The UserRepository that will be tested
   @Autowired
   private UserRepository userRepository;
 
-  //  @Mock
-  private User user;
-
   /**
-   * This method sets up the test environment before each test. It initializes a new User.
+   * This method is run before each test. It initializes the User object that will be used in the
+   * tests.
    */
   @BeforeEach
   public void init() {
-//    MockitoAnnotations.openMocks(this);
+    user = User.builder().mail(mail).build();
   }
 
   /**
-   * This test checks the find by ID operation of the UserRepository.
-   * It verifies that a User can be found by its ID.
+   * This test checks the findByMail method of the UserRepository. It saves a User object to the
+   * repository and then attempts to retrieve it using its email. The test asserts that the
+   * retrieved User object is the same as the one that was saved.
    */
+  @DisplayName("Should find user by mail")
   @Test
-  @Disabled
-  public void shouldFindUserById() {
-    UUID id = UUID.randomUUID();
-    when(userRepository.findById(id)).thenReturn(Optional.of(user));
+  public void shouldFindUserByMail() {
+    userRepository.save(user);
 
-    Optional<User> foundUser = userRepository.findById(id);
+    Optional<User> foundUser = userRepository.findByMail(mail);
 
     assertTrue(foundUser.isPresent());
     assertEquals(user, foundUser.get());
-    verify(userRepository, times(1)).findById(id);
+    verify(userRepository, times(1)).findByMail(mail);
   }
 
   /**
-   * This test checks the save operation of the UserRepository.
-   * It verifies that a User can be saved.
+   * This test checks the findByMail method of the UserRepository when the user does not exist. It
+   * attempts to retrieve a User object using a non-existing email and asserts that the result is
+   * empty.
    */
+  @DisplayName("Should not find user by non-existing mail")
   @Test
-  @Disabled
-  public void shouldSaveUser() {
-    when(userRepository.save(user)).thenReturn(user);
+  public void shouldNotFindUserByNonExistingMail() {
+    String mail = "non-existing@example.com";
+    when(userRepository.findByMail(mail)).thenReturn(Optional.empty());
 
-    User savedUser = userRepository.save(user);
-
-    assertEquals(user, savedUser);
-    verify(userRepository, times(1)).save(user);
-  }
-
-  /**
-   * This test checks the find by ID operation of the UserRepository when the ID does not exist.
-   * It verifies that a User cannot be found by a non-existing ID.
-   */
-  @Test
-  @Disabled
-  public void shouldNotFindUserById() {
-    UUID id = UUID.randomUUID();
-    when(userRepository.findById(id)).thenReturn(Optional.empty());
-
-    Optional<User> foundUser = userRepository.findById(id);
+    Optional<User> foundUser = userRepository.findByMail(mail);
 
     assertTrue(foundUser.isEmpty());
-    verify(userRepository, times(1)).findById(id);
+    verify(userRepository, times(1)).findByMail(mail);
   }
 }
