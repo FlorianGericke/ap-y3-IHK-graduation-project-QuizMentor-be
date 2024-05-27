@@ -1,57 +1,66 @@
 package io.githup.fgericke.quizmentor.dto.response;
 
-import io.githup.fgericke.quizmentor.entity.Quiz;
 import io.githup.fgericke.quizmentor.entity.Visibility;
-import io.githup.fgericke.quizmentor.util.UuidUtil;
-import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 /**
- * This class represents the response object for a Quiz. It is annotated with @Component to indicate
- * that it is a Spring component. It implements the ResponseMapper interface, which requires a
- * mapToResponse method.
+ * This class represents the response object for a Quiz. It is a DTO (Data Transfer Object) that is
+ * used to send data over the network. It implements the ResponseMapper interface, which means it
+ * can map a Quiz entity to a QuizResponse. The class is annotated with Lombok annotations to
+ * automatically generate getters, builders, and constructors. It is also marked as a Spring
+ * component.
  */
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Component
-public class QuizResponse implements ResponseMapper<Quiz, QuizResponse> {
-
-  private UUID id;
-  private String iri;
-  private String title;
-  private String description;
-  private HashMap<String, String> categories;
-  private HashMap<String, String> questions;
-  private String ownerIri;
-  private Visibility status;
+public class QuizResponse {
 
   /**
-   * This method maps a Quiz entity to a QuizResponse object. It uses the builder pattern to create
-   * a new QuizResponse object. It uses the UuidUtil class to convert the UUIDs of the Quiz, its
-   * categories, and its questions to IRIs. It returns the created QuizResponse object.
-   *
-   * @param input The Quiz entity to map to a QuizResponse object.
-   * @return The created QuizResponse object.
+   * The unique identifier of the quiz. This is a UUID.
    */
-  @Override
-  public QuizResponse map(final Quiz input) {
-    return input == null ? null : QuizResponse.builder()
-        .id(input.getId())
-        .iri(UuidUtil.getIriFromBaseEntity(input))
-        .title(input.getTitle())
-        .description(input.getDescription())
-        .questions(input.getQuestions().stream().map(UuidUtil::getIriFromBaseEntity)
-            .collect(HashMap::new, (m, v) -> m.put(v, v), HashMap::putAll))
-        .categories(input.getCategories().stream().map(UuidUtil::getIriFromBaseEntity)
-            .collect(HashMap::new, (m, v) -> m.put(v, v), HashMap::putAll))
-        .ownerIri(UuidUtil.getIriFromBaseEntity(input.getOwner()))
-        .build();
-  }
+  private UUID id;
+
+  /**
+   * The IRI (Internationalized Resource Identifier) of the quiz. This is a unique identifier for
+   * the quiz in the form of an IRI.
+   */
+  private String iri;
+
+  /**
+   * The title of the quiz. This is a brief summary of the quiz.
+   */
+  private String title;
+
+  /**
+   * The description of the quiz. This provides more detailed information about the quiz.
+   */
+  private String description;
+
+  /**
+   * The categories of the quiz. This is a list of categories that the quiz falls under.
+   */
+  private List<String> categories;
+
+  /**
+   * The questions of the quiz. This is a list of questions that are part of the quiz.
+   */
+  private List<String> questions;
+
+  /**
+   * The IRI of the owner of the quiz. This is a unique identifier for the owner in the form of an
+   * IRI.
+   */
+  private String ownerIri;
+
+  /**
+   * The visibility status of the quiz. This indicates whether the quiz is visible or hidden.
+   */
+  private Visibility status;
+
 }

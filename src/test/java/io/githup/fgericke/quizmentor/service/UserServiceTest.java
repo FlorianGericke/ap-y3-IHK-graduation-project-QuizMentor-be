@@ -1,92 +1,121 @@
 package io.githup.fgericke.quizmentor.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.any;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+import io.githup.fgericke.quizmentor.dto.mapper.UserMapper;
 import io.githup.fgericke.quizmentor.dto.requests.UserRequest;
 import io.githup.fgericke.quizmentor.entity.Role;
 import io.githup.fgericke.quizmentor.entity.User;
+import io.githup.fgericke.quizmentor.exception.EntityNotFoundException;
 import io.githup.fgericke.quizmentor.repository.UserRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 /**
- * This class contains unit tests for the UserService class. It tests the patch method of the
- * UserService class.
+ * This class contains unit tests for the UserService class.
  */
 class UserServiceTest {
 
-  /**
-   * Mock of UserRepository used in the tests.
-   */
   @Mock
-  private UserRepository userRepository;
+  private UserRepository userRepository; // Mock of UserRepository
 
-  /**
-   * Mock of UserRequest used in the tests.
-   */
   @Mock
-  private UserRequest userRequest;
+  private UserMapper userMapper; // Mock of UserMapper
 
-  /**
-   * Instance of UserService with injected mocks.
-   */
   @InjectMocks
-  private UserService userService;
+  private UserService userService; // The service under test
 
   /**
-   * Setup method that initializes the mocks before each test.
+   * This method sets up the test environment before each test.
    */
   @BeforeEach
   void setUp() {
-    MockitoAnnotations.openMocks(this);
+    MockitoAnnotations.openMocks(this); // Initialize the mocks
   }
 
   /**
-   * This test checks the patch method when the UserRequest object has non-null fields. It creates a
-   * User object and a UserRequest object with non-null fields, and calls the patch method. It then
-   * checks if the fields in the updated User object match the ones in the UserRequest object.
+   * This test verifies that the patch method of the UserService correctly updates the user fields
+   * when new values are provided in the request.
    */
   @Test
-  @Disabled
-  void patchShouldUpdateNonNullFields() {
-    User user = new User();
+  void patchShouldUpdateUserFieldsWhenNewValuesAreProvided() {
+    User existingUser = new User();
+    existingUser.setMail("old@mail.com");
+    existingUser.setPassword("oldPassword");
+    existingUser.setRole(Role.TRAINEE);
+
+    UserRequest userRequest = new UserRequest();
     userRequest.setMail("new@mail.com");
     userRequest.setPassword("newPassword");
-    userRequest.setRole(Role.TRAINER);
+    userRequest.setRole(Role.MENTOR);
 
-    when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+    User updatedUser = userService.patch(existingUser, userRequest);
 
-    User updatedUser = userService.patch(user, userRequest);
-
-    assertEquals("new@mail.com", updatedUser.getMail());
-    assertEquals("newPassword", updatedUser.getPassword());
-    assertEquals(Role.TRAINER, updatedUser.getRole());
+    assertEquals("new@mail.com", updatedUser.getMail()); // Assert that the mail has been updated
+    assertEquals("newPassword",
+        updatedUser.getPassword()); // Assert that the password has been updated
+    assertEquals(Role.MENTOR, updatedUser.getRole()); // Assert that the role has been updated
   }
 
   /**
-   * This test checks the patch method when the UserRequest object has null fields. It creates a
-   * User object with non-null fields and a UserRequest object with null fields, and calls the patch
-   * method. It then checks if the fields in the updated User object remain the same.
+   * This test verifies that the patch method of the UserService keeps the existing user fields when
+   * no new values are provided in the request.
    */
   @Test
-  void patchShouldNotUpdateNullFields() {
+  void patchShouldKeepExistingUserFieldsWhenNoNewValuesAreProvided() {
+    User existingUser = new User();
+    existingUser.setMail("existing@mail.com");
+    existingUser.setPassword("existingPassword");
+    existingUser.setRole(Role.TRAINEE);
+
+    UserRequest userRequest = new UserRequest();
+
+    User updatedUser = userService.patch(existingUser, userRequest);
+
+    assertEquals("existing@mail.com",
+        updatedUser.getMail()); // Assert that the mail has not been updated
+    assertEquals("existingPassword",
+        updatedUser.getPassword()); // Assert that the password has not been updated
+    assertEquals(Role.TRAINEE, updatedUser.getRole()); // Assert that the role has not been updated
+  }
+
+  /**
+   * This test verifies the behavior of the findByMail method in the UserService class. It mocks the
+   * UserRepository's findByMail method to return a User object when a specific email is provided.
+   * It then asserts that the returned User object from the UserService's findByMail method is the
+   * same as the mocked User object.
+   */
+  @DisplayName("Should find user by mail")
+  @Test
+  public void shouldFindUserByMail() {
+    String mail = "mail@example.com";
     User user = new User();
-    user.setMail("old@mail.com");
-    user.setPassword("oldPassword");
-    user.setRole(Role.TRAINER);
+    when(userRepository.findByMail(mail)).thenReturn(Optional.of(user));
 
-    when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+    User foundUser = userService.findByMail(mail);
 
-    User updatedUser = userService.patch(user, userRequest);
+    assertEquals(user, foundUser);
+  }
 
-    assertEquals("old@mail.com", updatedUser.getMail());
-    assertEquals("oldPassword", updatedUser.getPassword());
-    assertEquals(Role.TRAINER, updatedUser.getRole());
+  /**
+   * This test verifies the behavior of the findByMail method in the UserService class when the user
+   * is not found. It mocks the UserRepository's findByMail method to return an empty Optional when
+   * a specific email is provided. It then asserts that the UserService's findByMail method throws
+   * an EntityNotFoundException.
+   */
+  @DisplayName("Should throw exception when user not found by mail")
+  @Test
+  public void shouldThrowExceptionWhenUserNotFoundByMail() {
+    String mail = "non-existing@example.com";
+    when(userRepository.findByMail(mail)).thenReturn(Optional.empty());
+
+    assertThrows(EntityNotFoundException.class, () -> userService.findByMail(mail));
   }
 }

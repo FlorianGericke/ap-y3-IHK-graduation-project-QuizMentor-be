@@ -1,112 +1,144 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import io.githup.fgericke.quizmentor.entity.Question;
 import io.githup.fgericke.quizmentor.entity.Visibility;
-import io.githup.fgericke.quizmentor.repository.CategoryRepository;
+import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
- * This class contains unit tests for the QuestionRequest class. It tests the conversion of a
- * QuestionRequest to a Question entity.
+ * This class contains unit tests for the QuestionRequest class. It tests the getter and setter
+ * methods of the QuestionRequest class.
  */
 class QuestionRequestTest {
 
-  private static final String TEST_QUESTION = "Test Question";
-  private static final String TEST_DESCRIPTION = "Test Description";
-  private static final Visibility TEST_VISIBILITY = Visibility.PUBLISHED;
-  private static final int TEST_SCORE = 10;
-  private static final String EXCEPTION_REASON = "[Question] Title,Categories cannot be null";
-  private static final HttpStatus EXCEPTION_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
-
-
+  private static final int EXPECTED_SCORE = 10;
+  // Instance of QuestionRequest to be used in the tests
   private QuestionRequest questionRequest;
-  private CategoryRepository categoryRepository;
 
   /**
-   * This method sets up the test environment before each test. It initializes a mock
-   * CategoryRepository and a new QuestionRequest.
+   * This method sets up the QuestionRequest instance before each test.
    */
   @BeforeEach
   void setUp() {
-    categoryRepository = mock(CategoryRepository.class);
-    questionRequest = new QuestionRequest(categoryRepository);
+    questionRequest = new QuestionRequest();
   }
 
   /**
-   * This test checks the conversion of a QuestionRequest to a Question entity when the title and
-   * categories are not null. It verifies that the converted Question has the same properties as the
-   * QuestionRequest.
+   * This test checks the setter and getter for the title field. It verifies that the set value is
+   * correctly retrieved by the getter.
    */
+  @DisplayName("Should set and get title correctly")
   @Test
-  @DisplayName("Should convert to entity when title and categories are not null")
-  void shouldConvertToEntityWhenTitleAndCategoriesAreNotNull() {
-    questionRequest.setTitle(TEST_QUESTION);
-    questionRequest.setDescription(TEST_DESCRIPTION);
-    questionRequest.setStatus(TEST_VISIBILITY);
-    questionRequest.setScore(TEST_SCORE);
-    questionRequest.setCategories(List.of(UUID.randomUUID()));
-
-    when(categoryRepository.findAllById(questionRequest.getCategories())).thenReturn(
-        List.of());
-
-    Question question = questionRequest.toEntity();
-
-    assertEquals(TEST_QUESTION, question.getTitle());
-    assertEquals(TEST_DESCRIPTION, question.getDescription());
-    assertEquals(Visibility.PUBLISHED, question.getStatus());
-    assertEquals(TEST_SCORE, question.getScore());
+  void shouldSetAndGetTitle() {
+    String expectedTitle = "Test Title";
+    questionRequest.setTitle(expectedTitle);
+    String actualTitle = questionRequest.getTitle();
+    assertEquals(expectedTitle, actualTitle);
   }
 
   /**
-   * This test checks the conversion of a QuestionRequest to a Question entity when the title is
-   * null. It verifies that a ResponseStatusException is thrown with the correct status code and
-   * reason.
+   * This test checks the setter and getter for the description field. It verifies that the set
+   * value is correctly retrieved by the getter.
    */
+  @DisplayName("Should set and get description correctly")
   @Test
-  @DisplayName("Should throw exception when title is null")
-  void shouldThrowExceptionWhenTitleIsNull() {
+  void shouldSetAndGetDescription() {
+    String expectedDescription = "Test Description";
+    questionRequest.setDescription(expectedDescription);
+    String actualDescription = questionRequest.getDescription();
+    assertEquals(expectedDescription, actualDescription);
+  }
+
+  /**
+   * This test checks the setter and getter for the status field. It verifies that the set value is
+   * correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get status correctly")
+  @Test
+  void shouldSetAndGetStatus() {
+    Visibility expectedStatus = Visibility.PUBLISHED;
+    questionRequest.setStatus(expectedStatus);
+    Visibility actualStatus = questionRequest.getStatus();
+    assertEquals(expectedStatus, actualStatus);
+  }
+
+  /**
+   * This test checks the setter and getter for the categories field. It verifies that the set value
+   * is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get categories correctly")
+  @Test
+  void shouldSetAndGetCategories() {
+    List<String> expectedCategories = Arrays.asList("Category1", "Category2");
+    questionRequest.setCategories(expectedCategories);
+    List<String> actualCategories = questionRequest.getCategories();
+    assertEquals(expectedCategories, actualCategories);
+  }
+
+  /**
+   * This test checks the setter and getter for the solutions field. It verifies that the set value
+   * is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get solutions correctly")
+  @Test
+  void shouldSetAndGetSolutions() {
+    List<String> expectedSolutions = Arrays.asList("Solution1", "Solution2");
+    questionRequest.setSolutions(expectedSolutions);
+    List<String> actualSolutions = questionRequest.getSolutions();
+    assertEquals(expectedSolutions, actualSolutions);
+  }
+
+  /**
+   * This test checks the setter and getter for the quizzes field. It verifies that the set value is
+   * correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get quizzes correctly")
+  @Test
+  void shouldSetAndGetQuizzes() {
+    List<String> expectedQuizzes = Arrays.asList("Quiz1", "Quiz2");
+    questionRequest.setQuizzes(expectedQuizzes);
+    List<String> actualQuizzes = questionRequest.getQuizzes();
+    assertEquals(expectedQuizzes, actualQuizzes);
+  }
+
+  /**
+   * This test checks the setter and getter for the score field. It verifies that the set value is
+   * correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get score correctly")
+  @Test
+  void shouldSetAndGetScore() {
+    questionRequest.setScore(EXPECTED_SCORE);
+    int actualScore = questionRequest.getScore();
+    assertEquals(EXPECTED_SCORE, actualScore);
+  }
+
+  /**
+   * This test checks the handling of null values by the setter and getter methods. It verifies that
+   * null is returned when the setter is called with null.
+   */
+  @DisplayName("Should handle null values correctly")
+  @Test
+  void shouldHandleNullValues() {
     questionRequest.setTitle(null);
-    questionRequest.setDescription(TEST_DESCRIPTION);
-    questionRequest.setStatus(TEST_VISIBILITY);
-    questionRequest.setScore(TEST_SCORE);
-    questionRequest.setCategories(List.of(UUID.randomUUID()));
-
-    ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-        questionRequest::toEntity);
-
-    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
-    assertEquals(EXCEPTION_REASON, exception.getReason());
-  }
-
-  /**
-   * This test checks the conversion of a QuestionRequest to a Question entity when the categories
-   * are null. It verifies that a ResponseStatusException is thrown with the correct status code and
-   * reason.
-   */
-  @Test
-  @DisplayName("Should throw exception when categories are null")
-  void shouldThrowExceptionWhenCategoriesAreNull() {
-    questionRequest.setTitle(TEST_QUESTION);
-    questionRequest.setDescription(TEST_DESCRIPTION);
-    questionRequest.setStatus(TEST_VISIBILITY);
-    questionRequest.setScore(TEST_SCORE);
+    questionRequest.setDescription(null);
+    questionRequest.setStatus(null);
     questionRequest.setCategories(null);
+    questionRequest.setSolutions(null);
+    questionRequest.setQuizzes(null);
+    questionRequest.setScore(0);
 
-    ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-        questionRequest::toEntity);
-
-    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
-    assertEquals(EXCEPTION_REASON, exception.getReason());
+    assertNull(questionRequest.getTitle());
+    assertNull(questionRequest.getDescription());
+    assertNull(questionRequest.getStatus());
+    assertNull(questionRequest.getCategories());
+    assertNull(questionRequest.getSolutions());
+    assertNull(questionRequest.getQuizzes());
+    assertEquals(0, questionRequest.getScore());
   }
 }

@@ -7,8 +7,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +22,9 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.hibernate.type.SqlTypes;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * This is an entity class that represents a User. It extends the BaseEntity class and includes
@@ -36,8 +42,7 @@ import org.hibernate.type.SqlTypes;
 @Where(clause = "deleted_at IS NULL")
 @AllArgsConstructor
 @NoArgsConstructor
-//public class User extends BaseEntity implements UserDetails {
-public class User extends BaseEntity {
+public class User extends BaseEntity implements UserDetails {
 
   /**
    * The email of the user. It is a unique field and cannot be null.
@@ -66,7 +71,7 @@ public class User extends BaseEntity {
    */
   @Builder.Default
   @OneToMany(mappedBy = "createdFrom", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Question> questions = new LinkedHashSet<>();
+  private List<Question> questions = new ArrayList<>();
 
   /**
    * A set of solutions created by this user. This is a one-to-many relationship, meaning that each
@@ -79,11 +84,11 @@ public class User extends BaseEntity {
    */
   @Builder.Default
   @OneToMany(mappedBy = "createdFrom", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Solution> solutions = new LinkedHashSet<>();
+  private List<Solution> solutions = new ArrayList<>();
 
   @Builder.Default
   @OneToMany(mappedBy = "reviewedFrom", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Answer> answers = new LinkedHashSet<>();
+  private List<Answer> answers = new ArrayList<>();
 
 
   /**
@@ -95,59 +100,68 @@ public class User extends BaseEntity {
    */
   @Builder.Default
   @OneToMany(mappedBy = "owner", orphanRemoval = true)
-  private Set<Quiz> quizzes = new LinkedHashSet<>();
+  private List<Quiz> quizzes = new ArrayList<>();
 
-//  /**
-//   * This method returns the authorities granted to the user. It returns a collection of
-//   * GrantedAuthority, each representing a role of the user.
-//   */
-//  @Override
-//  public Collection<? extends GrantedAuthority> getAuthorities() {
-//    return Arrays.stream(Role.values()).map(SimpleGrantedAuthority.class::cast).toList();
-//  }
-//
-//  /**
-//   * This method returns the username of the user. In this case, the email is used as
-//   * the username.
-//   */
-//  @Override
-//  public String getUsername() {
-//    return this.mail;
-//  }
-//
-//  /**
-//   * This method checks if the user's account has not expired. It returns true indicating that the
-//   * account is valid (not expired).
-//   */
-//  @Override
-//  public boolean isAccountNonExpired() {
-//    return true;
-//  }
-//
-//  /**
-//   * This method checks if the user's account is not locked. It returns true indicating that the
-//   * account is not locked.
-//   */
-//  @Override
-//  public boolean isAccountNonLocked() {
-//    return true;
-//  }
-//
-//  /**
-//   * This method checks if the user's credentials (password) has not expired. It returns true
-//   * indicating that the credentials are valid (not expired).
-//   */
-//  @Override
-//  public boolean isCredentialsNonExpired() {
-//    return true;
-//  }
-//
-//  /**
-//   * This method checks if the user's account is enabled. It returns true indicating that the
-//   * account is enabled.
-//   */
-//  @Override
-//  public boolean isEnabled() {
-//    return true;
-//  }
+  /**
+   * This method is used to get the authorities granted to the user. It maps each role to a new
+   * SimpleGrantedAuthority and returns a list of these authorities.
+   *
+   * @return a collection of GrantedAuthority which represents the authorities granted to the user.
+   */
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return Arrays.stream(Role.values()).map(role -> new SimpleGrantedAuthority(role.name()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * This method is used to get the username of the user. In this case, the email is used as the
+   * username.
+   *
+   * @return a string representing the username of the user.
+   */
+  @Override
+  public String getUsername() {
+    return getMail();
+  }
+
+  /**
+   * This method is used to check if the account is not expired.
+   *
+   * @return a boolean value indicating whether the account is not expired.
+   */
+  @Override
+  public boolean isAccountNonExpired() {
+    return false;
+  }
+
+  /**
+   * This method is used to check if the account is not locked.
+   *
+   * @return a boolean value indicating whether the account is not locked.
+   */
+  @Override
+  public boolean isAccountNonLocked() {
+    return false;
+  }
+
+  /**
+   * This method is used to check if the credentials are not expired.
+   *
+   * @return a boolean value indicating whether the credentials are not expired.
+   */
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return false;
+  }
+
+  /**
+   * This method is used to check if the account is enabled.
+   *
+   * @return a boolean value indicating whether the account is enabled.
+   */
+  @Override
+  public boolean isEnabled() {
+    return false;
+  }
 }

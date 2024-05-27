@@ -1,47 +1,30 @@
 package io.githup.fgericke.quizmentor.dto.response;
 
 import io.githup.fgericke.quizmentor.entity.Role;
-import io.githup.fgericke.quizmentor.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 /**
- * This class represents the response object for User. It is used to map the User entity to a
- * response object that can be sent to the client. It includes the user's mail and role.
+ * This class represents the response object for a User. It is a DTO (Data Transfer Object) that
+ * is used to send data over the network. It is annotated with Lombok annotations to
+ * automatically generate getters, builders, and constructors.
  */
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Component
-public class UserResponse implements ResponseMapper<User, UserResponse> {
+public class UserResponse {
 
   /**
-   * The mail of the user.
+   * The email of the user. This is a unique identifier for the user in the form of an email.
    */
   private String mail;
 
   /**
-   * The role of the user.
+   * The role of the user. This is an enum representing the user's role in the system.
+   * The role can be one of the following: ADMIN, USER.
    */
   private Role role;
-
-  /**
-   * This method maps a User entity to a UserResponse object. If the input User entity is null, it
-   * returns null. Otherwise, it builds a new UserResponse object with the mail and role from the
-   * User entity.
-   *
-   * @param input The User entity to map.
-   * @return The mapped UserResponse object, or null if the input User entity is null.
-   */
-  @Override
-  public UserResponse map(final User input) {
-    return input == null ? null : UserResponse.builder()
-        .mail(input.getMail())
-        .role(input.getRole())
-        .build();
-  }
 }

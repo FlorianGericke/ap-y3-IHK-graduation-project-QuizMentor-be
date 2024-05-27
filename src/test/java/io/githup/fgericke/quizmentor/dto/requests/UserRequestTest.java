@@ -1,37 +1,26 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import io.githup.fgericke.quizmentor.entity.Role;
-import io.githup.fgericke.quizmentor.entity.User;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
- * The UserRequestTest class contains unit tests for the UserRequest class. It tests the conversion
- * of a UserRequest to a User entity.
+ * This class contains unit tests for the UserRequest class. It tests the getter and setter methods
+ * of the UserRequest class.
  */
 class UserRequestTest {
 
-  private static final String TEST_MAIL = "test@mail.com";
-  private static final String TEST_PASSWORD = "testPassword";
-  private static final Role TEST_ROLE_MENTOR = Role.MENTOR;
-  private static final Role TEST_ROLE_TRAINEE = Role.TRAINEE;
-  private static final Role TEST_ROLE_TRAINER = Role.TRAINER;
-  private static final String EXCEPTION_REASON = "[User] Mail,Password cannot be null";
-  private static final HttpStatus EXCEPTION_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
-
-  /**
-   * The UserRequest object that will be used in the tests.
-   */
+  // Instance of UserRequest to be used in the tests
   private UserRequest userRequest;
 
   /**
-   * This method is executed before each test. It initializes the UserRequest object.
+   * This method sets up the UserRequest instance before each test.
    */
   @BeforeEach
   void setUp() {
@@ -39,60 +28,117 @@ class UserRequestTest {
   }
 
   /**
-   * This test checks the conversion of a UserRequest to a User entity when the mail and password
-   * are not null. It sets the mail, password, and role of the UserRequest, converts it to a User
-   * entity, and asserts that the mail, password, and role of the User entity are the same as those
-   * set in the UserRequest.
+   * This test checks the setter and getter for the mail field. It verifies that the set value is
+   * correctly retrieved by the getter.
    */
+  @DisplayName("Should set and get mail correctly")
   @Test
-  @DisplayName("Should convert to entity when mail and password are not null")
-  void shouldConvertToEntityWhenMailAndPasswordAreNotNull() {
-    userRequest.setMail(TEST_MAIL);
-    userRequest.setPassword(TEST_PASSWORD);
-    userRequest.setRole(TEST_ROLE_MENTOR);
-
-    User user = userRequest.toEntity();
-
-    assertEquals(TEST_MAIL, user.getMail());
-    assertEquals(TEST_PASSWORD, user.getPassword());
-    assertEquals(TEST_ROLE_MENTOR, user.getRole());
+  void shouldSetAndGetMail() {
+    String expectedMail = "test@mail.com";
+    userRequest.setMail(expectedMail);
+    String actualMail = userRequest.getMail();
+    assertEquals(expectedMail, actualMail);
   }
 
   /**
-   * This test checks the conversion of a UserRequest to a User entity when the mail is null. It
-   * sets the mail of the UserRequest to null, tries to convert it to a User entity, and asserts
-   * that a ResponseStatusException is thrown with a 500 status code and a specific error message.
+   * This test checks the setter and getter for the password field. It verifies that the set value
+   * is correctly retrieved by the getter.
    */
+  @DisplayName("Should set and get password correctly")
   @Test
-  @DisplayName("Should throw exception when mail is null")
-  void shouldThrowExceptionWhenMailIsNull() {
+  void shouldSetAndGetPassword() {
+    String expectedPassword = "password123";
+    userRequest.setPassword(expectedPassword);
+    String actualPassword = userRequest.getPassword();
+    assertEquals(expectedPassword, actualPassword);
+  }
+
+  /**
+   * This test checks the setter and getter for the role field. It verifies that the set value is
+   * correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get role correctly")
+  @Test
+  void shouldSetAndGetRole() {
+    Role expectedRole = Role.TRAINEE;
+    userRequest.setRole(expectedRole);
+    Role actualRole = userRequest.getRole();
+    assertEquals(expectedRole, actualRole);
+  }
+
+  /**
+   * This test checks the setter and getter for the answers field. It verifies that the set value is
+   * correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get answers correctly")
+  @Test
+  void shouldSetAndGetAnswers() {
+    List<String> expectedAnswers = Arrays.asList("Answer1", "Answer2");
+    userRequest.setAnswers(expectedAnswers);
+    List<String> actualAnswers = userRequest.getAnswers();
+    assertEquals(expectedAnswers, actualAnswers);
+  }
+
+  /**
+   * This test checks the setter and getter for the solutions field. It verifies that the set value
+   * is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get solutions correctly")
+  @Test
+  void shouldSetAndGetSolutions() {
+    List<String> expectedSolutions = Arrays.asList("Solution1", "Solution2");
+    userRequest.setSolutions(expectedSolutions);
+    List<String> actualSolutions = userRequest.getSolutions();
+    assertEquals(expectedSolutions, actualSolutions);
+  }
+
+  /**
+   * This test checks the setter and getter for the quizzes field. It verifies that the set value is
+   * correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get quizzes correctly")
+  @Test
+  void shouldSetAndGetQuizzes() {
+    List<String> expectedQuizzes = Arrays.asList("Quiz1", "Quiz2");
+    userRequest.setQuizzes(expectedQuizzes);
+    List<String> actualQuizzes = userRequest.getQuizzes();
+    assertEquals(expectedQuizzes, actualQuizzes);
+  }
+
+  /**
+   * This test checks the setter and getter for the questions field. It verifies that the set value
+   * is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get questions correctly")
+  @Test
+  void shouldSetAndGetQuestions() {
+    List<String> expectedQuestions = Arrays.asList("Question1", "Question2");
+    userRequest.setQuestions(expectedQuestions);
+    List<String> actualQuestions = userRequest.getQuestions();
+    assertEquals(expectedQuestions, actualQuestions);
+  }
+
+  /**
+   * This test checks the handling of null values by the setter and getter methods. It verifies that
+   * null is returned when the setter is called with null.
+   */
+  @DisplayName("Should handle null values correctly")
+  @Test
+  void shouldHandleNullValues() {
     userRequest.setMail(null);
-    userRequest.setPassword(TEST_PASSWORD);
-    userRequest.setRole(TEST_ROLE_TRAINEE);
-
-    ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-        userRequest::toEntity);
-
-    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
-    assertEquals(EXCEPTION_REASON, exception.getReason());
-  }
-
-  /**
-   * This test checks the conversion of a UserRequest to a User entity when the password is null. It
-   * sets the password of the UserRequest to null, tries to convert it to a User entity, and asserts
-   * that a ResponseStatusException is thrown with a 500 status code and a specific error message.
-   */
-  @Test
-  @DisplayName("Should throw exception when password is null")
-  void shouldThrowExceptionWhenPasswordIsNull() {
-    userRequest.setMail(TEST_MAIL);
     userRequest.setPassword(null);
-    userRequest.setRole(TEST_ROLE_TRAINER);
+    userRequest.setRole(null);
+    userRequest.setAnswers(null);
+    userRequest.setSolutions(null);
+    userRequest.setQuizzes(null);
+    userRequest.setQuestions(null);
 
-    ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-        userRequest::toEntity);
-
-    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
-    assertEquals(EXCEPTION_REASON, exception.getReason());
+    assertNull(userRequest.getMail());
+    assertNull(userRequest.getPassword());
+    assertNull(userRequest.getRole());
+    assertNull(userRequest.getAnswers());
+    assertNull(userRequest.getSolutions());
+    assertNull(userRequest.getQuizzes());
+    assertNull(userRequest.getQuestions());
   }
 }

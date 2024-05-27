@@ -11,9 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -72,7 +70,7 @@ public class Question extends BaseEntity {
   @Default
   @ManyToMany(mappedBy = "questions", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
       CascadeType.REFRESH, CascadeType.DETACH})
-  private Set<Quiz> quizzes = new LinkedHashSet<>();
+  private List<Quiz> quizzes = new ArrayList<>();
 
   /**
    * The score of the question. It is an integer value and can be null.
@@ -102,6 +100,7 @@ public class Question extends BaseEntity {
   private List<Category> categories = new ArrayList<>() {
   };
 
+
   /**
    * A set of solutions associated with this question. This is a one-to-many relationship, meaning
    * that each question can have multiple solutions. The 'mappedBy = "question"' attribute indicates
@@ -109,12 +108,11 @@ public class Question extends BaseEntity {
    * 'cascade = CascadeType.ALL' attribute means that any changes made to the question entity will
    * also be reflected in the associated solutions. The 'orphanRemoval = true' attribute ensures
    * that when a solution is removed from this set, it will also be removed from the database. The
-   * solutions are stored in a LinkedHashSet to maintain insertion order and to avoid duplicate
-   * solutions.
+   * solutions are stored in an ArrayList.
    */
   @Builder.Default
   @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Solution> solutions = new LinkedHashSet<>();
+  private List<Solution> solutions = new ArrayList<>();
 
   /**
    * This method checks if the question is an open question. An open question is defined as a
@@ -137,5 +135,6 @@ public class Question extends BaseEntity {
   @Exclude
   @Builder.Default
   @OneToMany(mappedBy = "question", orphanRemoval = true)
-  private Set<Answer> answers = new LinkedHashSet<>();
+  private List<Answer> answers = new ArrayList<>() {
+  };
 }

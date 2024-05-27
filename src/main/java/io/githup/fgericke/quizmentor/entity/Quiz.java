@@ -10,8 +10,8 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -75,9 +75,8 @@ public class Quiz extends BaseEntity {
    * Category.
    */
   @Builder.Default
-  @ManyToMany(mappedBy = "quizze", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-      CascadeType.REFRESH, CascadeType.DETACH})
-  private Set<Category> categories = new LinkedHashSet<>();
+  @ManyToMany(mappedBy = "quizze")
+  private List<Category> categories = new ArrayList<>();
 
   /**
    * The questions that belong to this quiz. It is a many-to-many relationship, meaning that each
@@ -96,7 +95,7 @@ public class Quiz extends BaseEntity {
   @JoinTable(name = "quiz_questions",
       joinColumns = @JoinColumn(name = "quiz_id"),
       inverseJoinColumns = @JoinColumn(name = "questions_id"))
-  private Set<Question> questions = new LinkedHashSet<>();
+  private List<Question> questions = new ArrayList<>();
 
   /**
    * The owner of the quiz. It is a many-to-one relationship, meaning that each quiz can have one
