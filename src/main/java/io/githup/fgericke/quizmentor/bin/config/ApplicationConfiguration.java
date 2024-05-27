@@ -1,11 +1,13 @@
 package io.githup.fgericke.quizmentor.bin.config;
 
+import io.githup.fgericke.quizmentor.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -59,5 +61,17 @@ public class ApplicationConfiguration implements RepositoryRestConfigurer {
   public AuthenticationManager authenticationManager(
       final AuthenticationConfiguration authenticationConfiguration) throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
+  }
+
+  /**
+   * This method provides a bean for UserDetailsService. It uses the UserService to find a user by
+   * their email.
+   *
+   * @param userService the UserService object
+   * @return a UserDetailsService object
+   */
+  @Bean
+  public UserDetailsService userDetailsService(final UserService userService) {
+    return userService::findByMail;
   }
 }
