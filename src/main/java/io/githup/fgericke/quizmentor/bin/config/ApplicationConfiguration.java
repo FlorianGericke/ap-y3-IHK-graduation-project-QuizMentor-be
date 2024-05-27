@@ -1,11 +1,14 @@
 package io.githup.fgericke.quizmentor.bin.config;
 
 import io.githup.fgericke.quizmentor.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,7 +21,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
  * PasswordEncoder and AuthenticationManager.
  */
 @Configuration
+@RequiredArgsConstructor
 public class ApplicationConfiguration implements RepositoryRestConfigurer {
+
+  private final UserService userService;
 
   /**
    * This method is used to customize the RepositoryRestConfiguration and CorsRegistry. It disables
@@ -67,11 +73,27 @@ public class ApplicationConfiguration implements RepositoryRestConfigurer {
    * This method provides a bean for UserDetailsService. It uses the UserService to find a user by
    * their email.
    *
-   * @param userService the UserService object
    * @return a UserDetailsService object
    */
   @Bean
-  public UserDetailsService userDetailsService(final UserService userService) {
-    return userService::findByMail;
+  public UserDetailsService userDetailsService() {
+    return this.userService::findByMail;
+  }
+
+  /**
+   * This method provides a bean for AuthenticationProvider. It creates a DaoAuthenticationProvider
+   * object and sets its UserDetailsService and PasswordEncoder. The UserDetailsService is obtained
+   * by calling the userDetailsService method and the PasswordEncoder is obtained by calling the
+   * passwordEncoder method.
+   *
+   * @return an AuthenticationProvider object
+   */
+  @Bean
+  public AuthenticationProvider authenticationProvider() {
+    DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+    authenticationProvider.setUserDetailsService(userDetailsService());
+    authenticationProvider.setPasswordEncoder(passwordEncoder());
+
+    return authenticationProvider;
   }
 }

@@ -20,7 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * JwtAuthenticationFilter is a filter that handles JWT-based authentication. It extends
  * OncePerRequestFilter to ensure the filter is executed once per request.
  */
-@Component(value = "jwt_authentication_filter")
+@Component()
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
