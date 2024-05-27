@@ -8,70 +8,81 @@ import static org.mockito.Mockito.when;
 
 import io.githup.fgericke.quizmentor.entity.User;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 /**
- * This class contains unit tests for the UserRepository. It uses the JUnit 5 and Mockito frameworks
- * for testing and mocking respectively. The class is currently disabled, meaning its tests won't be
- * run.
+ * This class contains unit tests for the UserRepository class. It tests the basic CRUD operations:
+ * save, find by ID, and delete by ID. The tests are currently disabled and need a test environment
+ * to run against a test database.
  */
-@DataJpaTest
 @Disabled
+@DataJpaTest
 public class UserRepositoryTest {
 
-  // The email that will be used in the tests
-  private final String mail = "mail@example.com";
-  // The User object that will be used in the tests
-  private User user;
-  // The UserRepository that will be tested
   @Autowired
   private UserRepository userRepository;
 
+  //  @Mock
+  private User user;
+
   /**
-   * This method is run before each test. It initializes the User object that will be used in the
-   * tests.
+   * This method sets up the test environment before each test. It initializes a new User.
    */
   @BeforeEach
   public void init() {
-    user = User.builder().mail(mail).build();
+//    MockitoAnnotations.openMocks(this);
   }
 
   /**
-   * This test checks the findByMail method of the UserRepository. It saves a User object to the
-   * repository and then attempts to retrieve it using its email. The test asserts that the
-   * retrieved User object is the same as the one that was saved.
+   * This test checks the find by ID operation of the UserRepository.
+   * It verifies that a User can be found by its ID.
    */
-  @DisplayName("Should find user by mail")
   @Test
-  public void shouldFindUserByMail() {
-    userRepository.save(user);
+  @Disabled
+  public void shouldFindUserById() {
+    UUID id = UUID.randomUUID();
+    when(userRepository.findById(id)).thenReturn(Optional.of(user));
 
-    Optional<User> foundUser = userRepository.findByMail(mail);
+    Optional<User> foundUser = userRepository.findById(id);
 
     assertTrue(foundUser.isPresent());
     assertEquals(user, foundUser.get());
-    verify(userRepository, times(1)).findByMail(mail);
+    verify(userRepository, times(1)).findById(id);
   }
 
   /**
-   * This test checks the findByMail method of the UserRepository when the user does not exist. It
-   * attempts to retrieve a User object using a non-existing email and asserts that the result is
-   * empty.
+   * This test checks the save operation of the UserRepository.
+   * It verifies that a User can be saved.
    */
-  @DisplayName("Should not find user by non-existing mail")
   @Test
-  public void shouldNotFindUserByNonExistingMail() {
-    String mail = "non-existing@example.com";
-    when(userRepository.findByMail(mail)).thenReturn(Optional.empty());
+  @Disabled
+  public void shouldSaveUser() {
+    when(userRepository.save(user)).thenReturn(user);
 
-    Optional<User> foundUser = userRepository.findByMail(mail);
+    User savedUser = userRepository.save(user);
+
+    assertEquals(user, savedUser);
+    verify(userRepository, times(1)).save(user);
+  }
+
+  /**
+   * This test checks the find by ID operation of the UserRepository when the ID does not exist.
+   * It verifies that a User cannot be found by a non-existing ID.
+   */
+  @Test
+  @Disabled
+  public void shouldNotFindUserById() {
+    UUID id = UUID.randomUUID();
+    when(userRepository.findById(id)).thenReturn(Optional.empty());
+
+    Optional<User> foundUser = userRepository.findById(id);
 
     assertTrue(foundUser.isEmpty());
-    verify(userRepository, times(1)).findByMail(mail);
+    verify(userRepository, times(1)).findById(id);
   }
 }

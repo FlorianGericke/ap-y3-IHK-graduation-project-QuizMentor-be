@@ -1,18 +1,13 @@
 package io.githup.fgericke.quizmentor.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
 
 import io.githup.fgericke.quizmentor.dto.mapper.UserMapper;
 import io.githup.fgericke.quizmentor.dto.requests.UserRequest;
 import io.githup.fgericke.quizmentor.entity.Role;
 import io.githup.fgericke.quizmentor.entity.User;
-import io.githup.fgericke.quizmentor.exception.EntityNotFoundException;
 import io.githup.fgericke.quizmentor.repository.UserRepository;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -84,38 +79,5 @@ class UserServiceTest {
     assertEquals("existingPassword",
         updatedUser.getPassword()); // Assert that the password has not been updated
     assertEquals(Role.TRAINEE, updatedUser.getRole()); // Assert that the role has not been updated
-  }
-
-  /**
-   * This test verifies the behavior of the findByMail method in the UserService class. It mocks the
-   * UserRepository's findByMail method to return a User object when a specific email is provided.
-   * It then asserts that the returned User object from the UserService's findByMail method is the
-   * same as the mocked User object.
-   */
-  @DisplayName("Should find user by mail")
-  @Test
-  public void shouldFindUserByMail() {
-    String mail = "mail@example.com";
-    User user = new User();
-    when(userRepository.findByMail(mail)).thenReturn(Optional.of(user));
-
-    User foundUser = userService.findByMail(mail);
-
-    assertEquals(user, foundUser);
-  }
-
-  /**
-   * This test verifies the behavior of the findByMail method in the UserService class when the user
-   * is not found. It mocks the UserRepository's findByMail method to return an empty Optional when
-   * a specific email is provided. It then asserts that the UserService's findByMail method throws
-   * an EntityNotFoundException.
-   */
-  @DisplayName("Should throw exception when user not found by mail")
-  @Test
-  public void shouldThrowExceptionWhenUserNotFoundByMail() {
-    String mail = "non-existing@example.com";
-    when(userRepository.findByMail(mail)).thenReturn(Optional.empty());
-
-    assertThrows(EntityNotFoundException.class, () -> userService.findByMail(mail));
   }
 }

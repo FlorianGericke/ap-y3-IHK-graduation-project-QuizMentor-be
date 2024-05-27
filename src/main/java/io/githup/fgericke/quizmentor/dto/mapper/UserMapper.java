@@ -19,7 +19,6 @@ import io.micrometer.common.util.StringUtils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -49,8 +48,6 @@ public class UserMapper implements
   // Service for handling Answer related operations
   private final AnswerService answerService;
 
-  private final PasswordEncoder passwordEncoder;
-
   /**
    * Constructor for UserMapper.
    *
@@ -58,19 +55,15 @@ public class UserMapper implements
    * @param quizService     Service for handling Quiz related operations
    * @param questionService Service for handling Question related operations
    * @param answerService   Service for handling Answer related operations
-   * @param passwordEncoder Service for handling password encoding
    */
   @Autowired
   public UserMapper(@Lazy final SolutionService solutionService,
       @Lazy final QuizService quizService,
-      @Lazy final QuestionService questionService,
-      @Lazy final AnswerService answerService,
-      @Lazy final PasswordEncoder passwordEncoder) {
+      @Lazy final QuestionService questionService, @Lazy final AnswerService answerService) {
     this.solutionService = solutionService;
     this.quizService = quizService;
     this.questionService = questionService;
     this.answerService = answerService;
-    this.passwordEncoder = passwordEncoder;
   }
 
   /**
@@ -119,7 +112,7 @@ public class UserMapper implements
 
     User re = User.builder()
         .mail(input.getMail())
-        .password(passwordEncoder.encode(input.getPassword()))
+        .password(input.getPassword())
         .role(input.getRole())
         .answers(answers)
         .solutions(solutions)
