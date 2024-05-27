@@ -1,35 +1,25 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import io.githup.fgericke.quizmentor.entity.Solution;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
- * The SolutionRequestTest class contains unit tests for the SolutionRequest class. It tests the
- * conversion of a SolutionRequest to a Solution entity.
+ * This class contains unit tests for the SolutionRequest class. It tests the getter and setter
+ * methods of the SolutionRequest class.
  */
 class SolutionRequestTest {
 
+  private static final int EXPECTED_SCORE = 10;
 
-  private static final String TEST_SOLUTION = "Test Solution";
-  private static final int TEST_SCORE = 10;
-  private static final String EXCEPTION_REASON = "[Solution] Solution cannot be null";
-  private static final HttpStatus EXCEPTION_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
-
-
-  /**
-   * The SolutionRequest object that will be used in the tests.
-   */
+  // Instance of SolutionRequest to be used in the tests
   private SolutionRequest solutionRequest;
 
   /**
-   * This method is executed before each test. It initializes the SolutionRequest object.
+   * This method sets up the SolutionRequest instance before each test.
    */
   @BeforeEach
   void setUp() {
@@ -37,39 +27,71 @@ class SolutionRequestTest {
   }
 
   /**
-   * This test checks the conversion of a SolutionRequest to a Solution entity when the solution is
-   * not null. It sets the solution and score of the SolutionRequest, converts it to a Solution
-   * entity, and asserts that the solution and score of the Solution entity are the same as those
-   * set in the SolutionRequest.
+   * This test checks the setter and getter for the solution field. It verifies that the set value
+   * is correctly retrieved by the getter.
    */
+  @DisplayName("Should set and get solution correctly")
   @Test
-  @DisplayName("Should convert to entity when solution is not null")
-  void shouldConvertToEntityWhenSolutionIsNotNull() {
-    solutionRequest.setSolution(TEST_SOLUTION);
-    solutionRequest.setScore(TEST_SCORE);
-
-    Solution solution = solutionRequest.toEntity();
-
-    assertEquals(TEST_SOLUTION, solution.getSolution());
-    assertEquals(TEST_SCORE, solution.getScore());
+  void shouldSetAndGetSolution() {
+    String expectedSolution = "Test Solution";
+    solutionRequest.setSolution(expectedSolution);
+    String actualSolution = solutionRequest.getSolution();
+    assertEquals(expectedSolution, actualSolution);
   }
 
   /**
-   * This test checks the conversion of a SolutionRequest to a Solution entity when the solution is
-   * null. It sets the solution of the SolutionRequest to null, tries to convert it to a Solution
-   * entity, and asserts that a ResponseStatusException is thrown with a 500 status code and a
-   * specific error message.
+   * This test checks the setter and getter for the score field. It verifies that the set value is
+   * correctly retrieved by the getter.
    */
+  @DisplayName("Should set and get score correctly")
   @Test
-  @DisplayName("Should throw exception when solution is null")
-  void shouldThrowExceptionWhenSolutionIsNull() {
+  void shouldSetAndGetScore() {
+    solutionRequest.setScore(EXPECTED_SCORE);
+    int actualScore = solutionRequest.getScore();
+    assertEquals(EXPECTED_SCORE, actualScore);
+  }
+
+  /**
+   * This test checks the setter and getter for the createdFrom field. It verifies that the set
+   * value is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get createdFrom correctly")
+  @Test
+  void shouldSetAndGetCreatedFrom() {
+    String expectedCreatedFrom = "Test Creator";
+    solutionRequest.setCreatedFrom(expectedCreatedFrom);
+    String actualCreatedFrom = solutionRequest.getCreatedFrom();
+    assertEquals(expectedCreatedFrom, actualCreatedFrom);
+  }
+
+  /**
+   * This test checks the setter and getter for the question field. It verifies that the set value
+   * is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get question correctly")
+  @Test
+  void shouldSetAndGetQuestion() {
+    String expectedQuestion = "Test Question";
+    solutionRequest.setQuestion(expectedQuestion);
+    String actualQuestion = solutionRequest.getQuestion();
+    assertEquals(expectedQuestion, actualQuestion);
+  }
+
+  /**
+   * This test checks the handling of null values by the setter and getter methods. It verifies that
+   * null is returned when the setter is called with null.
+   */
+  @DisplayName("Should handle null values correctly")
+  @Test
+  void shouldHandleNullValues() {
     solutionRequest.setSolution(null);
-    solutionRequest.setScore(TEST_SCORE);
+    solutionRequest.setScore(0);
+    solutionRequest.setCreatedFrom(null);
+    solutionRequest.setQuestion(null);
 
-    ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-        solutionRequest::toEntity);
-
-    assertEquals(EXCEPTION_STATUS, exception.getStatusCode());
-    assertEquals(EXCEPTION_REASON, exception.getReason());
+    assertNull(solutionRequest.getSolution());
+    assertEquals(0, solutionRequest.getScore());
+    assertNull(solutionRequest.getCreatedFrom());
+    assertNull(solutionRequest.getQuestion());
   }
 }

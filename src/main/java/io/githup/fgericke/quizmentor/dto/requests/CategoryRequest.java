@@ -1,12 +1,10 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
-import io.githup.fgericke.quizmentor.entity.Category;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * The CategoryRequest class is a data transfer object (DTO) that represents a request to create or
@@ -18,8 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryRequest implements EntityRequest<Category> {
-
+public class CategoryRequest {
   /**
    * The name of the category. This is the only field in the request, as a category only has a
    * name.
@@ -27,18 +24,14 @@ public class CategoryRequest implements EntityRequest<Category> {
   private String name;
 
   /**
-   * Converts this CategoryRequest to a Category entity. This is used when the request is received,
-   * and we need to convert it to an entity to persist it in the database.
-   *
-   * @return a Category entity with the same name as this request.
+   * The questions in the category. This is an optional field for a category.
+   * It is a list of question identifiers.
    */
-  @Override
-  public Category toEntity() {
-    if (getName() == null) {
-      // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-          "[Category] Name cannot be null");
-    }
-    return Category.builder().name(getName()).build();
-  }
+  private List<String> questions;
+
+  /**
+   * The quizzes in the category. This is an optional field for a category. It is a list of quiz
+   * identifiers.
+   */
+  private List<String> quizzes;
 }

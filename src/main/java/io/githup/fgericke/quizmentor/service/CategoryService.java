@@ -1,7 +1,7 @@
 package io.githup.fgericke.quizmentor.service;
 
+import io.githup.fgericke.quizmentor.dto.mapper.CategoryMapper;
 import io.githup.fgericke.quizmentor.dto.requests.CategoryRequest;
-import io.githup.fgericke.quizmentor.dto.response.CategoryResponse;
 import io.githup.fgericke.quizmentor.entity.Category;
 import io.githup.fgericke.quizmentor.repository.CategoryRepository;
 import io.githup.fgericke.quizmentor.service.generic.BaseService;
@@ -13,18 +13,23 @@ import org.springframework.stereotype.Service;
  * for Category related operations.
  */
 @Service
-public class CategoryService extends
-    BaseService<Category, CategoryRepository, CategoryRequest, CategoryResponse> {
+public class CategoryService extends BaseService<
+    Category,
+    CategoryRepository,
+    CategoryRequest,
+    CategoryMapper
+    > {
 
   /**
-   * Constructs a new CategoryService with the given repository and response DTO.
+   * Constructor for the CategoryService. It initializes the BaseService with the provided
+   * CategoryRepository and CategoryMapper.
    *
-   * @param repo     The repository to be used by this service.
-   * @param response The response DTO to be used by this service.
+   * @param repo   The CategoryRepository to be used by the BaseService.
+   * @param mapper The CategoryMapper to be used by the BaseService.
    */
   @Autowired
-  public CategoryService(final CategoryRepository repo, final CategoryResponse response) {
-    super(repo, response);
+  public CategoryService(final CategoryRepository repo, final CategoryMapper mapper) {
+    super(repo, mapper);
   }
 
   /**

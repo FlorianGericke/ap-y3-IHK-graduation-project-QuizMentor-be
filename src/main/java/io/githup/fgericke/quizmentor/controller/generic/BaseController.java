@@ -1,7 +1,7 @@
 package io.githup.fgericke.quizmentor.controller.generic;
 
-import io.githup.fgericke.quizmentor.dto.requests.EntityRequest;
-import io.githup.fgericke.quizmentor.dto.response.ResponseMapper;
+import io.githup.fgericke.quizmentor.dto.mapper.interfaces.RequestMapper;
+import io.githup.fgericke.quizmentor.dto.mapper.interfaces.ResponseMapper;
 import io.githup.fgericke.quizmentor.entity.generic.BaseEntity;
 import io.githup.fgericke.quizmentor.service.generic.BaseService;
 import java.util.UUID;
@@ -18,31 +18,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Abstract base controller providing CRUD operations for a generic entity.
+ * BaseController is an abstract class that provides a template for all controllers.
+ * It provides basic CRUD operations for a given entity type.
  *
- * @param <Type>       The type of the entity.
- * @param <Repository> The repository for the entity.
- * @param <Request>    The request DTO for the entity.
- * @param <Response>   The response DTO for the entity.
- * @param <Service>    The service for the entity.
+ * @param <Type> The type of the entity.
+ * @param <Repository> The repository associated with the entity type.
+ * @param <RequestDto> The DTO used for request data.
+ * @param <Response> The type used for response data.
+ * @param <Mapper> The mapper used to convert between entity and DTO.
+ * @param <Service> The service used to handle business logic.
  */
 public abstract class BaseController<
     Type extends BaseEntity,
     Repository extends JpaRepository<Type, UUID>,
-    Request extends EntityRequest<Type>,
-    Response extends ResponseMapper<Type, Response>,
-    Service extends BaseService<Type, Repository, Request, Response>
+    RequestDto,
+    Response,
+    Mapper extends RequestMapper<RequestDto, Type> & ResponseMapper<Type, Response>,
+    Service extends BaseService<Type, Repository, RequestDto, Mapper>
     > {
 
   private final Service enittService;
+  private final Mapper mapper;
 
   /**
-   * Constructs a BaseController with the provided service and response.
+   * Constructs a BaseController with the provided service and mapper.
    *
+   * @param mapper The mapper to be used.
    * @param service The service to be used.
    */
-  public BaseController(final Service service) {
+  public BaseController(final Mapper mapper, final Service service) {
     this.enittService = service;
+    this.mapper = mapper;
   }
 
   /**
@@ -52,8 +58,8 @@ public abstract class BaseController<
    * @return The created entity.
    */
   @PostMapping(produces = "application/json")
-  public @ResponseBody Response postEntity(@ParameterObject final Request request) {
-    return enittService.post(request);
+  public @ResponseBody Response postEntity(@ParameterObject final RequestDto request) {
+    return mapper.toDto(enittService.post(request));
   }
 
   /**
@@ -66,7 +72,7 @@ public abstract class BaseController<
   public @ResponseBody Page<Response> getEntities(
       @ParameterObject @RequestBody final Pageable pageable
   ) {
-    return enittService.getAll(pageable);
+    return enittService.getAll(pageable).map(mapper::toDto);
   }
 
   /**
@@ -77,7 +83,7 @@ public abstract class BaseController<
    */
   @GetMapping(path = "/{id}", produces = "application/json")
   public @ResponseBody Response getEntity(@PathVariable final UUID id) {
-    return enittService.get(id);
+    return mapper.toDto(enittService.get(id));
   }
 
   /**
@@ -90,8 +96,8 @@ public abstract class BaseController<
   @PutMapping(path = "/{id}", produces = "application/json")
   public @ResponseBody Response putEntity(
       @PathVariable final UUID id,
-      @ParameterObject @RequestBody final Request request) {
-    return enittService.put(id, request);
+      @ParameterObject @RequestBody final RequestDto request) {
+    return mapper.toDto(enittService.put(id, request));
   }
 
   /**
@@ -104,8 +110,8 @@ public abstract class BaseController<
   @PatchMapping(path = "/{id}", produces = "application/json")
   public @ResponseBody Response patchEntity(
       @PathVariable final UUID id,
-      @ParameterObject @RequestBody final Request request) {
-    return enittService.patch(id, request);
+      @ParameterObject @RequestBody final RequestDto request) {
+    return mapper.toDto(enittService.patch(id, request));
   }
 
   /**
@@ -115,6 +121,6 @@ public abstract class BaseController<
    * @return The deleted entity.
    */
   public @ResponseBody Response deleteEntity(@PathVariable final UUID id) {
-    return enittService.delete(id);
+    return mapper.toDto(enittService.delete(id));
   }
 }

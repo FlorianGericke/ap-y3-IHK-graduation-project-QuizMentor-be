@@ -1,13 +1,11 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
 import io.githup.fgericke.quizmentor.entity.Role;
-import io.githup.fgericke.quizmentor.entity.User;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * The UserRequest class is a data transfer object (DTO) that represents a request to create or
@@ -19,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequest implements EntityRequest<User> {
+public class UserRequest {
 
   /**
    * The email of the user. This is a required field for a user.
@@ -37,25 +35,23 @@ public class UserRequest implements EntityRequest<User> {
   private Role role;
 
   /**
-   * Converts this UserRequest to a User entity. This is used when the request is received, and we
-   * need to convert it to an entity to persist it in the database. If the email or password is
-   * null, it throws a ResponseStatusException with a 500 status code.
-   *
-   * @return a User entity with the same email, password, and role as this request.
-   * @throws ResponseStatusException if the email or password is null
+   * The list of answers provided by the user. This is an optional field for a user.
    */
-  @Override
-  public User toEntity() {
-    if (getMail() == null || getPassword() == null) {
-      // todo implement Custom Exceptions
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-          "[User] Mail,Password cannot be null");
-    }
+  private List<String> answers;
 
-    return User.builder()
-        .mail(getMail())
-        .password(getPassword())
-        .role(getRole())
-        .build();
-  }
+  /**
+   * The list of solutions provided by the user. This is an optional field for a user.
+   */
+  private List<String> solutions;
+
+  /**
+   * The list of quizzes created by the user. This is an optional field for a user.
+   */
+  private List<String> quizzes;
+
+  /**
+   * The list of questions created by the user. This is an optional field for a user.
+   */
+  private List<String> questions;
+
 }

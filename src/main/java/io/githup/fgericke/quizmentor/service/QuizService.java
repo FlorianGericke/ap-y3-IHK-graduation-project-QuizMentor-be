@@ -1,7 +1,7 @@
 package io.githup.fgericke.quizmentor.service;
 
+import io.githup.fgericke.quizmentor.dto.mapper.QuizMapper;
 import io.githup.fgericke.quizmentor.dto.requests.QuizRequest;
-import io.githup.fgericke.quizmentor.dto.response.QuizResponse;
 import io.githup.fgericke.quizmentor.entity.Quiz;
 import io.githup.fgericke.quizmentor.repository.QuizRepository;
 import io.githup.fgericke.quizmentor.service.generic.BaseService;
@@ -13,17 +13,22 @@ import org.springframework.stereotype.Service;
  * Quiz related operations.
  */
 @Service
-public class QuizService extends BaseService<Quiz, QuizRepository, QuizRequest, QuizResponse> {
+public class QuizService extends BaseService<
+    Quiz,
+    QuizRepository,
+    QuizRequest,
+    QuizMapper> {
 
   /**
-   * Constructs a new QuizService with the given repository and response DTO.
+   * Constructor for the QuizService. It initializes the BaseService with the provided
+   * QuizRepository and QuizMapper.
    *
-   * @param repo     The repository to be used by this service.
-   * @param response The response DTO to be used by this service.
+   * @param repo   The QuizRepository to be used by the BaseService.
+   * @param mapper The QuizMapper to be used by the BaseService.
    */
   @Autowired
-  public QuizService(final QuizRepository repo, final QuizResponse response) {
-    super(repo, response);
+  public QuizService(final QuizRepository repo, final QuizMapper mapper) {
+    super(repo, mapper);
   }
 
   /**

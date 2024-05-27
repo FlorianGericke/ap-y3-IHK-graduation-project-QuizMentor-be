@@ -2,55 +2,48 @@ package io.githup.fgericke.quizmentor.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.githup.fgericke.quizmentor.entity.generic.BaseEntity;
 import java.util.UUID;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * This class contains unit tests for the UuidUtil class. It tests the methods getIriFromUuid and
- * getIriFromBaseEntity. The tests cover both the happy path and edge cases.
+ * This class contains unit tests for the UuidUtil class.
  */
 class UuidUtilTest {
 
   /**
-   * This test checks the behavior of the getIriFromUuid method when the input is null. The expected
-   * behavior is that the method should return null.
+   * Test to verify that getIri method returns null when the provided UUID is null.
    */
   @Test
-  void getIriFromUuidReturnsNullWhenUuidIsNull() {
-    assertNull(UuidUtil.getIriFromUuid(null));
+  void getIriReturnsNullWhenUuidIsNull() {
+    assertNull(UuidUtil.getIri((UUID) null));
   }
 
   /**
-   * This test checks the behavior of the getIriFromUuid method when the input is a valid UUID. The
-   * expected behavior is that the method should return the IRI representation of the UUID.
+   * Test to verify that getIri method returns the correct IRI when the provided UUID is not null.
    */
   @Test
-  void getIriFromUuidReturnsIriWhenUuidIsNotNull() {
+  void getIriReturnsIriWhenUuidIsNotNull() {
     UUID uuid = UUID.randomUUID();
     String expectedIri = EnvironmentUtil.getApiBaseUrl() + uuid;
-    assertEquals(expectedIri, UuidUtil.getIriFromUuid(uuid));
+    assertEquals(expectedIri, UuidUtil.getIri(uuid));
   }
 
   /**
-   * This test checks the behavior of the getIriFromBaseEntity method when the input is null. The
-   * expected behavior is that the method should return null.
+   * Test to verify that getIri method returns null when the provided BaseEntity is null.
    */
   @Test
-  void getIriFromBaseEntityReturnsNullWhenEntityIsNull() {
-    assertNull(UuidUtil.getIriFromBaseEntity(null));
+  void getIriReturnsNullWhenEntityIsNull() {
+    assertNull(UuidUtil.getIri((BaseEntity) null));
   }
 
   /**
-   * This test checks the behavior of the getIriFromBaseEntity method when the input is a valid
-   * BaseEntity. The expected behavior is that the method should return the IRI representation of
-   * the BaseEntity's ID.
+   * Test to verify that getIri method returns the correct IRI when the provided BaseEntity is not
+   * null.
    */
   @Test
-  void getIriFromBaseEntityReturnsIriWhenEntityIsNotNull() {
+  void getIriReturnsIriWhenEntityIsNotNull() {
     UUID id = UUID.randomUUID();
     BaseEntity entity = new BaseEntity() {
       @Override
@@ -59,29 +52,43 @@ class UuidUtilTest {
       }
     };
     String expectedIri = EnvironmentUtil.getApiBaseUrl() + entity.getId();
-    assertEquals(expectedIri, UuidUtil.getIriFromBaseEntity(entity));
+    assertEquals(expectedIri, UuidUtil.getIri(entity));
   }
 
   /**
-   * This test checks the behavior of the getUuidFromIri method when the input is a valid IRI. The
-   * expected behavior is that the method should return the UUID representation of the IRI.
+   * Test to verify that getUuid method returns null when the provided IRI or UUID string is null.
    */
-  @DisplayName("getUuidFromIri returns UUID when IRI is valid")
   @Test
-  void getUuidFromIriReturnsUuidWhenIriIsValid() {
+  void getUuidReturnsNullWhenIriOrUuidIsNull() {
+    assertNull(UuidUtil.getUuid(null));
+  }
+
+  /**
+   * Test to verify that getUuid method returns null when the provided IRI or UUID string is blank.
+   */
+  @Test
+  void getUuidReturnsNullWhenIriOrUuidIsBlank() {
+    assertNull(UuidUtil.getUuid(""));
+  }
+
+  /**
+   * Test to verify that getUuid method returns the correct UUID when the provided IRI is valid.
+   */
+  @Test
+  void getUuidReturnsUuidWhenIriIsValid() {
     UUID uuid = UUID.randomUUID();
-    String iri = "http://localhost:8080/" + uuid;
-    assertEquals(uuid, UuidUtil.getUuidFromIri(iri));
+    String iri = EnvironmentUtil.getApiBaseUrl() + uuid;
+    assertEquals(uuid, UuidUtil.getUuid(iri));
   }
 
   /**
-   * This test checks the behavior of the getUuidFromIri method when the input is an invalid IRI.
-   * The expected behavior is that the method should throw an IllegalArgumentException.
+   * Test to verify that getUuid method returns the correct UUID when the provided UUID string is
+   * valid.
    */
-  @DisplayName("getUuidFromIri throws IllegalArgumentException when IRI is invalid")
   @Test
-  void getUuidFromIriThrowsIllegalArgumentExceptionWhenIriIsInvalid() {
-    String invalidIri = "http://localhost:8080/invalid";
-    assertThrows(IllegalArgumentException.class, () -> UuidUtil.getUuidFromIri(invalidIri));
+  void getUuidReturnsUuidWhenUuidStringIsValid() {
+    UUID uuid = UUID.randomUUID();
+    String uuidString = uuid.toString();
+    assertEquals(uuid, UuidUtil.getUuid(uuidString));
   }
 }

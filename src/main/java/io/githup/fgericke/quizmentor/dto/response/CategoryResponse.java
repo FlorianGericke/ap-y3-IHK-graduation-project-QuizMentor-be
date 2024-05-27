@@ -1,48 +1,38 @@
 package io.githup.fgericke.quizmentor.dto.response;
 
-import io.githup.fgericke.quizmentor.entity.Category;
-import io.githup.fgericke.quizmentor.util.UuidUtil;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 /**
- * This class represents the response object for a Category. It is annotated with @Component to
- * indicate that it is a Spring Bean. It implements the ResponseMapper interface to map a Category
- * entity to a CategoryResponse.
+ * This class represents the response object for a Category. It is a DTO (Data Transfer Object) that
+ * is used to send data over the network. It implements the ResponseMapper interface, which means it
+ * can toDto a Category entity to a CategoryResponse. The class is annotated with Lombok annotations
+ * to automatically generate getters, builders, and constructors. It is also marked as a Spring
+ * component.
  */
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Component
-public class CategoryResponse implements ResponseMapper<Category, CategoryResponse> {
-
-  // The name of the category
-  private String name;
-
-  // The IRI (Internationalized Resource Identifier) of the category
-  private String iri;
-
-  // The unique identifier of the category
-  private UUID id;
+public class CategoryResponse {
 
   /**
-   * This method maps a Category entity to a CategoryResponse. It uses the builder pattern to create
-   * a new CategoryResponse object.
-   *
-   * @param input The Category entity to be mapped.
-   * @return A new CategoryResponse object with the data from the input Category.
+   * The name of the category. This is a unique identifier for the category.
    */
-  @Override
-  public CategoryResponse map(final Category input) {
-    return input == null ? null : CategoryResponse.builder()
-        .name(input.getName())
-        .id(input.getId())
-        .iri(UuidUtil.getIriFromBaseEntity(input))
-        .build();
-  }
+  private String name;
+
+  /**
+   * The IRI (Internationalized Resource Identifier) of the category. This is a unique identifier
+   * for the category in the form of an IRI.
+   */
+  private String iri;
+
+  /**
+   * The ID of the category. This is a unique identifier for the category.
+   */
+  private UUID id;
+
 }

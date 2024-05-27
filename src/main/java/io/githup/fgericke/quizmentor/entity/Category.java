@@ -8,8 +8,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -60,7 +60,7 @@ public class Category extends BaseEntity {
   @JoinTable(name = "category_quizzes",
       joinColumns = @JoinColumn(name = "category_id"),
       inverseJoinColumns = @JoinColumn(name = "quizzes_id"))
-  private Set<Quiz> quizze = new LinkedHashSet<>();
+  private List<Quiz> quizze = new ArrayList<>();
 
   /**
    * The questions that belong to this category. It is a many-to-many relationship, meaning that
@@ -80,5 +80,5 @@ public class Category extends BaseEntity {
   @JoinTable(name = "category_questions",
       joinColumns = @JoinColumn(name = "category_id"),
       inverseJoinColumns = @JoinColumn(name = "questions_id"))
-  private Set<Question> questions = new LinkedHashSet<>();
+  private List<Question> questions = new ArrayList<>();
 }
