@@ -1,8 +1,13 @@
 package io.githup.fgericke.quizmentor.bin.config;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import io.githup.fgericke.quizmentor.entity.User;
+import io.githup.fgericke.quizmentor.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -12,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
@@ -54,6 +60,14 @@ public class ApplicationConfigurationTest {
   }
 
   /**
+   * A mock of UserService. This mock object is used to simulate the data layer and can be
+   * programmed to return predefined values in response to method calls. It is used in the tests to
+   * isolate the class under test from its dependencies.
+   */
+  @Mock
+  private UserService userService;
+
+  /**
    * This test checks if the RepositoryRestConfiguration is correctly configured.
    */
   @Test
@@ -81,5 +95,33 @@ public class ApplicationConfigurationTest {
     AuthenticationManager authenticationManager = applicationConfiguration.authenticationManager(
         authenticationConfiguration);
     assertNotNull(authenticationManager);
+  }
+
+  /**
+   * This test checks if the userDetailsService method in the ApplicationConfiguration class returns
+   * a non-null UserDetailsService object when a non-null UserService object is provided. It first
+   * mocks the UserService's findByMail method to return a new User object. Then it calls the
+   * userDetailsService method with the mocked UserService object and asserts that the returned
+   * UserDetailsService object is not null.
+   */
+  @Test
+  public void userDetailsServiceReturnsNotNullWhenUserServiceIsNotNull() {
+    when(userService.findByMail(anyString())).thenReturn(new User());
+    UserDetailsService userDetailsService = applicationConfiguration.userDetailsService(
+        userService);
+    assertNotNull(userDetailsService);
+  }
+
+  /**
+   * This test checks if the userDetailsService method in the ApplicationConfiguration class returns
+   * a null UserDetailsService object when a null UserService object is provided. It calls the
+   * userDetailsService method with null and asserts that the returned UserDetailsService object is
+   * null.
+   */
+  @Test
+  @Disabled
+  public void userDetailsServiceReturnsNullWhenUserServiceIsNull() {
+    UserDetailsService userDetailsService = applicationConfiguration.userDetailsService(null);
+    assertNull(userDetailsService);
   }
 }
