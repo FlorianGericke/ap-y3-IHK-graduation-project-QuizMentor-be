@@ -1,6 +1,7 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
 import io.githup.fgericke.quizmentor.entity.Visibility;
+import io.swagger.v3.oas.annotations.Hidden;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +52,12 @@ public class QuestionRequest {
    * identifiers.
    */
   private List<String> quizzes;
+
+  /**
+   * The createdFrom field of the question. This is an optional field for a question.
+   */
+  @Hidden
+  private String createdFrom;
 
   /**
    * The score of the question. This is an optional field for a question.

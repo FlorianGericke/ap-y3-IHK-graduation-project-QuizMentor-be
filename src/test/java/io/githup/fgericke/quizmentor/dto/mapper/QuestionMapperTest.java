@@ -71,8 +71,28 @@ class QuestionMapperTest {
   }
 
   /**
-   * This test checks the conversion of QuestionRequest to Question entity. It verifies that a
-   * MissingMandatoryFieldException is thrown when required fields are missing.
+   * This test checks the conversion of QuestionRequest to Question entity when all fields are
+   * present. It verifies that the conversion is successful.
+   */
+  @DisplayName("Should convert QuestionRequest to Question entity successfully "
+      + "when all fields are present")
+  @Test
+  @Disabled
+  void toEntityAllFieldsPresent() {
+    QuestionRequest request = new QuestionRequest();
+    request.setTitle("Question");
+    request.setCategories(Collections.emptyList());
+    request.setSolutions(Collections.emptyList());
+
+    Question result = questionMapper.toEntity(request);
+
+    assertNotNull(result);
+    assertEquals("Question", result.getTitle());
+  }
+
+  /**
+   * This test checks the conversion of QuestionRequest to Question entity when the title field is
+   * missing. It verifies that the conversion throws a MissingMandatoryFieldException.
    */
   @DisplayName("Should throw MissingMandatoryFieldException when QuestionRequest has missing title")
   @Test
@@ -101,8 +121,8 @@ class QuestionMapperTest {
   }
 
   /**
-   * This test checks the conversion of Question entity to QuestionResponse. It verifies that null
-   * is returned when the input is null.
+   * This test checks the conversion of null to QuestionResponse. It verifies that the conversion
+   * returns null.
    */
   @DisplayName("Should return null when input to toDto is null")
   @Test
