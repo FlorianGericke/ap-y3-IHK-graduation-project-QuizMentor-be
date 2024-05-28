@@ -141,4 +141,28 @@ class QuestionRequestTest {
     assertNull(questionRequest.getQuizzes());
     assertEquals(0, questionRequest.getScore());
   }
+
+  /**
+   * This test checks the setter and getter for the createdFrom field. It verifies that the set
+   * value is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get createdFrom correctly")
+  @Test
+  void shouldSetAndGetCreatedFrom() {
+    String expectedCreatedFrom = "User1";
+    questionRequest.setCreatedFrom(expectedCreatedFrom);
+    String actualCreatedFrom = questionRequest.getCreatedFrom();
+    assertEquals(expectedCreatedFrom, actualCreatedFrom);
+  }
+
+  /**
+   * This test checks the handling of null values by the setter and getter for the createdFrom
+   * field. It verifies that null is returned when the setter is called with null.
+   */
+  @DisplayName("Should handle null value for createdFrom correctly")
+  @Test
+  void shouldHandleNullCreatedFrom() {
+    questionRequest.setCreatedFrom(null);
+    assertNull(questionRequest.getCreatedFrom());
+  }
 }
