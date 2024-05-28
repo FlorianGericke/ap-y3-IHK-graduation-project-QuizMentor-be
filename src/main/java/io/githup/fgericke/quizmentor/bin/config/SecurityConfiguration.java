@@ -1,9 +1,11 @@
 package io.githup.fgericke.quizmentor.bin.config;
 
 import io.githup.fgericke.quizmentor.bin.filter.JwtAuthenticationFilter;
+import io.githup.fgericke.quizmentor.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -51,21 +53,55 @@ public class SecurityConfiguration {
         .csrf(AbstractHttpConfigurer::disable)
         // Configure the request matchers
         .authorizeHttpRequests(auth ->
-            auth.requestMatchers(
+            auth
+                // Permit all requests to login, swagger-ui, and v3 endpoints
+                .requestMatchers(
                     AntPathRequestMatcher.antMatcher("/api/v1/auth/login"),
                     AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
                     AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
                     AntPathRequestMatcher.antMatcher("/v3/**")
                 ).permitAll()
+                /* Only allow POST requests to answer, quiz, and question endpoints if the user
+                  has TRAINER, MENTOR, or TRAINEE authority
+                 */
+                .requestMatchers(
+                    AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/v1/answer"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/v1/quiz"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/v1/question")
+                ).hasAnyAuthority(Role.TRAINER.name(), Role.MENTOR.name(), Role.TRAINEE.name())
+                /* Only allow PUT, PATCH, and DELETE requests to answer, quiz,
+                  and question endpoints if the user has TRAINER or MENTOR authority
+                 */
+                .requestMatchers(
+                    AntPathRequestMatcher.antMatcher(HttpMethod.PUT, "/api/v1/answer"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.PATCH, "/api/v1/answer"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.PUT, "/api/v1/quiz"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.PATCH, "/api/v1/quiz"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.PUT, "/api/v1/question"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.PATCH, "/api/v1/question"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/api/v1/answer"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/api/v1/quiz"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/api/v1/question")
+                ).hasAnyAuthority(Role.TRAINER.name(), Role.MENTOR.name())
+                /* Only allow requests to register, and PUT, PATCH, and DELETE requests to user
+                  endpoint if the user has TRAINER authority
+                 */
+                .requestMatchers(
+                    AntPathRequestMatcher.antMatcher("/api/v1/auth/register"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.PUT, "/api/v1/user"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.PATCH, "/api/v1/user"),
+                    AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/api/v1/user")
+                ).hasAnyAuthority(Role.TRAINER.name())
+                // Authenticate all other requests
                 .anyRequest().authenticated()
         )
-        // Set the session creation policy
+        // Set the session creation policy to STATELESS
         .sessionManagement(httpSecuritySessionManagementConfigurer ->
             httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
                 SessionCreationPolicy.STATELESS))
         // Set the authentication provider
         .authenticationProvider(authenticationProvider)
-        // Add the JwtAuthenticationFilter
+        // Add the JwtAuthenticationFilter before the UsernamePasswordAuthenticationFilter
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }
