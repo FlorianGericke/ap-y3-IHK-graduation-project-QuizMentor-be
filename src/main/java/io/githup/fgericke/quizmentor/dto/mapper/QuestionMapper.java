@@ -8,10 +8,12 @@ import io.githup.fgericke.quizmentor.entity.Category;
 import io.githup.fgericke.quizmentor.entity.Question;
 import io.githup.fgericke.quizmentor.entity.Quiz;
 import io.githup.fgericke.quizmentor.entity.Solution;
+import io.githup.fgericke.quizmentor.entity.User;
 import io.githup.fgericke.quizmentor.exception.MissingMandatoryFieldException;
 import io.githup.fgericke.quizmentor.service.CategoryService;
 import io.githup.fgericke.quizmentor.service.QuizService;
 import io.githup.fgericke.quizmentor.service.SolutionService;
+import io.githup.fgericke.quizmentor.service.UserService;
 import io.githup.fgericke.quizmentor.util.UuidUtil;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -41,6 +43,7 @@ public class QuestionMapper implements
 
   // Service for handling Quiz related operations
   private final QuizService quizService;
+  private final UserService userService;
 
   /**
    * Constructor for QuestionMapper.
@@ -51,10 +54,12 @@ public class QuestionMapper implements
    */
   public QuestionMapper(@Lazy final CategoryService categoryService,
       @Lazy final SolutionService solutionService,
-      @Lazy final QuizService quizService) {
+      @Lazy final QuizService quizService,
+      @Lazy final UserService userService) {
     this.categoryService = categoryService;
     this.solutionService = solutionService;
     this.quizService = quizService;
+    this.userService = userService;
   }
 
   /**
@@ -62,7 +67,6 @@ public class QuestionMapper implements
    *
    * @param input The QuestionRequest to convert
    * @return The converted Question entity
-   * @throws MissingMandatoryFieldException if any mandatory fields are missing in the input
    */
   @Override
   public Question toEntity(final QuestionRequest input) {
@@ -71,10 +75,6 @@ public class QuestionMapper implements
     }
     if (input.getCategories() == null || input.getCategories().isEmpty()) {
       throw new MissingMandatoryFieldException("Categories");
-    }
-
-    if (input.getSolutions() == null || input.getSolutions().isEmpty()) {
-      throw new MissingMandatoryFieldException("Solutions");
     }
 
     List<Category> categories =
@@ -98,10 +98,13 @@ public class QuestionMapper implements
             .toList()
             : null;
 
+    User user = userService.findByMail(input.getCreatedFrom());
+
     Question re = Question.builder()
         .status(input.getStatus())
         .title(input.getTitle())
         .description(input.getDescription())
+        .createdFrom(user)
         .categories(categories)
         .solutions(solutions)
         .quizzes(quizzes)
@@ -126,6 +129,7 @@ public class QuestionMapper implements
         solution.setQuestion(re);
       }
     }
+    user.getQuestions().add(re);
 
     return re;
   }
@@ -134,7 +138,7 @@ public class QuestionMapper implements
    * Converts a Question entity to a QuestionResponse.
    *
    * @param input The Question entity to convert
-   * @return The converted QuestionResponse, or null if the input is null
+   * @return The converted QuestionResponse
    */
   @Override
   public QuestionResponse toDto(final Question input) {
@@ -146,9 +150,13 @@ public class QuestionMapper implements
         .isOpen(input.isOpenQuestion())
         .score(input.getScore())
         .status(input.getStatus())
-        .solutions(input.getSolutions().stream().map(UuidUtil::getIri)
-            .toList())
-        .answers(input.getSolutions().stream().map(UuidUtil::getIri)
+        .solutions(input.getSolutions() == null
+            ? null
+            : input.getSolutions().stream().map(UuidUtil::getIri)
+                .toList())
+        .answers(input.getAnswers() == null
+            ? null
+            : input.getAnswers().stream().map(UuidUtil::getIri)
             .toList())
         .build();
   }

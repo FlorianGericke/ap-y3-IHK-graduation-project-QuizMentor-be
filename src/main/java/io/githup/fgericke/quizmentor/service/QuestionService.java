@@ -4,8 +4,10 @@ import io.githup.fgericke.quizmentor.dto.mapper.QuestionMapper;
 import io.githup.fgericke.quizmentor.dto.requests.QuestionRequest;
 import io.githup.fgericke.quizmentor.entity.Question;
 import io.githup.fgericke.quizmentor.repository.QuestionRepository;
+import io.githup.fgericke.quizmentor.repository.UserRepository;
 import io.githup.fgericke.quizmentor.service.generic.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +22,9 @@ public class QuestionService extends BaseService<
     QuestionMapper
     > {
 
+
+  private final UserRepository userRepository;
+
   /**
    * Constructor for the QuestionService. It initializes the BaseService with the provided
    * QuestionRepository and QuestionMapper.
@@ -28,8 +33,10 @@ public class QuestionService extends BaseService<
    * @param mapper The QuestionMapper to be used by the BaseService.
    */
   @Autowired
-  public QuestionService(final QuestionRepository repo, final QuestionMapper mapper) {
+  public QuestionService(final QuestionRepository repo, final QuestionMapper mapper,
+      final UserRepository userRepository) {
     super(repo, mapper);
+    this.userRepository = userRepository;
   }
 
   /**
@@ -57,5 +64,21 @@ public class QuestionService extends BaseService<
         : entityToUpdate.getStatus()
     );
     return entityToUpdate;
+  }
+
+  /**
+   * This method is used to create a new Question entity from the provided QuestionRequest. It first
+   * retrieves the username of the currently authenticated user from the SecurityContext. Then, it
+   * sets this username as the creator of the question in the QuestionRequest. Finally, it converts
+   * the QuestionRequest to a Question entity using the mapper and saves it in the repository.
+   *
+   * @param questionRequest The QuestionRequest containing the data for the new Question entity.
+   * @return The newly created Question entity.
+   */
+  @Override
+  public Question post(final QuestionRequest questionRequest) {
+    var userName = SecurityContextHolder.getContext().getAuthentication().getName();
+    questionRequest.setCreatedFrom(userName);
+    return getRepository().save(getMapper().toEntity(questionRequest));
   }
 }
