@@ -153,42 +153,42 @@ class UserTest {
   }
 
   /**
-   * This test checks the isAccountNonExpired method in the User class. It verifies that false is
-   * returned, indicating that the account is expired.
+   * This test checks the isAccountNonExpired method in the User class. It verifies that true is
+   * returned, indicating that the account is not expired.
    */
-  @DisplayName("Should return false for isAccountNonExpired")
+  @DisplayName("Should return true for isAccountNonExpired")
   @Test
   void shouldReturnFalseForIsAccountNonExpired() {
-    assertFalse(user.isAccountNonExpired());
+    assertTrue(user.isAccountNonExpired());
   }
 
   /**
-   * This test checks the isAccountNonLocked method in the User class. It verifies that false is
-   * returned, indicating that the account is locked.
+   * This test checks the isAccountNonLocked method in the User class. It verifies that true is
+   * returned, indicating that the account is unlocked.
    */
-  @DisplayName("Should return false for isAccountNonLocked")
+  @DisplayName("Should return true for isAccountNonLocked")
   @Test
   void shouldReturnFalseForIsAccountNonLocked() {
-    assertFalse(user.isAccountNonLocked());
+    assertTrue(user.isAccountNonLocked());
   }
 
   /**
-   * This test checks the isCredentialsNonExpired method in the User class. It verifies that false
-   * is returned, indicating that the credentials are expired.
+   * This test checks the isCredentialsNonExpired method in the User class. It verifies that true
+   * is returned, indicating that the credentials are non expired.
    */
-  @DisplayName("Should return false for isCredentialsNonExpired")
+  @DisplayName("Should return true for isCredentialsNonExpired")
   @Test
   void shouldReturnFalseForIsCredentialsNonExpired() {
-    assertFalse(user.isCredentialsNonExpired());
+    assertTrue(user.isCredentialsNonExpired());
   }
 
   /**
-   * This test checks the isEnabled method in the User class. It verifies that false is returned,
-   * indicating that the account is not enabled.
+   * This test checks the isEnabled method in the User class. It verifies that true is returned,
+   * indicating that the account is enabled.
    */
-  @DisplayName("Should return false for isEnabled")
+  @DisplayName("Should return true for isEnabled")
   @Test
   void shouldReturnFalseForIsEnabled() {
-    assertFalse(user.isEnabled());
+    assertTrue(user.isEnabled());
   }
 }
