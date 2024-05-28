@@ -32,10 +32,14 @@ public class InsertRunner implements CommandLineRunner {
   @Override
   public void run(final String... args) throws Exception {
     // todo: User and Password just for Development and testing, not for production
-    authService.register(UserRequest.builder()
-        .mail("admin@user.de")
-        .password("admin")
-        .role(Role.TRAINER)
-        .build());
+    try {
+      authService.register(UserRequest.builder()
+          .mail("admin@user.de")
+          .password("admin")
+          .role(Role.TRAINER)
+          .build());
+    } catch (Exception ignored) {
+    }
+
   }
 }

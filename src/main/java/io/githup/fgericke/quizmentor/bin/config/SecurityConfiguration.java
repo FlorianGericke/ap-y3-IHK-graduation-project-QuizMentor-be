@@ -4,7 +4,6 @@ import io.githup.fgericke.quizmentor.bin.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -53,8 +52,7 @@ public class SecurityConfiguration {
         // Configure the request matchers
         .authorizeHttpRequests(auth ->
             auth.requestMatchers(
-                    AntPathRequestMatcher.antMatcher("/api/v1/auth/authenticate"),
-                    AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/**"),
+                    AntPathRequestMatcher.antMatcher("/api/v1/auth/login"),
                     AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
                     AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
                     AntPathRequestMatcher.antMatcher("/v3/**")
