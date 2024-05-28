@@ -8,10 +8,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -103,15 +101,16 @@ public class User extends BaseEntity implements UserDetails {
   private List<Quiz> quizzes = new ArrayList<>();
 
   /**
-   * This method is used to get the authorities granted to the user. It maps each role to a new
-   * SimpleGrantedAuthority and returns a list of these authorities.
+   * This method is used to get the authorities of the user. In this case, the role is used as the
+   * authority.
    *
-   * @return a collection of GrantedAuthority which represents the authorities granted to the user.
+   * @return a collection of authorities for the user.
    */
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Arrays.stream(Role.values()).map(role -> new SimpleGrantedAuthority(role.name()))
-        .collect(Collectors.toList());
+    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    authorities.add(new SimpleGrantedAuthority(role.name()));
+    return authorities;
   }
 
   /**

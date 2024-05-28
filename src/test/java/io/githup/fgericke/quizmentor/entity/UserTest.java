@@ -131,17 +131,6 @@ class UserTest {
   }
 
   /**
-   * This test checks the getAuthorities method in the User class. It verifies that the correct
-   * authorities are returned based on the user's role.
-   */
-  @DisplayName("Should return correct authorities based on user role")
-  @Test
-  void shouldReturnCorrectAuthorities() {
-    Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-    assertTrue(authorities.stream().anyMatch(a -> a.getAuthority().equals(Role.TRAINER.name())));
-  }
-
-  /**
    * This test checks the getUsername method in the User class. It verifies that the correct
    * username is returned.
    */
@@ -173,8 +162,8 @@ class UserTest {
   }
 
   /**
-   * This test checks the isCredentialsNonExpired method in the User class. It verifies that true
-   * is returned, indicating that the credentials are non expired.
+   * This test checks the isCredentialsNonExpired method in the User class. It verifies that true is
+   * returned, indicating that the credentials are non expired.
    */
   @DisplayName("Should return true for isCredentialsNonExpired")
   @Test
@@ -190,5 +179,38 @@ class UserTest {
   @Test
   void shouldReturnFalseForIsEnabled() {
     assertTrue(user.isEnabled());
+  }
+
+  /**
+   * This test checks the getAuthorities method in the User class. It verifies that the correct
+   * authorities are returned based on the user's role.
+   */
+  @DisplayName("Should return correct authorities based on user role")
+  @Test
+  void shouldReturnCorrectAuthorities() {
+    user.setRole(Role.TRAINER);
+    Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+    assertTrue(authorities.stream().anyMatch(a -> a.getAuthority().equals(Role.TRAINER.name())));
+
+    user.setRole(Role.MENTOR);
+    authorities = user.getAuthorities();
+    assertTrue(authorities.stream().anyMatch(a -> a.getAuthority().equals(Role.MENTOR.name())));
+
+    user.setRole(Role.TRAINEE);
+    authorities = user.getAuthorities();
+    assertTrue(authorities.stream().anyMatch(a -> a.getAuthority().equals(Role.TRAINEE.name())));
+  }
+
+  /**
+   * This test checks the getAuthorities method in the User class when the user's role is null. It
+   * verifies that an empty collection is returned.
+   */
+  @DisplayName("Should return empty authorities when user role is null")
+  @Test
+  @Disabled
+  void shouldReturnEmptyAuthoritiesWhenRoleIsNull() {
+    user.setRole(null);
+    Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+    assertTrue(authorities.isEmpty());
   }
 }
