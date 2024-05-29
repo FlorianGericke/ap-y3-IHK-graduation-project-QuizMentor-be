@@ -97,7 +97,7 @@ public class User extends BaseEntity implements UserDetails {
    * a LinkedHashSet to maintain insertion order and to avoid duplicate quizzes.
    */
   @Builder.Default
-  @OneToMany(mappedBy = "owner", orphanRemoval = true)
+  @OneToMany(mappedBy = "createdFrom", orphanRemoval = true)
   private List<Quiz> quizzes = new ArrayList<>();
 
   /**
