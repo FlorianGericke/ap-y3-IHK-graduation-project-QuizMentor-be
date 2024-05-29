@@ -1,6 +1,7 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
 import io.githup.fgericke.quizmentor.entity.Role;
+import io.swagger.v3.oas.annotations.Hidden;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,21 +38,25 @@ public class UserRequest {
   /**
    * The list of answers provided by the user. This is an optional field for a user.
    */
+  @Hidden
   private List<String> answers;
 
   /**
    * The list of solutions provided by the user. This is an optional field for a user.
    */
+  @Hidden
   private List<String> solutions;
 
   /**
    * The list of quizzes created by the user. This is an optional field for a user.
    */
+  @Hidden
   private List<String> quizzes;
 
   /**
    * The list of questions created by the user. This is an optional field for a user.
    */
+  @Hidden
   private List<String> questions;
 
 }

@@ -5,6 +5,7 @@ import io.githup.fgericke.quizmentor.dto.requests.SolutionRequest;
 import io.githup.fgericke.quizmentor.entity.Solution;
 import io.githup.fgericke.quizmentor.repository.SolutionRepository;
 import io.githup.fgericke.quizmentor.service.generic.BaseService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -53,5 +54,18 @@ public class SolutionService extends BaseService<
     );
 
     return entityToUpdate;
+  }
+
+  /**
+   * Method to create a new Solution entity from the provided SolutionRequest.
+   *
+   * @param solutionRequest The SolutionRequest containing the data for the new Solution entity.
+   * @return The newly created Solution entity.
+   */
+  @Override
+  public Solution post(final SolutionRequest solutionRequest) {
+    var userName = SecurityContextHolder.getContext().getAuthentication().getName();
+    solutionRequest.setCreatedFrom(userName);
+    return getRepository().save(getMapper().toEntity(solutionRequest));
   }
 }

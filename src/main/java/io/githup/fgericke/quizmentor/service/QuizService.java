@@ -6,6 +6,7 @@ import io.githup.fgericke.quizmentor.entity.Quiz;
 import io.githup.fgericke.quizmentor.repository.QuizRepository;
 import io.githup.fgericke.quizmentor.service.generic.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -47,9 +48,23 @@ public class QuizService extends BaseService<
     entityToUpdate.setDescription(quizRequest.getDescription() != null
         ? quizRequest.getDescription()
         : entityToUpdate.getDescription());
-    entityToUpdate.setVisibility(quizRequest.getStatus() != null
-        ? quizRequest.getStatus()
+    entityToUpdate.setVisibility(quizRequest.getVisibility() != null
+        ? quizRequest.getVisibility()
         : entityToUpdate.getVisibility());
     return entityToUpdate;
+  }
+
+  /**
+   * Posts a new Quiz entity using the given QuizRequest. It sets the createdFrom field of the
+   * QuizRequest to the username of the currently logged in user.
+   *
+   * @param quizRequest The QuizRequest with the information for the new Quiz entity.
+   * @return The newly created Quiz entity.
+   */
+  @Override
+  public Quiz post(final QuizRequest quizRequest) {
+    var userName = SecurityContextHolder.getContext().getAuthentication().getName();
+    quizRequest.setCreatedFrom(userName);
+    return getRepository().save(getMapper().toEntity(quizRequest));
   }
 }

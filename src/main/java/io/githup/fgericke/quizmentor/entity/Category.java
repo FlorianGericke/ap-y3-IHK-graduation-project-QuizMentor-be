@@ -1,7 +1,6 @@
 package io.githup.fgericke.quizmentor.entity;
 
 import io.githup.fgericke.quizmentor.entity.generic.BaseEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -56,7 +55,7 @@ public class Category extends BaseEntity {
    * 'quizze' field with an empty set of Quiz.
    */
   @Builder.Default
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+  @ManyToMany()
   @JoinTable(name = "category_quizzes",
       joinColumns = @JoinColumn(name = "category_id"),
       inverseJoinColumns = @JoinColumn(name = "quizzes_id"))
@@ -67,16 +66,14 @@ public class Category extends BaseEntity {
    * each category can have multiple questions, and each question can belong to multiple categories.
    * The 'questions' in mappedBy indicates that the 'questions' field in the Question entity owns
    * the relationship (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE,
-   * CascadeType.REFRESH, CascadeType.DETACH indicates that if a Category entity is persisted,
-   * merged, refreshed, or detached, the same operation will be applied to the Question entity. The
+   * CascadeType.REFRESH indicates that if a Category entity is persisted, merged, or refreshed, the
+   * same operation will be applied to the Question entity. The
    *
-   * @Builder.Default annotation is used to initialize the 'questions' field with an empty set of
-   * Question.
+   * @Builder.Default annotation is used
    */
   @Exclude
   @Builder.Default
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
-      CascadeType.DETACH})
+  @ManyToMany()
   @JoinTable(name = "category_questions",
       joinColumns = @JoinColumn(name = "category_id"),
       inverseJoinColumns = @JoinColumn(name = "questions_id"))

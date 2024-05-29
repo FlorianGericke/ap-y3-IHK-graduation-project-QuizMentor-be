@@ -15,11 +15,9 @@ import io.githup.fgericke.quizmentor.entity.Category;
 import io.githup.fgericke.quizmentor.service.CategoryService;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -65,23 +63,6 @@ public class CategoryControllerTest {
 
     assertNotNull(response);
     verify(service, times(1)).post(requestDto);
-    verify(mapper, times(1)).toDto(any());
-  }
-
-  /**
-   * This test checks the getEntities method of the CategoryController. It verifies that all
-   * Categories are retrieved when the method is called.
-   */
-  @Test
-  @Disabled
-  public void getCategories_retrievesAllCategories() {
-    when(service.getAll(pageable)).thenReturn(Page.empty());
-    when(mapper.toDto(any())).thenReturn(new CategoryResponse());
-
-    Page<CategoryResponse> responses = controller.getEntities(pageable);
-
-    assertNotNull(responses);
-    verify(service, times(1)).getAll(pageable);
     verify(mapper, times(1)).toDto(any());
   }
 

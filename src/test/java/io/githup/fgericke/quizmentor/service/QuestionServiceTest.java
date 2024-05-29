@@ -8,72 +8,47 @@ import io.githup.fgericke.quizmentor.entity.Question;
 import io.githup.fgericke.quizmentor.entity.Visibility;
 import io.githup.fgericke.quizmentor.repository.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 /**
- * This class contains unit tests for the QuestionService class.
+ * This class contains unit tests for the QuestionService class. It tests the functionality of
+ * updating an existing Question entity with new data provided in a QuestionRequest.
  */
 class QuestionServiceTest {
 
   private static final int EXISTING_SCORE = 10;
-  private static final int NEW_SCORE = 20;
 
+  // Mock of QuestionRepository
   @Mock
-  private QuestionRepository questionRepository; // Mock of QuestionRepository
+  private QuestionRepository questionRepository;
 
+  // Mock of QuestionMapper
   @Mock
-  private QuestionMapper questionMapper; // Mock of QuestionMapper
+  private QuestionMapper questionMapper;
 
+  // The service under test
   @InjectMocks
-  private QuestionService questionService; // The service under test
+  private QuestionService questionService;
 
   /**
-   * This method sets up the test environment before each test.
+   * This method sets up the test environment before each test. It initializes the mocks.
    */
   @BeforeEach
   void setUp() {
-    MockitoAnnotations.openMocks(this); // Initialize the mocks
+    MockitoAnnotations.openMocks(this);
   }
 
   /**
-   * This test verifies that the patch method of the QuestionService correctly updates the question
-   * fields when new values are provided in the request.
+   * This test checks the functionality of updating an existing Question entity when no new values
+   * are provided in a QuestionRequest. It verifies that the existing values in the Question entity
+   * remain unchanged.
    */
+  @DisplayName("Should keep existing Question entity fields when not provided in QuestionRequest")
   @Test
-  @Disabled
-  void patchShouldUpdateQuestionFieldsWhenNewValuesAreProvided() {
-    Question existingQuestion = new Question();
-    existingQuestion.setTitle("Old Title");
-    existingQuestion.setDescription("Old Description");
-    existingQuestion.setScore(EXISTING_SCORE);
-    existingQuestion.setStatus(Visibility.DRAFT);
-
-    QuestionRequest questionRequest = new QuestionRequest();
-    questionRequest.setTitle("New Title");
-    questionRequest.setDescription("New Description");
-    questionRequest.setScore(NEW_SCORE);
-    questionRequest.setStatus(Visibility.PUBLISHED);
-
-    Question updatedQuestion = questionService.patch(existingQuestion, questionRequest);
-
-    assertEquals("New Title", updatedQuestion.getTitle()); // Assert that the title has been updated
-    assertEquals("New Description",
-        updatedQuestion.getDescription()); // Assert that the description has been updated
-    assertEquals(NEW_SCORE, updatedQuestion.getScore()); // Assert that the score has been updated
-    assertEquals("New Status",
-        updatedQuestion.getStatus()); // Assert that the status has been updated
-  }
-
-  /**
-   * This test verifies that the patch method of the QuestionService keeps the existing question
-   * fields when no new values are provided in the request.
-   */
-  @Test
-  @Disabled
   void patchShouldKeepExistingQuestionFieldsWhenNoNewValuesAreProvided() {
     Question existingQuestion = new Question();
     existingQuestion.setTitle("Existing Title");
@@ -85,13 +60,9 @@ class QuestionServiceTest {
 
     Question updatedQuestion = questionService.patch(existingQuestion, questionRequest);
 
-    assertEquals("Existing Title",
-        updatedQuestion.getTitle()); // Assert that the title has not been updated
-    assertEquals("Existing Description",
-        updatedQuestion.getDescription()); // Assert that the description has not been updated
-    assertEquals(EXISTING_SCORE,
-        updatedQuestion.getScore()); // Assert that the score has not been updated
-    assertEquals("Existing Status",
-        updatedQuestion.getStatus()); // Assert that the status has not been updated
+    assertEquals("Existing Title", updatedQuestion.getTitle());
+    assertEquals("Existing Description", updatedQuestion.getDescription());
+    assertEquals(EXISTING_SCORE, updatedQuestion.getScore());
+    assertEquals(Visibility.DRAFT, updatedQuestion.getStatus());
   }
 }

@@ -62,8 +62,8 @@ class QuestionRequestTest {
   @Test
   void shouldSetAndGetStatus() {
     Visibility expectedStatus = Visibility.PUBLISHED;
-    questionRequest.setStatus(expectedStatus);
-    Visibility actualStatus = questionRequest.getStatus();
+    questionRequest.setVisibility(expectedStatus);
+    Visibility actualStatus = questionRequest.getVisibility();
     assertEquals(expectedStatus, actualStatus);
   }
 
@@ -127,7 +127,7 @@ class QuestionRequestTest {
   void shouldHandleNullValues() {
     questionRequest.setTitle(null);
     questionRequest.setDescription(null);
-    questionRequest.setStatus(null);
+    questionRequest.setVisibility(null);
     questionRequest.setCategories(null);
     questionRequest.setSolutions(null);
     questionRequest.setQuizzes(null);
@@ -135,10 +135,34 @@ class QuestionRequestTest {
 
     assertNull(questionRequest.getTitle());
     assertNull(questionRequest.getDescription());
-    assertNull(questionRequest.getStatus());
+    assertNull(questionRequest.getVisibility());
     assertNull(questionRequest.getCategories());
     assertNull(questionRequest.getSolutions());
     assertNull(questionRequest.getQuizzes());
     assertEquals(0, questionRequest.getScore());
+  }
+
+  /**
+   * This test checks the setter and getter for the createdFrom field. It verifies that the set
+   * value is correctly retrieved by the getter.
+   */
+  @DisplayName("Should set and get createdFrom correctly")
+  @Test
+  void shouldSetAndGetCreatedFrom() {
+    String expectedCreatedFrom = "User1";
+    questionRequest.setCreatedFrom(expectedCreatedFrom);
+    String actualCreatedFrom = questionRequest.getCreatedFrom();
+    assertEquals(expectedCreatedFrom, actualCreatedFrom);
+  }
+
+  /**
+   * This test checks the handling of null values by the setter and getter for the createdFrom
+   * field. It verifies that null is returned when the setter is called with null.
+   */
+  @DisplayName("Should handle null value for createdFrom correctly")
+  @Test
+  void shouldHandleNullCreatedFrom() {
+    questionRequest.setCreatedFrom(null);
+    assertNull(questionRequest.getCreatedFrom());
   }
 }

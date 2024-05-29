@@ -1,17 +1,14 @@
 package io.githup.fgericke.quizmentor.entity;
 
 import io.githup.fgericke.quizmentor.entity.generic.BaseEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -70,48 +67,44 @@ public class User extends BaseEntity implements UserDetails {
    * entity.
    */
   @Builder.Default
-  @OneToMany(mappedBy = "createdFrom", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "createdFrom")
   private List<Question> questions = new ArrayList<>();
 
   /**
-   * A set of solutions created by this user. This is a one-to-many relationship, meaning that each
-   * user can create multiple solutions. The 'mappedBy = "createdFrom"' attribute indicates that the
-   * 'createdFrom' field in the Solution entity is the owning side of the relationship. The 'cascade
-   * = CascadeType.ALL' attribute means that any changes made to the user entity will also be
-   * reflected in the associated solutions. The 'orphanRemoval = true' attribute ensures that when a
-   * solution is removed from this set, it will also be removed from the database. The solutions are
-   * stored in a LinkedHashSet to maintain insertion order and to avoid duplicate solutions.
+   * The set of solutions created by the user. It is a one-to-many relationship with the Solution
+   * entity.
    */
   @Builder.Default
-  @OneToMany(mappedBy = "createdFrom", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "createdFrom")
   private List<Solution> solutions = new ArrayList<>();
 
+  /**
+   * The set of answers reviewed by the user. It is a one-to-many relationship with the Answer
+   * entity.
+   */
   @Builder.Default
-  @OneToMany(mappedBy = "reviewedFrom", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "reviewedFrom")
   private List<Answer> answers = new ArrayList<>();
 
 
   /**
-   * The set of quizzes owned by the user. It is a one-to-many relationship with the Quiz entity.
-   * The 'mappedBy = "owner"' attribute indicates that the 'owner' field in the Quiz entity is the
-   * owning side of the relationship. The 'orphanRemoval = true' attribute ensures that when a quiz
-   * is removed from this set, it will also be removed from the database. The quizzes are stored in
-   * a LinkedHashSet to maintain insertion order and to avoid duplicate quizzes.
+   * The set of quizzes created by the user. It is a one-to-many relationship with the Quiz entity.
    */
   @Builder.Default
-  @OneToMany(mappedBy = "owner", orphanRemoval = true)
+  @OneToMany(mappedBy = "createdFrom")
   private List<Quiz> quizzes = new ArrayList<>();
 
   /**
-   * This method is used to get the authorities granted to the user. It maps each role to a new
-   * SimpleGrantedAuthority and returns a list of these authorities.
+   * This method is used to get the authorities of the user. In this case, the role is used as the
+   * authority.
    *
-   * @return a collection of GrantedAuthority which represents the authorities granted to the user.
+   * @return a collection of authorities for the user.
    */
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Arrays.stream(Role.values()).map(role -> new SimpleGrantedAuthority(role.name()))
-        .collect(Collectors.toList());
+    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    authorities.add(new SimpleGrantedAuthority(role.name()));
+    return authorities;
   }
 
   /**
@@ -132,7 +125,7 @@ public class User extends BaseEntity implements UserDetails {
    */
   @Override
   public boolean isAccountNonExpired() {
-    return false;
+    return true;
   }
 
   /**
@@ -142,7 +135,7 @@ public class User extends BaseEntity implements UserDetails {
    */
   @Override
   public boolean isAccountNonLocked() {
-    return false;
+    return true;
   }
 
   /**
@@ -152,7 +145,7 @@ public class User extends BaseEntity implements UserDetails {
    */
   @Override
   public boolean isCredentialsNonExpired() {
-    return false;
+    return true;
   }
 
   /**
@@ -162,6 +155,6 @@ public class User extends BaseEntity implements UserDetails {
    */
   @Override
   public boolean isEnabled() {
-    return false;
+    return true;
   }
 }

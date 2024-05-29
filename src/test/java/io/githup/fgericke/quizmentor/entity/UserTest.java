@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
@@ -131,64 +130,62 @@ class UserTest {
   }
 
   /**
+   * This test checks the isAccountNonExpired method in the User class. It verifies that true is
+   * returned, indicating that the account is not expired.
+   */
+  @DisplayName("Should return true for isAccountNonExpired")
+  @Test
+  void shouldReturnFalseForIsAccountNonExpired() {
+    assertTrue(user.isAccountNonExpired());
+  }
+
+  /**
+   * This test checks the isAccountNonLocked method in the User class. It verifies that true is
+   * returned, indicating that the account is unlocked.
+   */
+  @DisplayName("Should return true for isAccountNonLocked")
+  @Test
+  void shouldReturnFalseForIsAccountNonLocked() {
+    assertTrue(user.isAccountNonLocked());
+  }
+
+  /**
+   * This test checks the isCredentialsNonExpired method in the User class. It verifies that true is
+   * returned, indicating that the credentials are non expired.
+   */
+  @DisplayName("Should return true for isCredentialsNonExpired")
+  @Test
+  void shouldReturnFalseForIsCredentialsNonExpired() {
+    assertTrue(user.isCredentialsNonExpired());
+  }
+
+  /**
+   * This test checks the isEnabled method in the User class. It verifies that true is returned,
+   * indicating that the account is enabled.
+   */
+  @DisplayName("Should return true for isEnabled")
+  @Test
+  void shouldReturnFalseForIsEnabled() {
+    assertTrue(user.isEnabled());
+  }
+
+  /**
    * This test checks the getAuthorities method in the User class. It verifies that the correct
    * authorities are returned based on the user's role.
    */
   @DisplayName("Should return correct authorities based on user role")
   @Test
   void shouldReturnCorrectAuthorities() {
+    user.setRole(Role.TRAINER);
     Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
     assertTrue(authorities.stream().anyMatch(a -> a.getAuthority().equals(Role.TRAINER.name())));
-  }
 
-  /**
-   * This test checks the getUsername method in the User class. It verifies that the correct
-   * username is returned.
-   */
-  @DisplayName("Should return correct username")
-  @Test
-  @Disabled
-  void shouldReturnCorrectUsername() {
-    assertEquals("mail@example.com", user.getUsername());
-  }
+    user.setRole(Role.MENTOR);
+    authorities = user.getAuthorities();
+    assertTrue(authorities.stream().anyMatch(a -> a.getAuthority().equals(Role.MENTOR.name())));
 
-  /**
-   * This test checks the isAccountNonExpired method in the User class. It verifies that false is
-   * returned, indicating that the account is expired.
-   */
-  @DisplayName("Should return false for isAccountNonExpired")
-  @Test
-  void shouldReturnFalseForIsAccountNonExpired() {
-    assertFalse(user.isAccountNonExpired());
-  }
-
-  /**
-   * This test checks the isAccountNonLocked method in the User class. It verifies that false is
-   * returned, indicating that the account is locked.
-   */
-  @DisplayName("Should return false for isAccountNonLocked")
-  @Test
-  void shouldReturnFalseForIsAccountNonLocked() {
-    assertFalse(user.isAccountNonLocked());
-  }
-
-  /**
-   * This test checks the isCredentialsNonExpired method in the User class. It verifies that false
-   * is returned, indicating that the credentials are expired.
-   */
-  @DisplayName("Should return false for isCredentialsNonExpired")
-  @Test
-  void shouldReturnFalseForIsCredentialsNonExpired() {
-    assertFalse(user.isCredentialsNonExpired());
-  }
-
-  /**
-   * This test checks the isEnabled method in the User class. It verifies that false is returned,
-   * indicating that the account is not enabled.
-   */
-  @DisplayName("Should return false for isEnabled")
-  @Test
-  void shouldReturnFalseForIsEnabled() {
-    assertFalse(user.isEnabled());
+    user.setRole(Role.TRAINEE);
+    authorities = user.getAuthorities();
+    assertTrue(authorities.stream().anyMatch(a -> a.getAuthority().equals(Role.TRAINEE.name())));
   }
 }

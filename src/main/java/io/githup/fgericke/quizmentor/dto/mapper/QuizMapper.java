@@ -7,6 +7,8 @@ import io.githup.fgericke.quizmentor.dto.response.QuizResponse;
 import io.githup.fgericke.quizmentor.entity.Category;
 import io.githup.fgericke.quizmentor.entity.Question;
 import io.githup.fgericke.quizmentor.entity.Quiz;
+import io.githup.fgericke.quizmentor.entity.User;
+import io.githup.fgericke.quizmentor.entity.Visibility;
 import io.githup.fgericke.quizmentor.exception.MissingMandatoryFieldException;
 import io.githup.fgericke.quizmentor.service.CategoryService;
 import io.githup.fgericke.quizmentor.service.QuestionService;
@@ -61,7 +63,6 @@ public class QuizMapper implements
    *
    * @param input The QuizRequest to convert
    * @return The converted Quiz entity
-   * @throws MissingMandatoryFieldException if any mandatory fields are missing in the input
    */
   @Override
   public Quiz toEntity(final QuizRequest input) {
@@ -86,17 +87,15 @@ public class QuizMapper implements
             .toList()
             : null;
 
+    User user = userService.findByMail(input.getCreatedFrom());
+
     Quiz re = Quiz.builder()
         .title(input.getTitle())
         .description(input.getDescription())
-        .visibility(input.getStatus())
+        .visibility(Visibility.DRAFT)
         .categories(categories)
         .questions(questions)
-        .owner(
-            input.getOwner() != null && userService != null
-                ? userService.get(UuidUtil.getUuid(input.getOwner()))
-                : null
-        )
+        .createdFrom(user)
         .build();
 
     if (categories != null) {
@@ -110,6 +109,8 @@ public class QuizMapper implements
         question.getQuizzes().add(re);
       }
     }
+
+    user.getQuizzes().add(re);
 
     return re;
   }
@@ -135,7 +136,7 @@ public class QuizMapper implements
             ? null
             : input.getCategories().stream().map(UuidUtil::getIri)
                 .toList())
-        .ownerIri(UuidUtil.getIri(input.getOwner()))
+        .ownerIri(UuidUtil.getIri(input.getCreatedFrom()))
         .build();
   }
 }

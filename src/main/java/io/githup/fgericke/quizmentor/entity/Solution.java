@@ -1,7 +1,6 @@
 package io.githup.fgericke.quizmentor.entity;
 
 import io.githup.fgericke.quizmentor.entity.generic.BaseEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -46,11 +45,11 @@ public class Solution extends BaseEntity {
   private String solution;
 
   /**
-   * The question to which this solution belongs. It is a many-to-one relationship, meaning that
-   * each solution belongs to one question.
+   * The question to which this solution belongs. It is a many-to-one relationship, meaning that each
+   * solution belongs to one question.
    */
   @Exclude
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne()
   @JoinColumn(name = "question_id")
   private Question question;
 
@@ -62,12 +61,12 @@ public class Solution extends BaseEntity {
   private Integer score = 0;
 
   /**
-   * The user who created this solution. It is a many-to-one relationship, meaning that each
-   * solution is created by one user.
+   * The user who created the solution. It is a many-to-one relationship, meaning that each solution
+   * can be created by one user, and each user can create multiple solutions.
    */
   @Exclude
-  @ManyToOne(cascade = CascadeType.ALL, optional = false)
-  @JoinColumn(name = "created_from_id", nullable = false)
+  @ManyToOne()
+  @JoinColumn(name = "created_from_id")
   private User createdFrom;
 
 }

@@ -5,6 +5,7 @@ import io.githup.fgericke.quizmentor.dto.mapper.interfaces.ResponseMapper;
 import io.githup.fgericke.quizmentor.dto.requests.SolutionRequest;
 import io.githup.fgericke.quizmentor.dto.response.SolutionResponse;
 import io.githup.fgericke.quizmentor.entity.Solution;
+import io.githup.fgericke.quizmentor.entity.User;
 import io.githup.fgericke.quizmentor.exception.MissingMandatoryFieldException;
 import io.githup.fgericke.quizmentor.service.QuestionService;
 import io.githup.fgericke.quizmentor.service.UserService;
@@ -54,7 +55,6 @@ public class SolutionMapper implements
    *
    * @param input The SolutionRequest to convert
    * @return The converted Solution entity
-   * @throws MissingMandatoryFieldException if any mandatory fields are missing in the input
    */
   @Override
   public Solution toEntity(final SolutionRequest input) {
@@ -68,18 +68,21 @@ public class SolutionMapper implements
       throw new MissingMandatoryFieldException("question");
     }
 
-    return Solution.builder()
+    User user = userService.findByMail(input.getCreatedFrom());
+
+    var re = Solution.builder()
         .solution(input.getSolution())
         .score(input.getScore())
-        .createdFrom(
-            input.getCreatedFrom() != null && userService != null
-                ? userService.get(UuidUtil.getUuid(input.getCreatedFrom()))
-                : null)
+        .createdFrom(user)
         .question(
             input.getQuestion() != null && questionService != null
                 ? questionService.get(UuidUtil.getUuid(input.getQuestion()))
                 : null)
         .build();
+
+    user.getSolutions().add(re);
+
+    return re;
   }
 
   /**

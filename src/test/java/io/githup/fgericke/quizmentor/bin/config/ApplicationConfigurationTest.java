@@ -1,7 +1,6 @@
 package io.githup.fgericke.quizmentor.bin.config;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -9,13 +8,11 @@ import static org.mockito.Mockito.when;
 import io.githup.fgericke.quizmentor.entity.User;
 import io.githup.fgericke.quizmentor.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -99,16 +96,6 @@ public class ApplicationConfigurationTest {
     assertNotNull(passwordEncoder);
   }
 
-  /**
-   * This test checks if the AuthenticationManager bean is correctly provided.
-   */
-  @Test
-  @Disabled
-  public void shouldProvideAuthenticationManager() throws Exception {
-    AuthenticationManager authenticationManager = applicationConfiguration.authenticationManager(
-        authenticationConfiguration);
-    assertNotNull(authenticationManager);
-  }
 
   /**
    * This test checks if the userDetailsService method in the ApplicationConfiguration class returns
@@ -122,19 +109,6 @@ public class ApplicationConfigurationTest {
     when(userService.findByMail(anyString())).thenReturn(new User());
     UserDetailsService userDetailsService = applicationConfiguration.userDetailsService();
     assertNotNull(userDetailsService);
-  }
-
-  /**
-   * This test checks if the userDetailsService method in the ApplicationConfiguration class returns
-   * a null UserDetailsService object when a null UserService object is provided. It calls the
-   * userDetailsService method with null and asserts that the returned UserDetailsService object is
-   * null.
-   */
-  @Test
-  @Disabled
-  public void userDetailsServiceReturnsNullWhenUserServiceIsNull() {
-    UserDetailsService userDetailsService = applicationConfiguration.userDetailsService();
-    assertNull(userDetailsService);
   }
 
   /**
@@ -152,37 +126,5 @@ public class ApplicationConfigurationTest {
     AuthenticationProvider authenticationProvider =
         applicationConfiguration.authenticationProvider();
     assertNotNull(authenticationProvider);
-  }
-
-  /**
-   * This test checks if the authenticationProvider method in the ApplicationConfiguration class
-   * returns a null AuthenticationProvider object when UserDetailsService is null. It mocks the
-   * PasswordEncoder's encode method to return an encoded password. Then it calls the
-   * authenticationProvider method and asserts that the returned AuthenticationProvider object is
-   * null.
-   */
-  @Test
-  @Disabled
-  public void authenticationProviderReturnsNullWhenUserDetailsServiceIsNull() {
-    when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
-    AuthenticationProvider authenticationProvider =
-        applicationConfiguration.authenticationProvider();
-    assertNull(authenticationProvider);
-  }
-
-  /**
-   * This test checks if the authenticationProvider method in the ApplicationConfiguration class
-   * returns a null AuthenticationProvider object when PasswordEncoder is null. It mocks the
-   * UserDetailsService's loadUserByUsername method to return a new User object. Then it calls the
-   * authenticationProvider method and asserts that the returned AuthenticationProvider object is
-   * null.
-   */
-  @Test
-  @Disabled
-  public void authenticationProviderReturnsNullWhenPasswordEncoderIsNull() {
-    when(userDetailsService.loadUserByUsername(anyString())).thenReturn(new User());
-    AuthenticationProvider authenticationProvider =
-        applicationConfiguration.authenticationProvider();
-    assertNull(authenticationProvider);
   }
 }

@@ -61,8 +61,8 @@ class QuizRequestTest {
   @Test
   void shouldSetAndGetStatus() {
     Visibility expectedStatus = Visibility.PUBLISHED;
-    quizRequest.setStatus(expectedStatus);
-    Visibility actualStatus = quizRequest.getStatus();
+    quizRequest.setVisibility(expectedStatus);
+    Visibility actualStatus = quizRequest.getVisibility();
     assertEquals(expectedStatus, actualStatus);
   }
 
@@ -100,8 +100,8 @@ class QuizRequestTest {
   @Test
   void shouldSetAndGetOwner() {
     String expectedOwner = "Test Owner";
-    quizRequest.setOwner(expectedOwner);
-    String actualOwner = quizRequest.getOwner();
+    quizRequest.setCreatedFrom(expectedOwner);
+    String actualOwner = quizRequest.getCreatedFrom();
     assertEquals(expectedOwner, actualOwner);
   }
 
@@ -114,16 +114,16 @@ class QuizRequestTest {
   void shouldHandleNullValues() {
     quizRequest.setTitle(null);
     quizRequest.setDescription(null);
-    quizRequest.setStatus(null);
+    quizRequest.setVisibility(null);
     quizRequest.setCategories(null);
     quizRequest.setQuestions(null);
-    quizRequest.setOwner(null);
+    quizRequest.setCreatedFrom(null);
 
     assertNull(quizRequest.getTitle());
     assertNull(quizRequest.getDescription());
-    assertNull(quizRequest.getStatus());
+    assertNull(quizRequest.getVisibility());
     assertNull(quizRequest.getCategories());
     assertNull(quizRequest.getQuestions());
-    assertNull(quizRequest.getOwner());
+    assertNull(quizRequest.getCreatedFrom());
   }
 }

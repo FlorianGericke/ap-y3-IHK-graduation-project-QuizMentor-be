@@ -1,7 +1,6 @@
 package io.githup.fgericke.quizmentor.entity;
 
 import io.githup.fgericke.quizmentor.entity.generic.BaseEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -42,12 +41,14 @@ import org.hibernate.type.SqlTypes;
 public class Question extends BaseEntity {
 
   /**
-   * The user who created the question. It is a many-to-one relationship, meaning that each question
-   * can be created by one user, and each user can create multiple questions.
+   * The user who created the question. It is a many-to-one relationship, meaning that many
+   * questions can be created by one user. The 'created_from_id' column in the 'question' table is
+   * the foreign key that references the 'id' column in the 'user' table. The 'createdFrom' field in
+   * the User entity is the owning side of the relationship.
    */
   @Exclude
-  @ManyToOne(cascade = CascadeType.ALL, optional = false)
-  @JoinColumn(name = "created_from_id", nullable = false)
+  @ManyToOne()
+  @JoinColumn(name = "created_from_id")
   private User createdFrom;
 
   /**
@@ -63,13 +64,11 @@ public class Question extends BaseEntity {
   private String description;
 
   /**
-   * The quizzes that contain this question. It is a many-to-many relationship, meaning that each
-   * question can be in multiple quizzes, and each quiz can contain multiple questions.
+   * The text of the question. It is a required field and cannot be null.
    */
   @Exclude
   @Default
-  @ManyToMany(mappedBy = "questions", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-      CascadeType.REFRESH, CascadeType.DETACH})
+  @ManyToMany()
   private List<Quiz> quizzes = new ArrayList<>();
 
   /**
@@ -90,28 +89,31 @@ public class Question extends BaseEntity {
   private Visibility status = Visibility.DRAFT;
 
   /**
-   * The categories that this question belongs to. It is a many-to-many relationship, meaning that
-   * each question can belong to multiple categories, and each category can contain multiple
-   * questions.
+   * The categories associated with this question. This is a many-to-many relationship, meaning that
+   * each question can have multiple categories, and each category can be associated with multiple
+   * questions. The 'categories' in mappedBy indicates that the 'categories' field in the Category
+   * entity owns the relationship (contains the foreign key). The CascadeType.PERSIST,
+   * CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH indicates that if a Question entity
+   * is persisted, merged, refreshed, or detached, the same operation will be applied to the
+   * Category entity. The @Builder.Default annotation is used to initialize the 'categories' field
+   * with an empty set of Category.
    */
   @Builder.Default
-  @ManyToMany(mappedBy = "questions", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-      CascadeType.REFRESH, CascadeType.DETACH})
+  @ManyToMany()
   private List<Category> categories = new ArrayList<>() {
   };
 
 
   /**
-   * A set of solutions associated with this question. This is a one-to-many relationship, meaning
-   * that each question can have multiple solutions. The 'mappedBy = "question"' attribute indicates
-   * that the 'question' field in the Solution entity is the owning side of the relationship. The
-   * 'cascade = CascadeType.ALL' attribute means that any changes made to the question entity will
-   * also be reflected in the associated solutions. The 'orphanRemoval = true' attribute ensures
-   * that when a solution is removed from this set, it will also be removed from the database. The
-   * solutions are stored in an ArrayList.
+   * The solutions associated with this question. This is a one-to-many relationship, meaning that
+   * each question can have multiple solutions. The 'mappedBy = "question"' attribute indicates that
+   * the 'question' field in the Solution entity is the owning side of the relationship. The
+   * 'orphanRemoval = true' attribute ensures that when a solution is removed from this set, it will
+   * also be removed from the database. The solutions are stored in an ArrayList to avoid duplicate
+   * solutions.
    */
   @Builder.Default
-  @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany()
   private List<Solution> solutions = new ArrayList<>();
 
   /**
@@ -125,16 +127,14 @@ public class Question extends BaseEntity {
   }
 
   /**
-   * A set of answers associated with this question. This is a one-to-many relationship, meaning
-   * that each question can have multiple answers. The 'mappedBy = "question"' attribute indicates
-   * that the 'question' field in the Answer entity is the owning side of the relationship. The
-   * 'orphanRemoval = true' attribute ensures that when an answer is removed from this set, it will
-   * also be removed from the database. The answers are stored in a LinkedHashSet to avoid duplicate
-   * answers.
+   * This method checks if the question is a multiple-choice question. A multiple-choice question is
+   * defined as a question with a null score.
+   *
+   * @return true if the score is null, false otherwise.
    */
   @Exclude
   @Builder.Default
-  @OneToMany(mappedBy = "question", orphanRemoval = true)
+  @OneToMany(mappedBy = "question")
   private List<Answer> answers = new ArrayList<>() {
   };
 }

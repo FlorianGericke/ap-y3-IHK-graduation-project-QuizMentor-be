@@ -84,8 +84,8 @@ class AnswerRequestTest {
   @Test
   void shouldSetAndGetOwner() {
     String expectedOwner = "Owner";
-    answerRequest.setOwner(expectedOwner);
-    String actualOwner = answerRequest.getOwner();
+    answerRequest.setCreatedFrom(expectedOwner);
+    String actualOwner = answerRequest.getCreatedFrom();
     assertEquals(expectedOwner, actualOwner);
   }
 
@@ -100,12 +100,12 @@ class AnswerRequestTest {
     answerRequest.setIsCorrect(null);
     answerRequest.setReviewedFrom(null);
     answerRequest.setQuestion(null);
-    answerRequest.setOwner(null);
+    answerRequest.setCreatedFrom(null);
 
     assertNull(answerRequest.getAnswer());
     assertNull(answerRequest.getIsCorrect());
     assertNull(answerRequest.getReviewedFrom());
     assertNull(answerRequest.getQuestion());
-    assertNull(answerRequest.getOwner());
+    assertNull(answerRequest.getCreatedFrom());
   }
 }

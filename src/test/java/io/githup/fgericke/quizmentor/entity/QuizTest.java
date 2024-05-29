@@ -108,7 +108,7 @@ class QuizTest {
   @DisplayName("Should update owner correctly")
   @Test
   void shouldUpdateOwner() {
-    quiz.setOwner(user);
-    assertEquals(user, quiz.getOwner());
+    quiz.setCreatedFrom(user);
+    assertEquals(user, quiz.getCreatedFrom());
   }
 }
