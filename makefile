@@ -12,6 +12,7 @@ startEnv:
 	$(MAKE) startDataBase
 	@echo "Starting Backend..."
 	@gradle bootRun --console=plain
+	@echo "Access http://localhost:8080/swagger-ui/index.html to see the application running."
 
 test:
 	@gradle test
