@@ -78,12 +78,12 @@ public class Quiz extends BaseEntity {
   private List<Category> categories = new ArrayList<>();
 
   /**
-   * The questions that belong to the quiz. It is a many-to-many relationship, meaning that each quiz
-   * can have multiple questions, and each question can belong to multiple quizzes. The 'questions'
-   * in mappedBy indicates that the 'questions' field in the Question entity owns the relationship
-   * (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
-   * CascadeType.DETACH indicates that if a Quiz entity is persisted, merged, refreshed, or detached,
-   * the same operation will be applied to the Question entity. The
+   * The questions that belong to the quiz. It is a many-to-many relationship, meaning that each
+   * quiz can have multiple questions, and each question can belong to multiple quizzes. The
+   * 'questions' in mappedBy indicates that the 'questions' field in the Question entity owns the
+   * relationship (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE,
+   * CascadeType.REFRESH, CascadeType.DETACH indicates that if a Quiz entity is persisted, merged,
+   * refreshed, or detached, the same operation will be applied to the Question entity. The
    *
    * @Builder.Default annotation is used to initialize the 'questions' field with an empty set of
    * Question.

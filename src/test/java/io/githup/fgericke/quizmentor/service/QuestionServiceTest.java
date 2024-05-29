@@ -21,7 +21,6 @@ import org.mockito.MockitoAnnotations;
 class QuestionServiceTest {
 
   private static final int EXISTING_SCORE = 10;
-  private static final int NEW_SCORE = 20;
 
   // Mock of QuestionRepository
   @Mock
@@ -54,7 +53,7 @@ class QuestionServiceTest {
     Question existingQuestion = new Question();
     existingQuestion.setTitle("Existing Title");
     existingQuestion.setDescription("Existing Description");
-    existingQuestion.setScore(10);
+    existingQuestion.setScore(EXISTING_SCORE);
     existingQuestion.setStatus(Visibility.DRAFT);
 
     QuestionRequest questionRequest = new QuestionRequest();
@@ -63,7 +62,7 @@ class QuestionServiceTest {
 
     assertEquals("Existing Title", updatedQuestion.getTitle());
     assertEquals("Existing Description", updatedQuestion.getDescription());
-    assertEquals(10, updatedQuestion.getScore());
+    assertEquals(EXISTING_SCORE, updatedQuestion.getScore());
     assertEquals(Visibility.DRAFT, updatedQuestion.getStatus());
   }
 }

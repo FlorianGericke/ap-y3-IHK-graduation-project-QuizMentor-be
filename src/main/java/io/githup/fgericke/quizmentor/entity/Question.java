@@ -93,10 +93,10 @@ public class Question extends BaseEntity {
    * each question can have multiple categories, and each category can be associated with multiple
    * questions. The 'categories' in mappedBy indicates that the 'categories' field in the Category
    * entity owns the relationship (contains the foreign key). The CascadeType.PERSIST,
-   * CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH indicates that if a Question entity is
-   * persisted, merged, refreshed, or detached, the same operation will be applied to the Category
-   * entity. The @Builder.Default annotation is used to initialize the 'categories' field with an
-   * empty set of Category.
+   * CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH indicates that if a Question entity
+   * is persisted, merged, refreshed, or detached, the same operation will be applied to the
+   * Category entity. The @Builder.Default annotation is used to initialize the 'categories' field
+   * with an empty set of Category.
    */
   @Builder.Default
   @ManyToMany()

@@ -51,8 +51,8 @@ public class Category extends BaseEntity {
    * 'quizze' in mappedBy indicates that the 'quizze' field in the Quiz entity owns the relationship
    * (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH
    * indicates that if a Category entity is persisted, merged, or refreshed, the same operation will
-   * be applied to the Quiz entity. The @Builder.Default annotation is used to initialize the 'quizze'
-   * field with an empty set of Quiz.
+   * be applied to the Quiz entity. The @Builder.Default annotation is used to initialize the
+   * 'quizze' field with an empty set of Quiz.
    */
   @Builder.Default
   @ManyToMany()
@@ -62,13 +62,14 @@ public class Category extends BaseEntity {
   private List<Quiz> quizze = new ArrayList<>();
 
   /**
-   * The questions that belong to this category. It is a many-to-many relationship, meaning that each
-   * category can have multiple questions, and each question can belong to multiple categories. The
-   * 'questions' in mappedBy indicates that the 'questions' field in the Question entity owns the
-   * relationship (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE,
+   * The questions that belong to this category. It is a many-to-many relationship, meaning that
+   * each category can have multiple questions, and each question can belong to multiple categories.
+   * The 'questions' in mappedBy indicates that the 'questions' field in the Question entity owns
+   * the relationship (contains the foreign key). The CascadeType.PERSIST, CascadeType.MERGE,
    * CascadeType.REFRESH indicates that if a Category entity is persisted, merged, or refreshed, the
-   * same operation will be applied to the Question entity. The @Builder.Default annotation is used
-   * to initialize the 'questions' field with an empty set of Question.
+   * same operation will be applied to the Question entity. The
+   *
+   * @Builder.Default annotation is used
    */
   @Exclude
   @Builder.Default

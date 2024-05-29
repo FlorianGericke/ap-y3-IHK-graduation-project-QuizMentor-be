@@ -24,6 +24,8 @@ import org.mockito.MockitoAnnotations;
  */
 class SolutionMapperTest {
 
+  private static final int EXISTING_SCORE = 10;
+
   // Mocked UserService instance
   @Mock
   private UserService userService;
@@ -68,7 +70,7 @@ class SolutionMapperTest {
     SolutionRequest request = new SolutionRequest();
     request.setCreatedFrom("CreatedFrom");
     request.setQuestion("Question");
-    request.setScore(10);
+    request.setScore(EXISTING_SCORE);
 
     assertThrows(MissingMandatoryFieldException.class, () -> solutionMapper.toEntity(request));
   }
@@ -84,7 +86,7 @@ class SolutionMapperTest {
     SolutionRequest request = new SolutionRequest();
     request.setSolution("Solution");
     request.setQuestion("Question");
-    request.setScore(10);
+    request.setScore(EXISTING_SCORE);
 
     assertThrows(MissingMandatoryFieldException.class, () -> solutionMapper.toEntity(request));
   }
@@ -100,7 +102,7 @@ class SolutionMapperTest {
     SolutionRequest request = new SolutionRequest();
     request.setSolution("Solution");
     request.setCreatedFrom("CreatedFrom");
-    request.setScore(10);
+    request.setScore(EXISTING_SCORE);
 
     assertThrows(MissingMandatoryFieldException.class, () -> solutionMapper.toEntity(request));
   }
@@ -114,13 +116,13 @@ class SolutionMapperTest {
   void toDtoHappyPath() {
     Solution solution = new Solution();
     solution.setSolution("Solution");
-    solution.setScore(10);
+    solution.setScore(EXISTING_SCORE);
 
     SolutionResponse result = solutionMapper.toDto(solution);
 
     assertNotNull(result);
     assertEquals("Solution", result.getSolution());
-    assertEquals(10, result.getScore());
+    assertEquals(EXISTING_SCORE, result.getScore());
   }
 
   /**
