@@ -135,7 +135,7 @@ public class UserMapper implements
 
     if (quizzes != null) {
       for (Quiz quiz : quizzes) {
-        quiz.setOwner(re);
+        quiz.setCreatedFrom(re);
       }
     }
 

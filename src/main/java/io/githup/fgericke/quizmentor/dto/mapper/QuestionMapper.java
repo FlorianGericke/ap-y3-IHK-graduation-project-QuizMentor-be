@@ -130,6 +130,7 @@ public class QuestionMapper implements
         solution.setQuestion(re);
       }
     }
+
     user.getQuestions().add(re);
 
     return re;

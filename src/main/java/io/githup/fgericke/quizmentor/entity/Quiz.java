@@ -107,6 +107,6 @@ public class Quiz extends BaseEntity {
    */
   @Exclude
   @ManyToOne
-  @JoinColumn(name = "owner_id")
-  private User owner;
+  @JoinColumn(name = "created_from_id")
+  private User createdFrom;
 }

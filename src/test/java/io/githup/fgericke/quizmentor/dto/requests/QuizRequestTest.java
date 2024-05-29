@@ -100,8 +100,8 @@ class QuizRequestTest {
   @Test
   void shouldSetAndGetOwner() {
     String expectedOwner = "Test Owner";
-    quizRequest.setOwner(expectedOwner);
-    String actualOwner = quizRequest.getOwner();
+    quizRequest.setCreatedFrom(expectedOwner);
+    String actualOwner = quizRequest.getCreatedFrom();
     assertEquals(expectedOwner, actualOwner);
   }
 
@@ -117,13 +117,13 @@ class QuizRequestTest {
     quizRequest.setStatus(null);
     quizRequest.setCategories(null);
     quizRequest.setQuestions(null);
-    quizRequest.setOwner(null);
+    quizRequest.setCreatedFrom(null);
 
     assertNull(quizRequest.getTitle());
     assertNull(quizRequest.getDescription());
     assertNull(quizRequest.getStatus());
     assertNull(quizRequest.getCategories());
     assertNull(quizRequest.getQuestions());
-    assertNull(quizRequest.getOwner());
+    assertNull(quizRequest.getCreatedFrom());
   }
 }

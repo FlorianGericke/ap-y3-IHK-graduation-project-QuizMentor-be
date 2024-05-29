@@ -1,6 +1,7 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
 import io.githup.fgericke.quizmentor.entity.Visibility;
+import io.swagger.v3.oas.annotations.Hidden;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,5 +50,6 @@ public class QuizRequest {
   /**
    * The owner of the quiz. This is an optional field for a quiz.
    */
-  private String owner;
+  @Hidden
+  private String createdFrom;
 }
