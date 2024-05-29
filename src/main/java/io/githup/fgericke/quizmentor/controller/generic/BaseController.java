@@ -66,12 +66,12 @@ public abstract class BaseController<
   /**
    * Handles the GET request to retrieve all entities.
    *
-   * @param pageable The pagination information.
+   * @param pageable The pageable object containing pagination information.
    * @return A page of entities.
    */
   @GetMapping(produces = "application/json")
   public @ResponseBody Page<Response> getEntities(
-      @ParameterObject @RequestBody final Pageable pageable
+      @ParameterObject final Pageable pageable
   ) {
     return enittService.getAll(pageable).map(mapper::toDto);
   }

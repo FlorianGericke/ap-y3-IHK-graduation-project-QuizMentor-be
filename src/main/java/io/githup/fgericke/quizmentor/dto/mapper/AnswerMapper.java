@@ -5,6 +5,7 @@ import io.githup.fgericke.quizmentor.dto.mapper.interfaces.ResponseMapper;
 import io.githup.fgericke.quizmentor.dto.requests.AnswerRequest;
 import io.githup.fgericke.quizmentor.dto.response.AnswerResponse;
 import io.githup.fgericke.quizmentor.entity.Answer;
+import io.githup.fgericke.quizmentor.entity.User;
 import io.githup.fgericke.quizmentor.exception.MissingMandatoryFieldException;
 import io.githup.fgericke.quizmentor.service.QuestionService;
 import io.githup.fgericke.quizmentor.service.UserService;
@@ -45,12 +46,10 @@ public class AnswerMapper implements
   }
 
   /**
-   * Converts an AnswerRequest object to an Answer entity. It validates the input data and throws
-   * exceptions if mandatory fields are missing.
+   * Converts an AnswerRequest object to an Answer entity.
    *
    * @param input the AnswerRequest object to be converted to an Answer entity
    * @return the Answer entity that represents the provided AnswerRequest object
-   * @throws MissingMandatoryFieldException if a mandatory field is missing in the input data
    */
   @Override
   public Answer toEntity(final AnswerRequest input) {
@@ -60,17 +59,25 @@ public class AnswerMapper implements
     if (StringUtils.isBlank(input.getQuestion())) {
       throw new MissingMandatoryFieldException("Question");
     }
-    if (StringUtils.isBlank(input.getOwner())) {
+    if (StringUtils.isBlank(input.getCreatedFrom())) {
       throw new MissingMandatoryFieldException("User");
     }
 
-    return Answer.builder()
+    User user = userService.findByMail(input.getCreatedFrom());
+
+    var re = Answer.builder()
         .answer(input.getAnswer())
-        .isCorrect(input.getIsCorrect())
-        .question(questionService.get(UuidUtil.getUuid(input.getQuestion())))
-        .reviewedFrom(userService.get(input.getReviewedFrom()))
-        .owner(userService.get(UuidUtil.getUuid(input.getOwner())))
+        .isCorrect(false)
+        .question(input.getQuestion() != null && questionService != null
+            ? questionService.get(UuidUtil.getUuid(input.getQuestion()))
+            : null)
+        .reviewedFrom(null)
+        .owner(user)
         .build();
+
+    user.getAnswers().add(re);
+
+    return re;
   }
 
   /**

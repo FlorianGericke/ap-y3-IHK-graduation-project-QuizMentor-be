@@ -33,7 +33,8 @@ public class QuestionRequest {
   /**
    * The visibility status of the question. This is an optional field for a question.
    */
-  private Visibility status;
+  @Hidden
+  private Visibility visibility;
 
   /**
    * The categories of the question. This is a required field for a question.

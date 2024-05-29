@@ -1,5 +1,6 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class SolutionRequest {
    * The identifier of the entity that created the solution. This is an optional field for a
    * solution.
    */
+  @Hidden
   private String createdFrom;
 
   /**

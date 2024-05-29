@@ -6,6 +6,7 @@ import io.githup.fgericke.quizmentor.entity.Answer;
 import io.githup.fgericke.quizmentor.repository.AnswerRepository;
 import io.githup.fgericke.quizmentor.service.generic.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -45,5 +46,19 @@ public class AnswerService extends BaseService<
             ? answerRequest.getAnswer()
             : entityToUpdate.getAnswer());
     return entityToUpdate;
+  }
+
+  /**
+   * Creates a new Answer entity from the provided AnswerRequest.
+   *
+   * @param answerRequest The AnswerRequest containing the data for the new Answer entity.
+   * @return The newly created Answer entity.
+   */
+  @Override
+  public Answer post(final AnswerRequest answerRequest) {
+    var userName = SecurityContextHolder.getContext().getAuthentication().getName();
+    System.out.println(userName);
+    answerRequest.setCreatedFrom(userName);
+    return getRepository().save(getMapper().toEntity(answerRequest));
   }
 }

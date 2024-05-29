@@ -60,8 +60,8 @@ public class QuestionService extends BaseService<
     entityToUpdate.setScore(questionRequest.getScore() != questionRequest.getScore()
         ? questionRequest.getScore()
         : entityToUpdate.getScore());
-    entityToUpdate.setStatus(questionRequest.getStatus() != questionRequest.getStatus()
-        ? questionRequest.getStatus()
+    entityToUpdate.setStatus(questionRequest.getVisibility() != questionRequest.getVisibility()
+        ? questionRequest.getVisibility()
         : entityToUpdate.getStatus()
     );
     return entityToUpdate;

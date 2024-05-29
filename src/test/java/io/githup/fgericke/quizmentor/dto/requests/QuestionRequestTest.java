@@ -62,8 +62,8 @@ class QuestionRequestTest {
   @Test
   void shouldSetAndGetStatus() {
     Visibility expectedStatus = Visibility.PUBLISHED;
-    questionRequest.setStatus(expectedStatus);
-    Visibility actualStatus = questionRequest.getStatus();
+    questionRequest.setVisibility(expectedStatus);
+    Visibility actualStatus = questionRequest.getVisibility();
     assertEquals(expectedStatus, actualStatus);
   }
 
@@ -127,7 +127,7 @@ class QuestionRequestTest {
   void shouldHandleNullValues() {
     questionRequest.setTitle(null);
     questionRequest.setDescription(null);
-    questionRequest.setStatus(null);
+    questionRequest.setVisibility(null);
     questionRequest.setCategories(null);
     questionRequest.setSolutions(null);
     questionRequest.setQuizzes(null);
@@ -135,7 +135,7 @@ class QuestionRequestTest {
 
     assertNull(questionRequest.getTitle());
     assertNull(questionRequest.getDescription());
-    assertNull(questionRequest.getStatus());
+    assertNull(questionRequest.getVisibility());
     assertNull(questionRequest.getCategories());
     assertNull(questionRequest.getSolutions());
     assertNull(questionRequest.getQuizzes());

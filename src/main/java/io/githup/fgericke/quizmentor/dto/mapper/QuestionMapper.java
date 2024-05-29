@@ -9,6 +9,7 @@ import io.githup.fgericke.quizmentor.entity.Question;
 import io.githup.fgericke.quizmentor.entity.Quiz;
 import io.githup.fgericke.quizmentor.entity.Solution;
 import io.githup.fgericke.quizmentor.entity.User;
+import io.githup.fgericke.quizmentor.entity.Visibility;
 import io.githup.fgericke.quizmentor.exception.MissingMandatoryFieldException;
 import io.githup.fgericke.quizmentor.service.CategoryService;
 import io.githup.fgericke.quizmentor.service.QuizService;
@@ -102,14 +103,14 @@ public class QuestionMapper implements
     User user = userService.findByMail(input.getCreatedFrom());
 
     Question re = Question.builder()
-        .status(input.getStatus())
+        .status(input.getVisibility())
         .title(input.getTitle())
         .description(input.getDescription())
         .createdFrom(user)
         .categories(categories)
         .solutions(solutions)
         .quizzes(quizzes)
-        .status(input.getStatus())
+        .status(Visibility.DRAFT)
         .score(input.getScore())
         .build();
 
@@ -159,7 +160,7 @@ public class QuestionMapper implements
         .answers(input.getAnswers() == null
             ? null
             : input.getAnswers().stream().map(UuidUtil::getIri)
-            .toList())
+                .toList())
         .build();
   }
 }

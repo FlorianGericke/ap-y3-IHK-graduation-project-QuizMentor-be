@@ -13,11 +13,9 @@ import io.githup.fgericke.quizmentor.entity.Answer;
 import io.githup.fgericke.quizmentor.service.AnswerService;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -63,23 +61,6 @@ public class AnswerControllerTest {
 
     assertNotNull(response);
     verify(service, times(1)).post(requestDto);
-    verify(mapper, times(1)).toDto(any());
-  }
-
-  /**
-   * This test checks the getEntities method of the AnswerController. It verifies that all Answers
-   * are retrieved when the method is called.
-   */
-  @Test
-  @Disabled
-  public void getAnswers_retrievesAllAnswers() {
-    when(service.getAll(pageable)).thenReturn(Page.empty());
-    when(mapper.toDto(any())).thenReturn(new AnswerResponse());
-
-    Page<AnswerResponse> responses = controller.getEntities(pageable);
-
-    assertNotNull(responses);
-    verify(service, times(1)).getAll(pageable);
     verify(mapper, times(1)).toDto(any());
   }
 

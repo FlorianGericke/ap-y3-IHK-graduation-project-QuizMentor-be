@@ -1,5 +1,6 @@
 package io.githup.fgericke.quizmentor.dto.requests;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,11 +26,13 @@ public class AnswerRequest {
   /**
    * The correctness of the answer. This is a required field for an answer.
    */
+  @Hidden
   private Boolean isCorrect;
 
   /**
    * The identifier of the user who reviewed the answer. This is an optional field.
    */
+  @Hidden
   private String reviewedFrom;
 
   /**
@@ -38,7 +41,8 @@ public class AnswerRequest {
   private String question;
 
   /**
-   * The identifier of the user who owns the answer. This is a required field.
+   * The identifier of the user who created the answer. This is a required field.
    */
-  private String owner;
+  @Hidden
+  private String createdFrom;
 }

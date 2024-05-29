@@ -33,7 +33,8 @@ public class QuizRequest {
   /**
    * The visibility status of the quiz. This is an optional field for a quiz.
    */
-  private Visibility status;
+  @Hidden
+  private Visibility visibility;
 
   /**
    * The categories of the quiz. This is an optional field for a quiz.

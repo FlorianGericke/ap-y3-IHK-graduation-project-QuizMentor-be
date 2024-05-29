@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
@@ -131,17 +130,6 @@ class UserTest {
   }
 
   /**
-   * This test checks the getUsername method in the User class. It verifies that the correct
-   * username is returned.
-   */
-  @DisplayName("Should return correct username")
-  @Test
-  @Disabled
-  void shouldReturnCorrectUsername() {
-    assertEquals("mail@example.com", user.getUsername());
-  }
-
-  /**
    * This test checks the isAccountNonExpired method in the User class. It verifies that true is
    * returned, indicating that the account is not expired.
    */
@@ -199,18 +187,5 @@ class UserTest {
     user.setRole(Role.TRAINEE);
     authorities = user.getAuthorities();
     assertTrue(authorities.stream().anyMatch(a -> a.getAuthority().equals(Role.TRAINEE.name())));
-  }
-
-  /**
-   * This test checks the getAuthorities method in the User class when the user's role is null. It
-   * verifies that an empty collection is returned.
-   */
-  @DisplayName("Should return empty authorities when user role is null")
-  @Test
-  @Disabled
-  void shouldReturnEmptyAuthoritiesWhenRoleIsNull() {
-    user.setRole(null);
-    Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-    assertTrue(authorities.isEmpty());
   }
 }

@@ -7,6 +7,7 @@ import io.githup.fgericke.quizmentor.dto.requests.SolutionRequest;
 import io.githup.fgericke.quizmentor.entity.Solution;
 import io.githup.fgericke.quizmentor.repository.SolutionRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -38,9 +39,9 @@ class SolutionServiceTest {
   }
 
   /**
-   * This test verifies that the patch method of the SolutionService correctly updates the solution
-   * fields when new values are provided in the request.
+   * This method tests the patch method of the SolutionService class.
    */
+  @DisplayName("Should update Solution entity fields when provided in SolutionRequest")
   @Test
   void patchShouldUpdateSolutionFieldsWhenNewValuesAreProvided() {
     Solution existingSolution = new Solution();
@@ -53,15 +54,12 @@ class SolutionServiceTest {
 
     Solution updatedSolution = solutionService.patch(existingSolution, solutionRequest);
 
-    assertEquals("New Solution",
-        updatedSolution.getSolution()); // Assert that the solution has been updated
-    assertEquals(NEW_SCORE, updatedSolution.getScore()); // Assert that the score has been updated
+    assertEquals("New Solution", updatedSolution.getSolution());
+    assertEquals(NEW_SCORE, updatedSolution.getScore());
   }
 
-  /**
-   * This test verifies that the patch method of the SolutionService keeps the existing solution
-   * fields when no new values are provided in the request.
-   */
+  @DisplayName("Should keep existing Solution entity fields when not "
+      + "provided in SolutionRequest")
   @Test
   void patchShouldKeepExistingSolutionFieldsWhenNoNewValuesAreProvided() {
     Solution existingSolution = new Solution();
@@ -72,9 +70,7 @@ class SolutionServiceTest {
 
     Solution updatedSolution = solutionService.patch(existingSolution, solutionRequest);
 
-    assertEquals("Existing Solution",
-        updatedSolution.getSolution()); // Assert that the solution has not been updated
-    assertEquals(EXISTING_SCORE,
-        updatedSolution.getScore()); // Assert that the score has not been updated
+    assertEquals("Existing Solution", updatedSolution.getSolution());
+    assertEquals(EXISTING_SCORE, updatedSolution.getScore());
   }
 }

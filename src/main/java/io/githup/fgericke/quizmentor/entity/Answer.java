@@ -1,7 +1,6 @@
 package io.githup.fgericke.quizmentor.entity;
 
 import io.githup.fgericke.quizmentor.entity.generic.BaseEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -58,18 +57,17 @@ public class Answer extends BaseEntity {
    * relationship with the User entity.
    */
   @Exclude
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne()
   @JoinColumn(name = "reviewed_from_id")
   private User reviewedFrom;
 
   /**
-   * The answeredFrom field represents the user who gave the answer. It is a many-to-one
-   * relationship with the User entity. This field is mandatory, as indicated by the nullable =
-   * false attribute.
+   * The owner field represents the user who submitted the answer. It is a many-to-one relationship
+   * with the User entity.
    */
   @Exclude
-  @ManyToOne(cascade = CascadeType.ALL, optional = false)
-  @JoinColumn(name = "owner_id", nullable = false)
+  @ManyToOne()
+  @JoinColumn(name = "owner_id")
   private User owner;
 
   /**

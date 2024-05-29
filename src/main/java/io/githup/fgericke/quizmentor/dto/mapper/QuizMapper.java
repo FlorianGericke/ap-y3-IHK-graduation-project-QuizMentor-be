@@ -8,6 +8,7 @@ import io.githup.fgericke.quizmentor.entity.Category;
 import io.githup.fgericke.quizmentor.entity.Question;
 import io.githup.fgericke.quizmentor.entity.Quiz;
 import io.githup.fgericke.quizmentor.entity.User;
+import io.githup.fgericke.quizmentor.entity.Visibility;
 import io.githup.fgericke.quizmentor.exception.MissingMandatoryFieldException;
 import io.githup.fgericke.quizmentor.service.CategoryService;
 import io.githup.fgericke.quizmentor.service.QuestionService;
@@ -62,7 +63,6 @@ public class QuizMapper implements
    *
    * @param input The QuizRequest to convert
    * @return The converted Quiz entity
-   * @throws MissingMandatoryFieldException if any mandatory fields are missing in the input
    */
   @Override
   public Quiz toEntity(final QuizRequest input) {
@@ -92,7 +92,7 @@ public class QuizMapper implements
     Quiz re = Quiz.builder()
         .title(input.getTitle())
         .description(input.getDescription())
-        .visibility(input.getStatus())
+        .visibility(Visibility.DRAFT)
         .categories(categories)
         .questions(questions)
         .createdFrom(user)

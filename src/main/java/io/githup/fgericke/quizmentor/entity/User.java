@@ -1,7 +1,6 @@
 package io.githup.fgericke.quizmentor.entity;
 
 import io.githup.fgericke.quizmentor.entity.generic.BaseEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -68,36 +67,31 @@ public class User extends BaseEntity implements UserDetails {
    * entity.
    */
   @Builder.Default
-  @OneToMany(mappedBy = "createdFrom", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "createdFrom")
   private List<Question> questions = new ArrayList<>();
 
   /**
-   * A set of solutions created by this user. This is a one-to-many relationship, meaning that each
-   * user can create multiple solutions. The 'mappedBy = "createdFrom"' attribute indicates that the
-   * 'createdFrom' field in the Solution entity is the owning side of the relationship. The 'cascade
-   * = CascadeType.ALL' attribute means that any changes made to the user entity will also be
-   * reflected in the associated solutions. The 'orphanRemoval = true' attribute ensures that when a
-   * solution is removed from this set, it will also be removed from the database. The solutions are
-   * stored in a LinkedHashSet to maintain insertion order and to avoid duplicate solutions.
+   * The set of solutions created by the user. It is a one-to-many relationship with the Solution
+   * entity.
    */
   @Builder.Default
-  @OneToMany(mappedBy = "createdFrom", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "createdFrom")
   private List<Solution> solutions = new ArrayList<>();
 
+  /**
+   * The set of answers reviewed by the user. It is a one-to-many relationship with the Answer
+   * entity.
+   */
   @Builder.Default
-  @OneToMany(mappedBy = "reviewedFrom", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "reviewedFrom")
   private List<Answer> answers = new ArrayList<>();
 
 
   /**
-   * The set of quizzes owned by the user. It is a one-to-many relationship with the Quiz entity.
-   * The 'mappedBy = "owner"' attribute indicates that the 'owner' field in the Quiz entity is the
-   * owning side of the relationship. The 'orphanRemoval = true' attribute ensures that when a quiz
-   * is removed from this set, it will also be removed from the database. The quizzes are stored in
-   * a LinkedHashSet to maintain insertion order and to avoid duplicate quizzes.
+   * The set of quizzes created by the user. It is a one-to-many relationship with the Quiz entity.
    */
   @Builder.Default
-  @OneToMany(mappedBy = "createdFrom", orphanRemoval = true)
+  @OneToMany(mappedBy = "createdFrom")
   private List<Quiz> quizzes = new ArrayList<>();
 
   /**

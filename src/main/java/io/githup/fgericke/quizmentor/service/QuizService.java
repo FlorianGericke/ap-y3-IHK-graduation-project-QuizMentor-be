@@ -48,8 +48,8 @@ public class QuizService extends BaseService<
     entityToUpdate.setDescription(quizRequest.getDescription() != null
         ? quizRequest.getDescription()
         : entityToUpdate.getDescription());
-    entityToUpdate.setVisibility(quizRequest.getStatus() != null
-        ? quizRequest.getStatus()
+    entityToUpdate.setVisibility(quizRequest.getVisibility() != null
+        ? quizRequest.getVisibility()
         : entityToUpdate.getVisibility());
     return entityToUpdate;
   }
