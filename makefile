@@ -12,6 +12,7 @@ startEnv:
 	$(MAKE) startDataBase
 	@echo "Starting Backend..."
 	@gradle bootRun --console=plain
+	@echo "Access http://localhost:8080/swagger-ui/index.html to see the application running."
 
 test:
 	@gradle test
@@ -31,7 +32,7 @@ lint:
 	-e RUN_LOCAL=true \
 	-e VALIDATE_ALL_CODEBASE=false \
 	-e VALIDATE_JAVA=true \
-	-e DEFAULT_BRANCH=main \
+	-e DEFAULT_BRANCH=origin/develop \
 	-e FILTER_REGEX_INCLUDE="src/.*" \
 	-v $(PWD):/tmp/lint \
 	github/super-linter:latest
