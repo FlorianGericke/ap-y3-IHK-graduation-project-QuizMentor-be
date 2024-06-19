@@ -10,17 +10,6 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class UuidUtil {
 
-  /**
-   * Converts a UUID to an IRI. If the provided UUID is null, the method returns null. Otherwise, it
-   * returns the IRI representation of the UUID, which is the API base URL concatenated with the
-   * UUID's string representation.
-   *
-   * @param id the UUID to be converted to an IRI
-   * @return the IRI representation of the UUID, or null if the UUID is null
-   */
-  public static String getIri(final UUID id) {
-    return id == null ? null : EnvironmentUtil.getApiBaseUrl() + id;
-  }
 
   /**
    * Converts a BaseEntity object to an IRI. If the provided BaseEntity object is null, the method
@@ -32,7 +21,11 @@ public class UuidUtil {
    * @return the IRI representation of the BaseEntity's ID, or null if the BaseEntity is null
    */
   public static <E extends BaseEntity> String getIri(final E entity) {
-    return entity == null ? null : getIri(entity.getId());
+    return entity == null ? null
+        : EnvironmentUtil.getApiBaseUrl()
+            + entity.getClass().getSimpleName().toLowerCase()
+            + "/"
+            + entity.getId();
   }
 
   /**
