@@ -22,8 +22,10 @@ public class UuidUtil {
    */
   public static <E extends BaseEntity> String getIri(final E entity) {
     return entity == null ? null
-        : EnvironmentUtil.getApiBaseUrl() + entity.getClass().getSimpleName().toLowerCase() +
-            "/" + entity.getId();
+        : EnvironmentUtil.getApiBaseUrl()
+            + entity.getClass().getSimpleName().toLowerCase()
+            + "/"
+            + entity.getId();
   }
 
   /**
