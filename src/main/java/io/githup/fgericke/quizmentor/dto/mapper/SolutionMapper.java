@@ -64,9 +64,6 @@ public class SolutionMapper implements
     if (StringUtils.isBlank(input.getCreatedFrom())) {
       throw new MissingMandatoryFieldException("createdFrom");
     }
-    if (StringUtils.isBlank(input.getQuestion())) {
-      throw new MissingMandatoryFieldException("question");
-    }
 
     User user = userService.findByMail(input.getCreatedFrom());
 
