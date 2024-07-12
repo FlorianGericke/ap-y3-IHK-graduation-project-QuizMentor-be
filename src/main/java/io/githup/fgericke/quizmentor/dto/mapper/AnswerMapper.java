@@ -94,7 +94,7 @@ public class AnswerMapper implements
         .iri(UuidUtil.getIri(input))
         .questionIri(UuidUtil.getIri(input.getQuestion()))
         .reviewedFromIri(UuidUtil.getIri(input.getReviewedFrom()))
-        .ownerIri(UuidUtil.getIri(input.getOwner()))
+        .creator(UuidUtil.getIri(input.getOwner()))
         .answer(input.getAnswer())
         .correct(input.getIsCorrect())
         .build();

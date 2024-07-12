@@ -56,7 +56,7 @@ public class QuizResponse {
    * The IRI of the owner of the quiz. This is a unique identifier for the owner in the form of an
    * IRI.
    */
-  private String ownerIri;
+  private String creator;
 
   /**
    * The visibility status of the quiz. This indicates whether the quiz is visible or hidden.

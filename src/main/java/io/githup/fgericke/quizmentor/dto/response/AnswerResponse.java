@@ -44,7 +44,7 @@ public class AnswerResponse {
   /**
    * The IRI of the user who owns this answer. This links the answer to the user who created it.
    */
-  private String ownerIri;
+  private String creator;
 
   /**
    * The IRI of the user who reviewed this answer. This links the answer to the user who reviewed

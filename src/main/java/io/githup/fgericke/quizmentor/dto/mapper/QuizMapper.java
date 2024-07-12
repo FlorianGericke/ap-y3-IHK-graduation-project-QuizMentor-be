@@ -136,7 +136,7 @@ public class QuizMapper implements
             ? null
             : input.getCategories().stream().map(UuidUtil::getIri)
                 .toList())
-        .ownerIri(UuidUtil.getIri(input.getCreatedFrom()))
+        .creator(UuidUtil.getIri(input.getCreatedFrom()))
         .build();
   }
 }

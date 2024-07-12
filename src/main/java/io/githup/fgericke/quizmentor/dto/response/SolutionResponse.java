@@ -38,7 +38,7 @@ public class SolutionResponse {
    * The IRI of the owner of the solution. This is a unique identifier for the owner in the form of
    * an IRI.
    */
-  private String ownerIri;
+  private String creator;
 
   /**
    * The score of the solution. This is an integer value representing the score of the solution.

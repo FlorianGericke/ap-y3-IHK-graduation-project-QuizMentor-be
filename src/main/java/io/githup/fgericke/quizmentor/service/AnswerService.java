@@ -57,7 +57,6 @@ public class AnswerService extends BaseService<
   @Override
   public Answer post(final AnswerRequest answerRequest) {
     var userName = SecurityContextHolder.getContext().getAuthentication().getName();
-    System.out.println(userName);
     answerRequest.setCreatedFrom(userName);
     return getRepository().save(getMapper().toEntity(answerRequest));
   }

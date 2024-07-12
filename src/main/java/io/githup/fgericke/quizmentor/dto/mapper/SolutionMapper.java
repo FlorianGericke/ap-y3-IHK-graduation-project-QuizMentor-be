@@ -94,7 +94,7 @@ public class SolutionMapper implements
         .id(input.getId())
         .iri(UuidUtil.getIri(input))
         .questionIri(UuidUtil.getIri(input.getQuestion()))
-        .ownerIri(UuidUtil.getIri(input.getCreatedFrom()))
+        .creator(UuidUtil.getIri(input.getCreatedFrom()))
         .score(input.getScore())
         .solution(input.getSolution())
         .build();

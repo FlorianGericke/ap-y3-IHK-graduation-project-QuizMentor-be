@@ -42,6 +42,8 @@ public class QuestionResponse {
    */
   private String description;
 
+  private String creator;
+
   /**
    * The openness status of the question. This indicates whether the question is open or closed.
    */
@@ -68,4 +70,9 @@ public class QuestionResponse {
    * The answers of the question. This is a list of all answers submitted for the question.
    */
   private List<String> answers;
+
+  /**
+   * The answers of the question. This is a list of all answers submitted for the question.
+   */
+  private List<String> categories;
 }
